@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReadViewController"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="firstcell" id="gTV-IL-0wX" customClass="FirstSectionCell">
+            <rect key="frame" x="0.0" y="0.0" width="337" height="275"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="337" height="275"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIL-cY-Bxu">
+                        <rect key="frame" x="145" y="209" width="46" height="30"/>
+                        <state key="normal" backgroundImage="btn2.png"/>
+                        <connections>
+                            <action selector="findBook:" destination="-1" eventType="touchUpInside" id="Vqf-E5-CqX"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="追小说" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPX-uI-gwT">
+                        <rect key="frame" x="45" y="244" width="51" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="排行榜" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcZ-pG-jo8">
+                        <rect key="frame" x="241" y="244" width="51" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="找小说" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XEp-E9-Q7X">
+                        <rect key="frame" x="143" y="244" width="51" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bin-Yx-gy8">
+                        <rect key="frame" x="241" y="209" width="46" height="30"/>
+                        <state key="normal" backgroundImage="btn3.png"/>
+                        <connections>
+                            <action selector="topBook:" destination="-1" eventType="touchUpInside" id="k6f-80-8Lt"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4HV-Vz-nSm">
+                        <rect key="frame" x="0.0" y="8" width="337" height="197"/>
+                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iok-mi-7D1">
+                        <rect key="frame" x="30" y="208" width="86" height="32"/>
+                        <state key="normal" backgroundImage="btn1.png"/>
+                        <connections>
+                            <action selector="newBook:" destination="-1" eventType="touchUpInside" id="qpU-g7-xBx"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="DcZ-pG-jo8" secondAttribute="trailing" constant="45" id="5nE-P2-u4S"/>
+                <constraint firstAttribute="trailing" secondItem="bin-Yx-gy8" secondAttribute="trailing" constant="50" id="73n-xz-Er9"/>
+                <constraint firstItem="XEp-E9-Q7X" firstAttribute="top" secondItem="YIL-cY-Bxu" secondAttribute="bottom" constant="5" id="C4f-bS-KLU"/>
+                <constraint firstAttribute="bottom" secondItem="DcZ-pG-jo8" secondAttribute="bottom" constant="10" id="F88-8M-Yf8"/>
+                <constraint firstItem="Iok-mi-7D1" firstAttribute="top" secondItem="4HV-Vz-nSm" secondAttribute="bottom" constant="10" id="I8A-qR-I1G"/>
+                <constraint firstAttribute="bottom" secondItem="gPX-uI-gwT" secondAttribute="bottom" constant="10" id="Jlu-Hp-0Ji"/>
+                <constraint firstAttribute="trailing" secondItem="4HV-Vz-nSm" secondAttribute="trailing" id="Mcs-6G-CYr"/>
+                <constraint firstItem="4HV-Vz-nSm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="SJ0-u0-CWB"/>
+                <constraint firstAttribute="bottom" secondItem="XEp-E9-Q7X" secondAttribute="bottom" constant="10" id="TSn-dK-wSC"/>
+                <constraint firstItem="YIL-cY-Bxu" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="YbW-cx-qXK"/>
+                <constraint firstItem="XEp-E9-Q7X" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="ZId-YR-BVn"/>
+                <constraint firstItem="gPX-uI-gwT" firstAttribute="top" secondItem="Iok-mi-7D1" secondAttribute="bottom" constant="5" id="aCA-qU-yvX"/>
+                <constraint firstItem="Iok-mi-7D1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="nfQ-zE-gKx"/>
+                <constraint firstItem="DcZ-pG-jo8" firstAttribute="top" secondItem="bin-Yx-gy8" secondAttribute="bottom" constant="5" id="r1q-6g-t2a"/>
+                <constraint firstItem="gPX-uI-gwT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="45" id="uTM-rm-yOf"/>
+                <constraint firstItem="4HV-Vz-nSm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="xJE-OT-vPg"/>
+            </constraints>
+            <size key="customSize" width="337" height="275"/>
+            <connections>
+                <outlet property="views" destination="4HV-Vz-nSm" id="ISl-t7-R32"/>
+            </connections>
+            <point key="canvasLocation" x="467.5" y="409.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="btn1.png" width="32" height="32"/>
+        <image name="btn2.png" width="32" height="32"/>
+        <image name="btn3.png" width="32" height="32"/>
+    </resources>
+</document>

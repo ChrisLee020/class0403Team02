@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="MyFooterView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <view alpha="0.34999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEO-xb-DSs">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="cEO-xb-DSs" secondAttribute="trailing" id="Cw1-1g-7HP"/>
+                <constraint firstItem="cEO-xb-DSs" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="bLT-42-Idy"/>
+                <constraint firstItem="cEO-xb-DSs" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="p75-jo-SAb"/>
+                <constraint firstAttribute="bottom" secondItem="cEO-xb-DSs" secondAttribute="bottom" id="y8P-PZ-GtZ"/>
+            </constraints>
+        </collectionReusableView>
+    </objects>
+</document>
