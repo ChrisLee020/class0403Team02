@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _locationSer = [[BMKLocationService alloc]init];
+    self.view.backgroundColor = [UIColor whiteColor];
     //    //地图显示代码
     _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width)];
     
@@ -35,10 +36,18 @@
     _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
     _mapView.showsUserLocation = YES;//显示定位图层
     
-    
+    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 30, 32, 32)];
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(Backtolast) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
     
     
 }
+
+-(void)Backtolast{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)didUpdateUserHeading:(BMKUserLocation *)userLocation{
     NSLog(@"heading is %@",userLocation.heading);
 }

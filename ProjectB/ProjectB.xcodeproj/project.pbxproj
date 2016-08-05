@@ -12,6 +12,23 @@
 		3F0136EB1D4B71AD00F51F29 /* leftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0136EA1D4B71AD00F51F29 /* leftMenuViewController.m */; };
 		3F0136F01D4B869700F51F29 /* MenuBackImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F0136EF1D4B869700F51F29 /* MenuBackImage.jpg */; };
 		3F0136F41D4B8C8C00F51F29 /* userImageplaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */; };
+		3F0C34941D5422CD009AB1BD /* mapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0C34931D5422CD009AB1BD /* mapButton.png */; settings = {ASSET_TAGS = (); }; };
+		3F0C34961D542374009AB1BD /* 返回.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0C34951D542374009AB1BD /* 返回.png */; settings = {ASSET_TAGS = (); }; };
+		3F0C34981D5424D2009AB1BD /* 足迹.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0C34971D5424D2009AB1BD /* 足迹.png */; settings = {ASSET_TAGS = (); }; };
+		3F0C349B1D542559009AB1BD /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0C349A1D542559009AB1BD /* HistoryViewController.m */; settings = {ASSET_TAGS = (); }; };
+		3F43F9DF1D535A68004433EA /* SportBack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9DE1D535A68004433EA /* SportBack.jpg */; settings = {ASSET_TAGS = (); }; };
+		3F43F9E61D535BCA004433EA /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E01D535BCA004433EA /* book.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9E71D535BCA004433EA /* book2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E11D535BCA004433EA /* book2.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9E81D535BCA004433EA /* listen.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E21D535BCA004433EA /* listen.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9E91D535BCA004433EA /* listen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E31D535BCA004433EA /* listen2.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9EA1D535BCA004433EA /* sport.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E41D535BCA004433EA /* sport.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9EB1D535BCA004433EA /* sport2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E51D535BCA004433EA /* sport2.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9EF1D535F37004433EA /* 跑步0.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9EC1D535F37004433EA /* 跑步0.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9F01D535F37004433EA /* 跑步2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9ED1D535F37004433EA /* 跑步2.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9F11D535F37004433EA /* 跑步3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9EE1D535F37004433EA /* 跑步3.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9F51D53613F004433EA /* 跑步2_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9F21D53613F004433EA /* 跑步2_2.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9F61D53613F004433EA /* 跑步0_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9F31D53613F004433EA /* 跑步0_2.png */; settings = {ASSET_TAGS = (); }; };
+		3F43F9F71D53613F004433EA /* 跑步3_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9F41D53613F004433EA /* 跑步3_2.png */; settings = {ASSET_TAGS = (); }; };
 		4298D382F5BCA65E12DD9638 /* Pods_ProjectB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EC15B0106A7E7A868FA3E5 /* Pods_ProjectB.framework */; };
 		83369B821D53753E0071E6BB /* detailBookVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 83369B4E1D53753E0071E6BB /* detailBookVC.m */; };
 		83369B841D53753E0071E6BB /* listVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 83369B511D53753E0071E6BB /* listVC.m */; };
@@ -569,6 +586,7 @@
 		83E055C11D4B56C000250AAE = {
 			isa = PBXGroup;
 			children = (
+				3F43F9F81D537869004433EA /* BaiduTraceSDK.framework */,
 				83E0568A1D4B5F8100250AAE /* libsqlite3.0.tbd */,
 				83E055CC1D4B56C000250AAE /* ProjectB */,
 				83E055E61D4B56C000250AAE /* ProjectBTests */,
@@ -616,6 +634,12 @@
 		83E055CD1D4B56C000250AAE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3F43F9E01D535BCA004433EA /* book.png */,
+				3F43F9E11D535BCA004433EA /* book2.png */,
+				3F43F9E21D535BCA004433EA /* listen.png */,
+				3F43F9E31D535BCA004433EA /* listen2.png */,
+				3F43F9E41D535BCA004433EA /* sport.png */,
+				3F43F9E51D535BCA004433EA /* sport2.png */,
 				3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */,
 				3F0136EF1D4B869700F51F29 /* MenuBackImage.jpg */,
 				83E055CE1D4B56C000250AAE /* main.m */,
@@ -937,16 +961,24 @@
 				83369B931D53753E0071E6BB /* btn3.png in Resources */,
 				833A77551D533A1A0037F863 /* MainTabView.storyboard in Resources */,
 				83E056611D4B585900250AAE /* LICENSE.txt in Resources */,
+				3F43F9E81D535BCA004433EA /* listen.png in Resources */,
 				83E056781D4B585900250AAE /* MBProgressHUD.bundle in Resources */,
 				3F0136F01D4B869700F51F29 /* MenuBackImage.jpg in Resources */,
 				83E055DD1D4B56C000250AAE /* LaunchScreen.storyboard in Resources */,
+				3F43F9E61D535BCA004433EA /* book.png in Resources */,
 				83D3B7DE1D51E530004A6DE7 /* pause.png in Resources */,
+				3F43F9F01D535F37004433EA /* 跑步2.png in Resources */,
 				83B57BF91D533F8A00AA169C /* MenuBackImage.jpg in Resources */,
 				83D3B7CC1D51E51D004A6DE7 /* ListDetailCell.xib in Resources */,
 				83369B921D53753E0071E6BB /* btn2.png in Resources */,
 				83D3B7DF1D51E530004A6DE7 /* play.png in Resources */,
 				833A774B1D5302770037F863 /* SeriesHeaderView.xib in Resources */,
+				3F43F9F61D53613F004433EA /* 跑步0_2.png in Resources */,
+				3F0C34981D5424D2009AB1BD /* 足迹.png in Resources */,
+				3F0C34941D5422CD009AB1BD /* mapButton.png in Resources */,
 				83D3B7DB1D51E530004A6DE7 /* CD.png in Resources */,
+				3F43F9EB1D535BCA004433EA /* sport2.png in Resources */,
+				3F43F9DF1D535A68004433EA /* SportBack.jpg in Resources */,
 				83D3B7DA1D51E530004A6DE7 /* aboveMusic.png in Resources */,
 				83369B901D53753E0071E6BB /* 4.png in Resources */,
 				83369B961D53753E0071E6BB /* CollectionReusableView.xib in Resources */,
@@ -1244,7 +1276,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/",
+					BaiduTraceSDK.framework/,
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ProjectB/Tool/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/BaiduMapKit\"",
+					"$(PROJECT_DIR)/BaiduTraceSDK.framework/Headers/",
+				);
 				INFOPLIST_FILE = ProjectB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1262,7 +1307,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/",
+					BaiduTraceSDK.framework/,
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ProjectB/Tool/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/BaiduMapKit\"",
+					"$(PROJECT_DIR)/BaiduTraceSDK.framework/Headers/",
+				);
 				INFOPLIST_FILE = ProjectB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

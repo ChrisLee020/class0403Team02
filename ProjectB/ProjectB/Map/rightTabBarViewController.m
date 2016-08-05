@@ -9,11 +9,12 @@
 #import "AppDelegate.h"
 #import "rightTabBarViewController.h"
 #import <CoreMotion/CoreMotion.h>
-
+#import <BaiduTraceSDK/BaiduTraceSDK-Swift.h>
 #import "ZJLabel.h"
 #import "MapViewController.h"
+#import "HistoryViewController.h"
 
-@interface rightTabBarViewController ()
+@interface rightTabBarViewController ()<UIApplicationDelegate>
 
 @property(nonatomic,strong)CMMotionManager *motionManager;
 
@@ -24,6 +25,9 @@
 @property(nonatomic,assign)BOOL iswalking;
 @property(nonatomic,assign)NSInteger targetStepNumber;
 @property(nonatomic,strong)ZJLabel *zjlabel;
+@property(nonatomic,strong)UIButton *btn5k;
+@property(nonatomic,strong)UIButton *btn10k;
+@property(nonatomic,strong)UIButton *btn15k;
 
 @end
 
@@ -34,14 +38,14 @@
     
     _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
     _zjlabel.NowStep = _stepNumber;
-    //    NSLog(@"%f",_zjlabel.present);
+
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *backImage = [[UIImageView alloc]initWithFrame:self.view.frame];
     backImage.image = [UIImage imageNamed:@"SportBack.jpg"];
     backImage.alpha = 0.45;
@@ -54,11 +58,13 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"地图" style:UIBarButtonItemStylePlain target:self action:@selector(PushMap)];
     
-    _targetStepNumber = 100;  //默认目标步数5000，测试时为100
+    _targetStepNumber = 5000;
     
+    [self setButtons];
+    [self.navigationController setNavigationBarHidden:YES];
+
     
-    
-    
+   
     
     
     
@@ -79,6 +85,83 @@
     
 }
 
+-(void)setButtons{
+    UIButton *btn5k = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn5k.frame = CGRectMake(60, 500, 50, 50);
+    [btn5k setImage:[UIImage imageNamed:@"跑步0.png"] forState:UIControlStateSelected];
+    [btn5k setTitle:@"5000步" forState:UIControlStateNormal];
+    [btn5k setTitle:@"5000步" forState:UIControlStateHighlighted];
+    [btn5k setImage:[UIImage imageNamed:@"跑步0_2.png"] forState:UIControlStateNormal];
+    [btn5k addTarget:self action:@selector(btn5kAction:) forControlEvents:UIControlEventTouchUpInside];
+    _btn5k = btn5k;
+    _btn5k.selected = YES;
+    [self.view addSubview:btn5k];
+    
+    UIButton *btn10k = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn10k.frame = CGRectMake(180, 500, 50, 50);
+    [btn10k setImage:[UIImage imageNamed:@"跑步2.png"] forState:UIControlStateSelected];
+    [btn10k setTitle:@"10000步" forState:UIControlStateNormal];
+    [btn10k setTitle:@"10000步" forState:UIControlStateHighlighted];
+    [btn10k setImage:[UIImage imageNamed:@"跑步2_2.png"] forState:UIControlStateNormal];
+    [btn10k addTarget:self action:@selector(btn10kAction:) forControlEvents:UIControlEventTouchUpInside];
+    _btn10k = btn10k;
+    [self.view addSubview:btn10k];
+    
+    UIButton *btn15k = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn15k.frame = CGRectMake(300, 500, 50, 50);
+    [btn15k setImage:[UIImage imageNamed:@"跑步3.png"] forState:UIControlStateSelected];
+    [btn15k setTitle:@"10000步" forState:UIControlStateNormal];
+    [btn15k setTitle:@"10000步" forState:UIControlStateHighlighted];
+    [btn15k setImage:[UIImage imageNamed:@"跑步3_2.png"] forState:UIControlStateNormal];
+    [btn15k addTarget:self action:@selector(btn15kAction:) forControlEvents:UIControlEventTouchUpInside];
+    _btn15k = btn15k;
+    [self.view addSubview:btn15k];
+    UILabel *stepTargetLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 540, 320, 30)];
+    stepTargetLabel.text = @"5000步      10000步       15000步";
+    stepTargetLabel.font = [UIFont systemFontOfSize:20];
+    [self.view addSubview:stepTargetLabel];
+    
+    
+    UIButton *Mapbutton = [[UIButton alloc]init];
+    [Mapbutton addTarget:self action:@selector(PushMap) forControlEvents:UIControlEventTouchUpInside];
+    [Mapbutton setBackgroundImage:[UIImage imageNamed:@"mapButton.png"] forState:UIControlStateNormal];
+    Mapbutton.frame = CGRectMake(self.view.frame.size.width - 40, 30, 32, 32);
+    [self.view addSubview:Mapbutton];
+    
+    UIButton *historyBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 32, 32, 32)];
+    [historyBtn setBackgroundImage:[UIImage imageNamed:@"足迹.png"] forState:UIControlStateNormal];
+    [historyBtn addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:historyBtn];
+    
+    
+}
+
+-(void)historyAction{
+    HistoryViewController *history = [[HistoryViewController alloc]init];
+    [self.navigationController pushViewController:history animated:YES];
+    
+}
+
+-(void)btn5kAction:(UIButton *)btn{
+
+        _btn5k.selected = YES;
+    _btn10k.selected = NO;
+    _btn15k.selected = NO;
+    _targetStepNumber = 5000;
+}
+-(void)btn10kAction:(UIButton *)btn{
+    _btn5k.selected = NO;
+    _btn10k.selected = YES;
+    _btn15k.selected = NO;
+    _targetStepNumber = 10000;
+}
+-(void)btn15kAction:(UIButton *)btn{
+    _btn5k.selected = NO;
+    _btn10k.selected = NO;
+    _btn15k.selected = YES;
+    _targetStepNumber = 15000;
+    
+}
 
 -(void)PushMap{
     MapViewController *mapVC = [[MapViewController alloc]init];
@@ -102,6 +185,8 @@
 }
 
 
+
+
 -(void)applicationWillTerminate:(UIApplication *)application{
     
     NSNumber *num = [[NSNumber alloc]initWithInteger:_stepNumber];
@@ -113,11 +198,11 @@
 
 
 //主动向系统获取数据  暂时不启用
--(void)getmotionData{
-    CMAccelerometerData *accelerometerData = self.motionManager.accelerometerData;
-    CMAcceleration acceleration = accelerometerData.acceleration;
-    
-}
+//-(void)getmotionData{
+//    CMAccelerometerData *accelerometerData = self.motionManager.accelerometerData;
+//    CMAcceleration acceleration = accelerometerData.acceleration;
+//    
+//}
 
 
 #pragma mark 计步器及其本地持久化设置
@@ -146,6 +231,7 @@
         _stepNumberDict = [[NSMutableDictionary alloc]init];
         NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
         NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
+        NSLog(@"%@",path1);
         NSDictionary *dict0 = [NSDictionary dictionaryWithContentsOfFile:path1];
         if (dict0) {
             [_stepNumberDict setValuesForKeysWithDictionary:dict0];
@@ -154,7 +240,7 @@
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
         NSDateComponents *com = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:date];
         NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
-        //        NSLog(@"%@",dateString);  //当前日期字符串
+        NSLog(@"%@",dateString);  //当前日期字符串
         _todaydate = dateString;
         NSArray *arr = [_stepNumberDict allKeys];
         for (NSString *tempStr in arr) {

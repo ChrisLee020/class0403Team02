@@ -28,8 +28,9 @@
 
 
 - (void)viewDidLoad {
-    UIImageView *backImage = [[UIImageView alloc]initWithFrame:self.view.frame];
+    UIImageView *backImage = [[UIImageView alloc]init];
     backImage.image = [UIImage imageNamed:@"MenuBackImage.jpg"];
+    backImage.frame = self.view.frame;
     backImage.alpha = 0.7;
     [self.view addSubview:backImage];
     [super viewDidLoad];
