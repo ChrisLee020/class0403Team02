@@ -51,6 +51,12 @@
     return _srcArray;
 }
 
+#pragma mark    背景加载
+- (void)backGroundSetting
+{
+    
+}
+
 #pragma mark   加载数据
 - (void)LoadData
 {

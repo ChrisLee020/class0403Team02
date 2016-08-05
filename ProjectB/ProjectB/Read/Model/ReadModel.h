@@ -10,7 +10,7 @@
 
 @interface ReadModel : NSObject
 @property(nonatomic,strong)NSString *cover;
-@property(nonatomic,strong)NSString *id;
+@property(nonatomic,strong)NSString *bookID;
 @property(nonatomic,strong)NSString *obj_id;
 @property(nonatomic,strong)NSString *sub_title;
 @property(nonatomic,strong)NSString *title;

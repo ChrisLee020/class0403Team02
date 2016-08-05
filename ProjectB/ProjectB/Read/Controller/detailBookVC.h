@@ -7,19 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "newBookModel.h"
-#import "CollectionReusableView.h"
 
+#import "CollectionReusableView.h"
+#import "detailBookModel2.h"
 @interface detailBookVC : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property(nonatomic,strong)UICollectionView *collectionView;
 
-@property(nonatomic,strong)newBookModel *model;
-@property(nonatomic,strong)NSString *hot_hits;
-@property(nonatomic,strong)NSString *subscribe_num;
-@property(nonatomic,strong)NSMutableArray *volumeAaary;
 
+@property(nonatomic,strong)NSMutableArray *volumeArray;
 
+@property(nonatomic,strong)NSString *bookID;
 
+@property(nonatomic,strong)detailBookModel2 *model2;
 
 
 @end

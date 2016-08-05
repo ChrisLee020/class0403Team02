@@ -42,11 +42,11 @@
         
         
         
-        NSLog(@"111111111111%@",array);
+//        NSLog(@"111111111111%@",array);
         for (NSDictionary *dic in array) {
             newBookModel *model = [[newBookModel alloc]init];
             [model setValuesForKeysWithDictionary:dic];
-            NSLog(@"dddddddd%@",model.name);
+//            NSLog(@"dddddddd%@",model.name);
             [self.dataArray addObject:model];
         
         }
@@ -75,21 +75,27 @@
 }
 
 #pragma mark - Table view data source
-
+//设置分区数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
+
     return 1;
 }
 
+
+//设置cell个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
+
     return self.dataArray.count;
 }
 
 
+//设置cell显示
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     MyTableViewCell *cell = [MyTableViewCell cellWithTableView:tableView];
+    
     newBookModel *model = self.dataArray[indexPath.row];
+    
     NSString *str = model.cover;
     NSURL *url = [NSURL URLWithString:str];
     [cell.image sd_setImageWithURL:url];
@@ -111,10 +117,16 @@
       return cell;
 }
 
+//cell选择点击方法
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     detailBookVC *detail = [[detailBookVC alloc]init];
-    detail.model = self.dataArray[indexPath.row];
+    
+  
+    newBookModel *model = self.dataArray[indexPath.row];
+    
+    detail.bookID = model.bookID;
+ //   detail.model = self.dataArray[indexPath.row];
     [self.navigationController pushViewController:detail animated:YES];
 
 

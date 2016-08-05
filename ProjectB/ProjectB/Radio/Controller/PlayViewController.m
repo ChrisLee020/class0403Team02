@@ -103,17 +103,37 @@
 #pragma mark   数据加载
 - (void)loadData
 {
-    ListDetailModel *listModel = self.detailList[self.number];
-    
-    self.titleLabel.text = listModel.title;
-    
-    self.author.text = listModel.author;
-    
-    [self.singerImageView sd_setImageWithURL:[NSURL URLWithString:listModel.cover]];
-    
-    [self.backGroundImage sd_setImageWithURL:[NSURL URLWithString:listModel.background]];
+    if (self.type)
+    {
+        self.titleLabel.text = self.detailList[self.number];
+        
+        self.author.text = self.type.author;
+        
+        NSDictionary *dict = self.type.poster_path;
+        
+        [self.singerImageView sd_setImageWithURL:[NSURL URLWithString:dict[@"poster_180_260"]]];
+        
+        [self.backGroundImage sd_setImageWithURL:[NSURL URLWithString:dict[@"poster_source"]]];
+        
+    }
+    else
+    {
+        ListDetailModel *listModel = self.detailList[self.number];
+        
+        self.titleLabel.text = listModel.title;
+        
+        self.author.text = listModel.author;
+        
+        [self.singerImageView sd_setImageWithURL:[NSURL URLWithString:listModel.cover]];
+        
+        [self.backGroundImage sd_setImageWithURL:[NSURL URLWithString:listModel.background]];
+        
+    }
     
   
+    
+  
+    
     
 }
 

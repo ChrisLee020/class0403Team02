@@ -10,21 +10,19 @@
 #import "NewBookVC.h"
 @implementation FirstSectionCell
 - (IBAction)catchBook:(id)sender {
-    NewBookVC *newVC = [[NewBookVC alloc]init];
-   
     
 }
 
 
 
-- (NSArray *)images
-{
-    if (!_images) {
-        _images = [NSArray array];
-    }
-    
-    return _images;
-}
+//- (NSArray *)images
+//{
+//    if (!_images) {
+//        _images = [NSArray array];
+//    }
+//    
+//    return _images;
+//}
 
 
 - (IBAction)findBook:(id)sender {

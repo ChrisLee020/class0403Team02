@@ -46,7 +46,7 @@
 - (void)loadData
 {
 #define newbookListUrl @"http://v2.api.dmzj.com/novel/recentUpdate/0.json"
-    NSString *url = [NSString stringWithFormat:@"http://v2.api.dmzj.com/novel/chapter/%@.json",self.model.id];
+    NSString *url = [NSString stringWithFormat:@"http://v2.api.dmzj.com/novel/chapter/%@.json",self.model.bookID];
     NSLog(@"%@",url);
     [DownLoad downLoadWithUrl:url postBody:nil resultBlock:^(NSData *data) {
         

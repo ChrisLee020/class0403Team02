@@ -48,6 +48,8 @@
     drawerVC.leftWidth = leftWidth;
     drawerVC.leftMenuVc = leftMenuVc;
     
+//    drawerVC.leftMenuVc.view.frame = CGRectMake(0, 0, drawerVC.leftWidth, [UIScreen mainScreen].bounds.size.height);
+    
 //    将左边菜单控制器的View添加到抽屉控制器的View上
     [drawerVC.view addSubview:leftMenuVc.view];
     
@@ -89,6 +91,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
     
 //    默认左边控制器的View向左偏移self.leftWidth
     self.leftMenuVc.view.transform = CGAffineTransformMakeTranslation(-self.leftWidth, 0);

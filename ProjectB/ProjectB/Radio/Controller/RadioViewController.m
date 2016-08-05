@@ -40,6 +40,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+//    [self.navigationController setNavigationBarHidden:YES];
+    
+    [self backGroundSetting];
+    
     [self createCollectionView];    //创建CollectionView
     
     [self loadData];
@@ -75,6 +79,42 @@
     }
     
     return _unitJokeArray;
+}
+
+#pragma mark    背景设置
+- (void)backGroundSetting
+{
+    UIView *backGroundLayoutView = [[UIView alloc] initWithFrame:kScreenMainBounds];
+    
+    CAGradientLayer *gradientlayer = [CAGradientLayer layer];
+    
+    gradientlayer.frame = kScreenMainBounds;
+    
+    UIColor *color1 = [UIColor colorWithRed:227.0 / 255 green:137.0 / 255 blue:157.0 / 255 alpha:1];
+    
+    UIColor *color3 = [UIColor colorWithRed:36.0 / 255 green:14.0 / 255 blue:50.0 / 255 alpha:1];
+    
+    UIColor *color2 = [UIColor colorWithRed:91.0 / 255 green:48.0 / 255 blue:82.0 / 255 alpha:1];
+    
+    gradientlayer.colors = @[(id)color1.CGColor, (id)color2.CGColor, (id)color3.CGColor];
+    
+    gradientlayer.startPoint = CGPointMake(1, 0);
+    
+    gradientlayer.endPoint = CGPointMake(0, 1);
+    
+    [backGroundLayoutView.layer addSublayer:gradientlayer];
+    
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    
+    effectView.alpha = 0.4;
+    
+    effectView.frame = [UIScreen mainScreen].bounds;
+    
+    [backGroundLayoutView addSubview:effectView];
+    
+    [self.view addSubview:backGroundLayoutView];
 }
 
 #pragma mark    加载数据
@@ -180,9 +220,9 @@
     self.flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
 //    collectionView设置
-   self.collectionView = [[UICollectionView alloc] initWithFrame:kScreenMainBounds  collectionViewLayout:self.flowLayout];
+   self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight - 113) collectionViewLayout:self.flowLayout];
     
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:self.collectionView];
     
@@ -250,6 +290,10 @@
         
         self.collectionView.collectionViewLayout = self.flowLayout;
     
+    cell.layer.borderWidth = 3;
+    
+    cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:165 / 255.0 alpha:0.5]);
+    
     if (indexPath.section == 0)
     {
         UnitModel *unitModel = self.unitJokeArray[indexPath.item];
@@ -283,7 +327,7 @@
         
         cell.title.text = unitModel.name;
         
-        cell.subTitle.text = [NSString stringWithFormat:@"%@个节目", unitModel.program_count];
+        cell.subTitle.text = @"";
         
         [cell.coverImage sd_setImageWithURL:[NSURL URLWithString:unitModel.cover]];
     }
@@ -312,6 +356,8 @@
           unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitJokeHeader" forIndexPath:indexPath];
             
             title.text = @"笑话故事";
+            
+            title.textColor = [UIColor whiteColor];
         }
         
         if (indexPath.section == 1)
@@ -319,6 +365,8 @@
             unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitTraditionalHeader" forIndexPath:indexPath];
             
             title.text = @"传统评书";
+            
+            title.textColor = [UIColor whiteColor];
 
         }
         
@@ -327,6 +375,8 @@
             unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitSeasonHeader" forIndexPath:indexPath];
             
             title.text = @"四季专题频道";
+            
+            title.textColor = [UIColor whiteColor];
         }
         
             [unitHeaderView addSubview:title];
@@ -339,10 +389,14 @@
     {
         UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer" forIndexPath:indexPath];
         
-        footerView.backgroundColor = [UIColor colorWithRed:112 / 255.0 green:217 /255.0 blue:197 / 255.0 alpha:0.5];
+//        footerView.backgroundColor = [UIColor colorWithRed:112 / 255.0 green:217 /255.0 blue:197 / 255.0 alpha:0.5];
+        
+        footerView.backgroundColor = [UIColor clearColor];
         
         return footerView;
     }
+ 
+    
 }
 
 //设置分区头高度

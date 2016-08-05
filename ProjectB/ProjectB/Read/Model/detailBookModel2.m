@@ -1,24 +1,24 @@
 //
-//  ReadModel.m
+//  detailBookModel2.m
 //  ProjectB
 //
-//  Created by lanou on 16/7/30.
+//  Created by lanou on 16/8/4.
 //  Copyright © 2016年 0403ClassTeam02. All rights reserved.
 //
 
-#import "ReadModel.h"
+#import "detailBookModel2.h"
 
-@implementation ReadModel
+@implementation detailBookModel2
 -(void)setValue:(id)value forUndefinedKey:(NSString *)key
 {}
+
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:key];
+    [super setValue: value forKey:key];
     if ([key isEqualToString:@"id"])
     {
-        self.bookID = [NSString stringWithFormat:@"id"];
+        self.bookID = [NSString stringWithFormat:@"%@", value];
     }
 }
-
 
 @end

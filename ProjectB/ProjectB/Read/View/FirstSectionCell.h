@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface FirstSectionCell : UICollectionViewCell
+
 @property (strong, nonatomic) IBOutlet UIView *views;
 
 @property(strong,nonatomic)NSArray *images;

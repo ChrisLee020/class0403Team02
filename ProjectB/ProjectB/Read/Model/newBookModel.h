@@ -11,7 +11,7 @@
 @interface newBookModel : NSObject
 @property(nonatomic,strong)NSString *authors;
 @property(nonatomic,strong)NSString *cover;
-@property(nonatomic,strong)NSString *id;
+@property(nonatomic,strong)NSString *bookID;
 @property(nonatomic,strong)NSString *last_update_chapter_id;
 @property(nonatomic,strong)NSString *last_update_volume_id;
 @property(nonatomic,strong)NSString *last_update_volume_name;

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SeriesModel.h"
 
 @interface PlayViewController : UIViewController
 
@@ -15,5 +16,7 @@
 @property (nonatomic, strong)NSMutableArray *detailList;
 
 @property (nonatomic, assign)NSInteger number;
+
+@property (nonatomic, strong)SeriesModel *type;
 
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface detailBookModel : NSObject
-@property(nonatomic,strong)NSString *id;
+@property(nonatomic,strong)NSString *bookID;
 @property(nonatomic,strong)NSString *lnovel_id;
 @property(nonatomic,strong)NSString *volume_name;
 @property(nonatomic,strong)NSString *volume_order;

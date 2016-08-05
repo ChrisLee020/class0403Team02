@@ -15,6 +15,8 @@
 #import "NewBookVC.h"
 @interface ReadViewController ()
 
+@property (nonatomic, strong)UICollectionViewFlowLayout *flowLayout;
+
 @end
 //添加Header Footer可重用标示符
 static NSString *const reuseIdentifierHeader = @"MyHeaderCell";
@@ -175,6 +177,8 @@ static NSString *const reuseIdentifierFooter = @"MyFooterCell";
     return [_sectionArray[section]count];
 }
 
+
+//cell的设置
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
@@ -183,12 +187,11 @@ static NSString *const reuseIdentifierFooter = @"MyFooterCell";
 
         
         cell.images = self.images;
-        NSLog(@"aaaaaaaaaaa%@",cell.images);
         
         LoopView *view = [[LoopView alloc]initWithURLStrs:self.images titles:nil];
         
 
-        view.frame = CGRectMake(0, 0, cell.views.frame.size.width, cell.views.frame.size.height);
+        view.frame = CGRectMake(0, 0, kScreenWidth, cell.views.frame.size.height);
         [cell.views addSubview:view];
         
         
@@ -228,7 +231,8 @@ static NSString *const reuseIdentifierFooter = @"MyFooterCell";
     if (indexPath.section == 0) {
       
 
-        return CGSizeMake(kScreenWidth, 375);
+        return CGSizeMake(kScreenWidth, 300);
+        
     }else{
         
       return  CGSizeMake((kScreenWidth-40)/3, (kScreenWidth - 40)/3+50);

@@ -10,18 +10,30 @@
 #import "deataiBookCell.h"
 #import "listVC.h"
 #import "detailBookModel.h"
+
 @interface detailBookVC ()
 
 @end
 static NSString * IdentifierHeader = @"detaibookHeader";
 @implementation detailBookVC
 
--(NSMutableArray *)volumeAaary
+
+-(detailBookModel2 *)model2
 {
-    if (!_volumeAaary) {
-        _volumeAaary = [NSMutableArray array];
+    if (!_model2) {
+        _model2 = [[detailBookModel2 alloc]init];
     }
-    return _volumeAaary;
+
+    return _model2;
+}
+
+
+-(NSMutableArray *)volumeArray
+{
+    if (!_volumeArray) {
+        _volumeArray = [NSMutableArray array];
+    }
+    return _volumeArray;
 }
 
 
@@ -49,9 +61,13 @@ static NSString * IdentifierHeader = @"detaibookHeader";
     return _collectionView;
 }
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+   
     
     [self.view addSubview:self.collectionView];
     
@@ -59,36 +75,46 @@ static NSString * IdentifierHeader = @"detaibookHeader";
     [self.collectionView registerNib:[UINib nibWithNibName:@"deataiBookCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"deatal"];
     //注册Header
     [self.collectionView registerNib:[UINib nibWithNibName:@"CollectionReusableView" bundle:[NSBundle mainBundle]] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:IdentifierHeader];
+    
     [self loadData];
+   
 }
 
 #pragma mark 数据下载
 - (void)loadData
 {
-    #define newbookListUrl @"http://v2.api.dmzj.com/novel/recentUpdate/0.json"
-    NSString *url = [NSString stringWithFormat:@"http://v2.api.dmzj.com/novel/%@.json",self.model.id];
-    NSLog(@"%@",url);
+//    #define newbookListUrl @"http://v2.api.dmzj.com/novel/recentUpdate/0.json"
+    NSString *urlstr = [NSString stringWithFormat:@"http://v2.api.dmzj.com/novel/%@.json",self.bookID];
+    NSLog(@"urlStr%@",urlstr);
     
-    [DownLoad downLoadWithUrl:url postBody:nil resultBlock:^(NSData *data) {
-        
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        
-       // NSLog(@"444444444444444%@",dic);
-        self.hot_hits =dic[@"hot_hits"];
-        NSLog(@"//////////////%@",self.hot_hits);
-        self.subscribe_num = dic[@"subscribe_num"];
-         NSLog(@"%@",self.subscribe_num);
-     NSArray *arr = dic[@"volume"];
-        for (NSDictionary *dic2 in arr) {
-            detailBookModel *model = [[detailBookModel alloc]init];
-            [model setValuesForKeysWithDictionary:dic2];
-            NSLog(@"model+++++++++++%@",model);
-            [self.volumeAaary addObject:model];
-        }
-        //回到主线程刷新
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-        });
+
+    
+   [DownLoad downLoadWithUrl:urlstr postBody:nil resultBlock:^(NSData *data) {
+       
+       if (data)
+       {
+
+           NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+           
+           [self.model2 setValuesForKeysWithDictionary:dic];
+           NSArray *arr = dic[@"volume"];
+           
+           for (NSDictionary *dic2 in arr) {
+               detailBookModel *model = [[detailBookModel alloc]init];
+               [model setValuesForKeysWithDictionary:dic2];
+
+               [self.volumeArray addObject:model];
+           }
+           //回到主线程刷新
+           dispatch_async(dispatch_get_main_queue(), ^{
+               
+               [self.collectionView reloadData];
+               
+    
+               
+           });
+       }
+     
     }];
     
 }
@@ -105,21 +131,23 @@ static NSString * IdentifierHeader = @"detaibookHeader";
 
 #pragma mark  collectionView数据源方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return  self.volumeAaary.count;
+    return  self.volumeArray.count;
 }
 
+//cell显示设置
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
    
         static NSString *identify = @"deatal";
         deataiBookCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identify forIndexPath:indexPath];
-    detailBookModel *model = self.volumeAaary[indexPath.row];
-    cell.label.text =model.volume_name;
+    detailBookModel *model = self.volumeArray[indexPath.row];
+    cell.label.text = model.volume_name;
     
         return cell;
    }
 
 
+//设置分区数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     
     return 1;
@@ -129,32 +157,37 @@ static NSString * IdentifierHeader = @"detaibookHeader";
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
     CollectionReusableView *supplementaryView;
-    
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
-        CollectionReusableView *view2 = (CollectionReusableView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:IdentifierHeader forIndexPath:indexPath];
-        view2.authors.text =self.model.authors;
-       
-         NSMutableString *typ = [NSMutableString string];
-        for (int i = 0; i < self.model.types.count; i++) {
-            NSString *types = self.model.types[i];
-            typ = (NSMutableString *)[typ stringByAppendingString:types];
+  
+    if (self.volumeArray)
+    {
+        if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
+            CollectionReusableView *view2 = (CollectionReusableView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:IdentifierHeader forIndexPath:indexPath];
+            
+            view2.authors.text =self.model2.authors;
+            
+            NSMutableString *typ = [NSMutableString string];
+            for (int i = 0; i < self.model2.types.count; i++) {
+                NSString *types = self.model2.types[i];
+                
+                typ = (NSMutableString *)[typ stringByAppendingString:types];
+                
+            }
+            view2.types.text = typ;
+        
+            NSString *str =self. model2.cover;
+            NSURL *url = [NSURL URLWithString:str];
+            [view2.cover sd_setImageWithURL:url];
+            
+            view2.hot_hits.text = self.model2.hot_hits.stringValue;
+
+            
+            view2.subscribe_num.text = self.model2.subscribe_num.stringValue;
+            supplementaryView = view2;
             
         }
-        
-        view2.types.text = typ;
-        
-        
-        NSString *str =self. model.cover;
-        NSURL *url = [NSURL URLWithString:str];
-        [view2.cover sd_setImageWithURL:url];
 
-        NSLog(@"zzzzzzzzzz%@",self.hot_hits);
-      //  view2.hot_hits.text = [NSString stringWithString:self.hot_hits];
-      //  view2.subscribe_num.text = self.subscribe_num;
-        supplementaryView = view2;
-        
     }
-//    else if ([kind isEqualToString:UICollectionElementKindSectionFooter]){
+   //    else if ([kind isEqualToString:UICollectionElementKindSectionFooter]){
 //        MYFooterView *view = (MYFooterView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:reuseIdentifierFooter forIndexPath:indexPath];
 //        view.footerLabel.text = [NSString stringWithFormat:@"这是Footer:%d",indexPath.section];
 //        supplementaryView = view;
@@ -178,7 +211,7 @@ static NSString * IdentifierHeader = @"detaibookHeader";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     listVC *vc = [[listVC alloc]init];
-    vc.model = self.model;
+  //  vc.model = self.model;
     [self.navigationController pushViewController:vc animated:YES];
 
 

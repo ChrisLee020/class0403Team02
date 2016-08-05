@@ -9,6 +9,7 @@
 #import "SeriesViewController.h"
 #import "SeriesModel.h"
 #import "SeriesHeaderView.h"
+#import "PlayViewController.h"
 
 @interface SeriesViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -164,7 +165,21 @@
     return cell;
 }
 
-
+#pragma mark    tableView代理方法
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PlayViewController *playVC = [[PlayViewController alloc] init];
+    
+    playVC.detailList = self.titleListArray;
+    
+    playVC.type = self.seriesModel;
+    
+    playVC.musicList = self.musicListArray;
+    
+    playVC.number = indexPath.row;
+    
+    [self.navigationController pushViewController:playVC animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
