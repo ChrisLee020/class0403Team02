@@ -23,7 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     _MapManager = [[BMKMapManager alloc]init];
     if ([_MapManager start:@"NaGbwc1RMXzqvlDFBoH1ZPAGGPXWRVbG" generalDelegate:self]) {
-        NSLog(@"百度地图启动成功");
+//        NSLog(@"百度地图启动成功");
     }
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
@@ -60,11 +60,21 @@
 }
 
 -(void)applicationWillTerminate:(UIApplication *)application{
-    
+    NSNumber *num = [[NSNumber alloc]initWithInteger:*(self.stepNumber)];
+    [_stepNumberDictionary setValue:num forKey:_todaydate];
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
+    //    NSLog(@"%@",path1);
+    [_stepNumberDictionary writeToFile:path1 atomically:YES];
     
 }
 -(void)applicationDidEnterBackground:(UIApplication *)application{
-    
+    NSNumber *num = [[NSNumber alloc]initWithInteger:*(self.stepNumber)];
+    [_stepNumberDictionary setValue:num forKey:_todaydate];
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
+//    NSLog(@"%@",path1);
+    [_stepNumberDictionary writeToFile:path1 atomically:YES];
     
 }
 

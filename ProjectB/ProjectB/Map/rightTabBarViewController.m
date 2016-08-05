@@ -6,6 +6,8 @@
 //  Copyright © 2016年 0403ClassTeam02. All rights reserved.
 //
 
+typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
+
 #import "AppDelegate.h"
 #import "rightTabBarViewController.h"
 #import <CoreMotion/CoreMotion.h>
@@ -27,6 +29,8 @@
 @property(nonatomic,strong)UIButton *btn5k;
 @property(nonatomic,strong)UIButton *btn10k;
 @property(nonatomic,strong)UIButton *btn15k;
+@property(nonatomic,strong)AppDelegate *delegate;
+//@property(nonatomic,copy)StepNumberBlock *stepnumberblock;
 
 @end
 
@@ -40,6 +44,7 @@
 
     
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,6 +67,10 @@
     [self setButtons];
     [self.navigationController setNavigationBarHidden:YES];
 
+    _delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    _delegate.stepNumberDictionary = self.stepNumberDict;
+    _delegate.todaydate = _todaydate;
+    _delegate.stepNumber = &(_stepNumber);
     
    
     
@@ -83,6 +92,7 @@
     _zjlabel.layer.borderColor = [[UIColor colorWithRed:0.52 green:0.09 blue:0.07 alpha:1] CGColor];
     
 }
+
 
 -(void)setButtons{
     UIButton *btn5k = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -147,18 +157,21 @@
     _btn10k.selected = NO;
     _btn15k.selected = NO;
     _targetStepNumber = 5000;
+       _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
 }
 -(void)btn10kAction:(UIButton *)btn{
     _btn5k.selected = NO;
     _btn10k.selected = YES;
     _btn15k.selected = NO;
     _targetStepNumber = 10000;
+       _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
 }
 -(void)btn15kAction:(UIButton *)btn{
     _btn5k.selected = NO;
     _btn10k.selected = NO;
     _btn15k.selected = YES;
     _targetStepNumber = 15000;
+       _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
     
 }
 
@@ -186,14 +199,7 @@
 
 
 
--(void)applicationWillTerminate:(UIApplication *)application{
-    
-    NSNumber *num = [[NSNumber alloc]initWithInteger:_stepNumber];
-    [_stepNumberDict setValue:num forKey:_todaydate];
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
-    NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
-    [_stepNumberDict writeToFile:path1 atomically:YES];
-}
+
 
 
 //主动向系统获取数据  暂时不启用
@@ -230,7 +236,7 @@
         _stepNumberDict = [[NSMutableDictionary alloc]init];
         NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
         NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
-        NSLog(@"%@",path1);
+//        NSLog(@"%@",path1);
         NSDictionary *dict0 = [NSDictionary dictionaryWithContentsOfFile:path1];
         if (dict0) {
             [_stepNumberDict setValuesForKeysWithDictionary:dict0];
@@ -239,7 +245,7 @@
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
         NSDateComponents *com = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:date];
         NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
-        NSLog(@"%@",dateString);  //当前日期字符串
+//        NSLog(@"%@",dateString);  //当前日期字符串
         _todaydate = dateString;
         NSArray *arr = [_stepNumberDict allKeys];
         for (NSString *tempStr in arr) {
@@ -250,12 +256,18 @@
         }
         //如果当天步数存在，取出
     }
+
     
     //监听日期更新广播，填写昨日数据后重置日期
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nextDay) name:UIApplicationSignificantTimeChangeNotification object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
 
+    [self gravityrespondsetting];
+        _zjlabel.NowStep = _stepNumber;
+   _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

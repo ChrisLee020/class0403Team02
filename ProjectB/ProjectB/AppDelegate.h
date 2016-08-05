@@ -16,7 +16,9 @@
 @property(nonatomic,strong)BMKMapManager *MapManager;
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic,strong)BaseViewController *baseVC;
-
+@property(nonatomic,strong)NSMutableDictionary *stepNumberDictionary;
+@property(nonatomic,assign)NSInteger *stepNumber;
+@property(nonatomic,strong)NSString *todaydate;
 
 @end
 
