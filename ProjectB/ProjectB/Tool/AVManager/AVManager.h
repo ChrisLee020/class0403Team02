@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong)NSMutableArray *musicUrls;
 
+@property (nonatomic, assign)BOOL isPlaying;
+
 //创建一个播放音乐的单例
 + (AVManager *)shareInstance;
 

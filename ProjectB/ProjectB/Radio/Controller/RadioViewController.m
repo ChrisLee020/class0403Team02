@@ -13,6 +13,7 @@
 #import "ListDetailModel.h"
 #import "ListDetailViewController.h"
 #import "SeriesViewController.h"
+#import "Masonry.h"
 
 
 
@@ -260,7 +261,7 @@
 //设定Item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 2) {
         return self.unitJokeArray.count;
     }
     
@@ -269,7 +270,7 @@
         return self.unitTraditionalArray.count;
     }
     
-    if (section == 2)
+    if (section == 0)
     {
         return self.unitSeasonArray.count;
     }
@@ -282,6 +283,7 @@
 {
   RadioListCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"radiolist" forIndexPath:indexPath];
     
+//    修改Item布局
         CGFloat itemSizeX = kScreenWidth / 3 - 2.5;
     
         CGFloat itemSizeY = kScreenHeight / 3 - 5;
@@ -290,11 +292,11 @@
         
         self.collectionView.collectionViewLayout = self.flowLayout;
     
-    cell.layer.borderWidth = 3;
+//    cell.layer.borderWidth = 3;
+//    
+//    cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:165 / 255.0 alpha:0.5]);
     
-    cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:165 / 255.0 alpha:0.5]);
-    
-    if (indexPath.section == 0)
+    if (indexPath.section == 2)
     {
         UnitModel *unitModel = self.unitJokeArray[indexPath.item];
         
@@ -321,7 +323,7 @@
     }
     
     
-    if (indexPath.section == 2)
+    if (indexPath.section == 0)
     {
         UnitModel *unitModel = self.unitSeasonArray[indexPath.item];
         
@@ -341,7 +343,7 @@
 }
 
 
-//重用分区头和分区尾
+#pragma mark    重用分区头分区尾
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     if ([kind isEqualToString:UICollectionElementKindSectionHeader])
@@ -351,13 +353,34 @@
         
         UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 40)];
         
-        if (indexPath.section == 0)
+        UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        [moreBtn setTitle:@"更多" forState:UIControlStateNormal];
+        
+        moreBtn.titleLabel.textColor = [UIColor whiteColor];
+        
+        if (indexPath.section == 2)
         {
           unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitJokeHeader" forIndexPath:indexPath];
+            
+            unitHeaderView.userInteractionEnabled = YES;
             
             title.text = @"笑话故事";
             
             title.textColor = [UIColor whiteColor];
+            
+            [unitHeaderView addSubview:moreBtn];
+            
+            [moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.size.mas_equalTo(CGSizeMake(60, 40));
+                
+                make.right.equalTo(unitHeaderView.mas_right);
+                
+            }];
+            
+            [moreBtn addTarget:self action:@selector(moreJokeListShow) forControlEvents:UIControlEventTouchUpInside];
+            
         }
         
         if (indexPath.section == 1)
@@ -367,10 +390,21 @@
             title.text = @"传统评书";
             
             title.textColor = [UIColor whiteColor];
-
+            
+            [unitHeaderView addSubview:moreBtn];
+            
+            [moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.size.mas_equalTo(CGSizeMake(60, 40));
+                
+                make.right.equalTo(unitHeaderView.mas_right);
+                
+            }];
+            
+        [moreBtn addTarget:self action:@selector(moreTraditionalListShow) forControlEvents:UIControlEventTouchUpInside];
         }
         
-        if (indexPath.section == 2)
+        if (indexPath.section == 0)
         {
             unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitSeasonHeader" forIndexPath:indexPath];
             
@@ -415,7 +449,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.section == 0)
+    if (indexPath.section == 2)
     {
         UnitModel *unitModel = self.unitJokeArray[indexPath.item];
         
@@ -441,7 +475,7 @@
         [self.navigationController pushViewController:seriesVC animated:YES];
     }
     
-    if (indexPath.section == 2) {
+    if (indexPath.section == 0) {
         NSString *url = [NSString stringWithFormat:@"http://radio.sky31.com/api/program?page=1&album_id=%ld", (long)indexPath.item];
         
         
@@ -452,6 +486,17 @@
         
         [self.navigationController pushViewController:listDetailVC animated:YES];
     }
+    
+}
+
+#pragma mark 按钮实行方法
+- (void)moreJokeListShow
+{
+    
+}
+
+- (void)moreTraditionalListShow
+{
     
 }
 

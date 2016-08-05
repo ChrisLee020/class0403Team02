@@ -11,7 +11,7 @@
 @interface AVManager ()
 
 //判读是否正在播放
-@property (nonatomic, assign)BOOL isPlaying;
+//@property (nonatomic, assign)BOOL isPlaying;
 
 //当前正在播放的音乐下标
 @property (nonatomic, assign)NSInteger playIndex;
@@ -88,6 +88,8 @@
     [self.avplay replaceCurrentItemWithPlayerItem:item];
     
     [self.avplay play];
+    
+    self.isPlaying = YES;
 }
 
 //下一首
@@ -108,6 +110,8 @@
     [self.avplay replaceCurrentItemWithPlayerItem:item];
     
     [self.avplay play];
+    
+    self.isPlaying = YES;
 }
 
 //播放或暂停
@@ -128,11 +132,15 @@
 - (void)startPlay
 {
     [self.avplay play];
+    
+    self.isPlaying = YES;
 }
 
 - (void)stopPlay
 {
     [self.avplay pause];
+    
+    self.isPlaying = NO;
 }
 
 //改变音乐播放进度
@@ -146,6 +154,8 @@
     [self.avplay seekToTime:time];
     
     [self.avplay play];
+    
+    self.isPlaying = YES;
 }
 
 //音频文件的总时长

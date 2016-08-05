@@ -12,24 +12,14 @@
 		3F0136EB1D4B71AD00F51F29 /* leftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0136EA1D4B71AD00F51F29 /* leftMenuViewController.m */; };
 		3F0136F01D4B869700F51F29 /* MenuBackImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F0136EF1D4B869700F51F29 /* MenuBackImage.jpg */; };
 		3F0136F41D4B8C8C00F51F29 /* userImageplaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */; };
-		3F0C34941D5422CD009AB1BD /* mapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0C34931D5422CD009AB1BD /* mapButton.png */; settings = {ASSET_TAGS = (); }; };
-		3F0C34961D542374009AB1BD /* 返回.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0C34951D542374009AB1BD /* 返回.png */; settings = {ASSET_TAGS = (); }; };
-		3F0C34981D5424D2009AB1BD /* 足迹.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0C34971D5424D2009AB1BD /* 足迹.png */; settings = {ASSET_TAGS = (); }; };
-		3F0C349B1D542559009AB1BD /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0C349A1D542559009AB1BD /* HistoryViewController.m */; settings = {ASSET_TAGS = (); }; };
-		3F0C349E1D544575009AB1BD /* LineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0C349D1D544575009AB1BD /* LineChart.m */; settings = {ASSET_TAGS = (); }; };
-		3F43F9DF1D535A68004433EA /* SportBack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9DE1D535A68004433EA /* SportBack.jpg */; settings = {ASSET_TAGS = (); }; };
-		3F43F9E61D535BCA004433EA /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E01D535BCA004433EA /* book.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9E71D535BCA004433EA /* book2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E11D535BCA004433EA /* book2.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9E81D535BCA004433EA /* listen.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E21D535BCA004433EA /* listen.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9E91D535BCA004433EA /* listen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E31D535BCA004433EA /* listen2.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9EA1D535BCA004433EA /* sport.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E41D535BCA004433EA /* sport.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9EB1D535BCA004433EA /* sport2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9E51D535BCA004433EA /* sport2.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9EF1D535F37004433EA /* 跑步0.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9EC1D535F37004433EA /* 跑步0.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9F01D535F37004433EA /* 跑步2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9ED1D535F37004433EA /* 跑步2.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9F11D535F37004433EA /* 跑步3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9EE1D535F37004433EA /* 跑步3.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9F51D53613F004433EA /* 跑步2_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9F21D53613F004433EA /* 跑步2_2.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9F61D53613F004433EA /* 跑步0_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9F31D53613F004433EA /* 跑步0_2.png */; settings = {ASSET_TAGS = (); }; };
-		3F43F9F71D53613F004433EA /* 跑步3_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F43F9F41D53613F004433EA /* 跑步3_2.png */; settings = {ASSET_TAGS = (); }; };
+		3F0C34941D5422CD009AB1BD /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F0C34981D5424D2009AB1BD /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F43F9DF1D535A68004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F43F9E61D535BCA004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F43F9E81D535BCA004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F43F9EB1D535BCA004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F43F9F01D535F37004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
+		3F43F9F61D53613F004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
 		4298D382F5BCA65E12DD9638 /* Pods_ProjectB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99EC15B0106A7E7A868FA3E5 /* Pods_ProjectB.framework */; };
 		83369B821D53753E0071E6BB /* detailBookVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 83369B4E1D53753E0071E6BB /* detailBookVC.m */; };
 		83369B841D53753E0071E6BB /* listVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 83369B511D53753E0071E6BB /* listVC.m */; };
@@ -74,6 +64,21 @@
 		83B57BF91D533F8A00AA169C /* MenuBackImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83B57BBD1D533F8A00AA169C /* MenuBackImage.jpg */; };
 		83B57BFA1D533F8A00AA169C /* rightTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B57BBF1D533F8A00AA169C /* rightTabBarViewController.m */; };
 		83B57BFB1D533F8A00AA169C /* ZJLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B57BC11D533F8A00AA169C /* ZJLabel.m */; };
+		83C8DB5B1D5447A20039FB63 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C8DB5A1D5447A20039FB63 /* HistoryViewController.m */; };
+		83C8DB611D5447EE0039FB63 /* 跑步0.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB5C1D5447EE0039FB63 /* 跑步0.png */; };
+		83C8DB621D5447EE0039FB63 /* 足迹.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB5D1D5447EE0039FB63 /* 足迹.png */; };
+		83C8DB631D5447EE0039FB63 /* LineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C8DB5F1D5447EE0039FB63 /* LineChart.m */; };
+		83C8DB641D5447EE0039FB63 /* mapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB601D5447EE0039FB63 /* mapButton.png */; };
+		83C8DB6C1D5447FD0039FB63 /* 返回.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB651D5447FD0039FB63 /* 返回.png */; };
+		83C8DB6D1D5447FD0039FB63 /* 跑步0_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB661D5447FD0039FB63 /* 跑步0_2.png */; };
+		83C8DB6E1D5447FD0039FB63 /* 跑步2_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB671D5447FD0039FB63 /* 跑步2_2.png */; };
+		83C8DB6F1D5447FD0039FB63 /* 跑步2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB681D5447FD0039FB63 /* 跑步2.png */; };
+		83C8DB701D5447FD0039FB63 /* 跑步3_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB691D5447FD0039FB63 /* 跑步3_2.png */; };
+		83C8DB711D5447FD0039FB63 /* 跑步3.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB6A1D5447FD0039FB63 /* 跑步3.png */; };
+		83C8DB721D5447FD0039FB63 /* SportBack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB6B1D5447FD0039FB63 /* SportBack.jpg */; };
+		83C8DB761D546A5D0039FB63 /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB731D546A5D0039FB63 /* book.png */; };
+		83C8DB771D546A5D0039FB63 /* radio.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB741D546A5D0039FB63 /* radio.png */; };
+		83C8DB781D546A5D0039FB63 /* sport.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB751D546A5D0039FB63 /* sport.png */; };
 		83D3B7C51D51E51D004A6DE7 /* ListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D3B7B31D51E51D004A6DE7 /* ListDetailViewController.m */; };
 		83D3B7C61D51E51D004A6DE7 /* PlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D3B7B51D51E51D004A6DE7 /* PlayViewController.m */; };
 		83D3B7C71D51E51D004A6DE7 /* PlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83D3B7B61D51E51D004A6DE7 /* PlayViewController.xib */; };
@@ -235,6 +240,23 @@
 		83B57BC01D533F8A00AA169C /* ZJLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJLabel.h; sourceTree = "<group>"; };
 		83B57BC11D533F8A00AA169C /* ZJLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJLabel.m; sourceTree = "<group>"; };
 		83B57C1D1D53415B00AA169C /* ReadListUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadListUrl.h; sourceTree = "<group>"; };
+		83C8DB591D5447A20039FB63 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		83C8DB5A1D5447A20039FB63 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		83C8DB5C1D5447EE0039FB63 /* 跑步0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步0.png"; sourceTree = "<group>"; };
+		83C8DB5D1D5447EE0039FB63 /* 足迹.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "足迹.png"; sourceTree = "<group>"; };
+		83C8DB5E1D5447EE0039FB63 /* LineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineChart.h; sourceTree = "<group>"; };
+		83C8DB5F1D5447EE0039FB63 /* LineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineChart.m; sourceTree = "<group>"; };
+		83C8DB601D5447EE0039FB63 /* mapButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapButton.png; sourceTree = "<group>"; };
+		83C8DB651D5447FD0039FB63 /* 返回.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "返回.png"; sourceTree = "<group>"; };
+		83C8DB661D5447FD0039FB63 /* 跑步0_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步0_2.png"; sourceTree = "<group>"; };
+		83C8DB671D5447FD0039FB63 /* 跑步2_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步2_2.png"; sourceTree = "<group>"; };
+		83C8DB681D5447FD0039FB63 /* 跑步2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步2.png"; sourceTree = "<group>"; };
+		83C8DB691D5447FD0039FB63 /* 跑步3_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步3_2.png"; sourceTree = "<group>"; };
+		83C8DB6A1D5447FD0039FB63 /* 跑步3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步3.png"; sourceTree = "<group>"; };
+		83C8DB6B1D5447FD0039FB63 /* SportBack.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SportBack.jpg; sourceTree = "<group>"; };
+		83C8DB731D546A5D0039FB63 /* book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book.png; sourceTree = "<group>"; };
+		83C8DB741D546A5D0039FB63 /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
+		83C8DB751D546A5D0039FB63 /* sport.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sport.png; sourceTree = "<group>"; };
 		83D3B7B21D51E51D004A6DE7 /* ListDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListDetailViewController.h; sourceTree = "<group>"; };
 		83D3B7B31D51E51D004A6DE7 /* ListDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListDetailViewController.m; sourceTree = "<group>"; };
 		83D3B7B41D51E51D004A6DE7 /* PlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayViewController.h; sourceTree = "<group>"; };
@@ -494,6 +516,20 @@
 		83B57BB91D533F8A00AA169C /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				83C8DB651D5447FD0039FB63 /* 返回.png */,
+				83C8DB661D5447FD0039FB63 /* 跑步0_2.png */,
+				83C8DB671D5447FD0039FB63 /* 跑步2_2.png */,
+				83C8DB681D5447FD0039FB63 /* 跑步2.png */,
+				83C8DB691D5447FD0039FB63 /* 跑步3_2.png */,
+				83C8DB6A1D5447FD0039FB63 /* 跑步3.png */,
+				83C8DB6B1D5447FD0039FB63 /* SportBack.jpg */,
+				83C8DB5C1D5447EE0039FB63 /* 跑步0.png */,
+				83C8DB5D1D5447EE0039FB63 /* 足迹.png */,
+				83C8DB5E1D5447EE0039FB63 /* LineChart.h */,
+				83C8DB5F1D5447EE0039FB63 /* LineChart.m */,
+				83C8DB601D5447EE0039FB63 /* mapButton.png */,
+				83C8DB591D5447A20039FB63 /* HistoryViewController.h */,
+				83C8DB5A1D5447A20039FB63 /* HistoryViewController.m */,
 				83B57BBA1D533F8A00AA169C /* mapapi.bundle */,
 				83B57BBB1D533F8A00AA169C /* MapViewController.h */,
 				83B57BBC1D533F8A00AA169C /* MapViewController.m */,
@@ -587,7 +623,6 @@
 		83E055C11D4B56C000250AAE = {
 			isa = PBXGroup;
 			children = (
-				3F43F9F81D537869004433EA /* BaiduTraceSDK.framework */,
 				83E0568A1D4B5F8100250AAE /* libsqlite3.0.tbd */,
 				83E055CC1D4B56C000250AAE /* ProjectB */,
 				83E055E61D4B56C000250AAE /* ProjectBTests */,
@@ -635,12 +670,9 @@
 		83E055CD1D4B56C000250AAE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3F43F9E01D535BCA004433EA /* book.png */,
-				3F43F9E11D535BCA004433EA /* book2.png */,
-				3F43F9E21D535BCA004433EA /* listen.png */,
-				3F43F9E31D535BCA004433EA /* listen2.png */,
-				3F43F9E41D535BCA004433EA /* sport.png */,
-				3F43F9E51D535BCA004433EA /* sport2.png */,
+				83C8DB731D546A5D0039FB63 /* book.png */,
+				83C8DB741D546A5D0039FB63 /* radio.png */,
+				83C8DB751D546A5D0039FB63 /* sport.png */,
 				3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */,
 				3F0136EF1D4B869700F51F29 /* MenuBackImage.jpg */,
 				83E055CE1D4B56C000250AAE /* main.m */,
@@ -957,39 +989,52 @@
 				83369B9E1D53753E0071E6BB /* MyHeaderView.xib in Resources */,
 				83E0566C1D4B585900250AAE /* Info.plist in Resources */,
 				83369B911D53753E0071E6BB /* btn1.png in Resources */,
+				83C8DB761D546A5D0039FB63 /* book.png in Resources */,
+				83C8DB771D546A5D0039FB63 /* radio.png in Resources */,
 				83B57BF71D533F8A00AA169C /* mapapi.bundle in Resources */,
 				83D3B7CE1D51E51D004A6DE7 /* RadioListCell.xib in Resources */,
+				83C8DB781D546A5D0039FB63 /* sport.png in Resources */,
 				83369B931D53753E0071E6BB /* btn3.png in Resources */,
+				83C8DB6C1D5447FD0039FB63 /* 返回.png in Resources */,
 				833A77551D533A1A0037F863 /* MainTabView.storyboard in Resources */,
 				83E056611D4B585900250AAE /* LICENSE.txt in Resources */,
-				3F43F9E81D535BCA004433EA /* listen.png in Resources */,
+				3F43F9E81D535BCA004433EA /* (null) in Resources */,
 				83E056781D4B585900250AAE /* MBProgressHUD.bundle in Resources */,
 				3F0136F01D4B869700F51F29 /* MenuBackImage.jpg in Resources */,
+				83C8DB711D5447FD0039FB63 /* 跑步3.png in Resources */,
 				83E055DD1D4B56C000250AAE /* LaunchScreen.storyboard in Resources */,
-				3F43F9E61D535BCA004433EA /* book.png in Resources */,
+				3F43F9E61D535BCA004433EA /* (null) in Resources */,
 				83D3B7DE1D51E530004A6DE7 /* pause.png in Resources */,
-				3F43F9F01D535F37004433EA /* 跑步2.png in Resources */,
+				3F43F9F01D535F37004433EA /* (null) in Resources */,
 				83B57BF91D533F8A00AA169C /* MenuBackImage.jpg in Resources */,
 				83D3B7CC1D51E51D004A6DE7 /* ListDetailCell.xib in Resources */,
 				83369B921D53753E0071E6BB /* btn2.png in Resources */,
 				83D3B7DF1D51E530004A6DE7 /* play.png in Resources */,
 				833A774B1D5302770037F863 /* SeriesHeaderView.xib in Resources */,
-				3F43F9F61D53613F004433EA /* 跑步0_2.png in Resources */,
-				3F0C34981D5424D2009AB1BD /* 足迹.png in Resources */,
-				3F0C34941D5422CD009AB1BD /* mapButton.png in Resources */,
+				3F43F9F61D53613F004433EA /* (null) in Resources */,
+				3F0C34981D5424D2009AB1BD /* (null) in Resources */,
+				3F0C34941D5422CD009AB1BD /* (null) in Resources */,
+				83C8DB641D5447EE0039FB63 /* mapButton.png in Resources */,
+				83C8DB611D5447EE0039FB63 /* 跑步0.png in Resources */,
+				83C8DB621D5447EE0039FB63 /* 足迹.png in Resources */,
 				83D3B7DB1D51E530004A6DE7 /* CD.png in Resources */,
-				3F43F9EB1D535BCA004433EA /* sport2.png in Resources */,
-				3F43F9DF1D535A68004433EA /* SportBack.jpg in Resources */,
+				3F43F9EB1D535BCA004433EA /* (null) in Resources */,
+				3F43F9DF1D535A68004433EA /* (null) in Resources */,
 				83D3B7DA1D51E530004A6DE7 /* aboveMusic.png in Resources */,
+				83C8DB6F1D5447FD0039FB63 /* 跑步2.png in Resources */,
+				83C8DB701D5447FD0039FB63 /* 跑步3_2.png in Resources */,
 				83369B901D53753E0071E6BB /* 4.png in Resources */,
 				83369B961D53753E0071E6BB /* CollectionReusableView.xib in Resources */,
 				83369BA21D53753E0071E6BB /* ReadCollectionViewCell.xib in Resources */,
 				83369B981D53753E0071E6BB /* deataiBookCell.xib in Resources */,
 				83E055DA1D4B56C000250AAE /* Assets.xcassets in Resources */,
+				83C8DB6D1D5447FD0039FB63 /* 跑步0_2.png in Resources */,
 				83D3B7DD1D51E530004A6DE7 /* nextMusic.png in Resources */,
 				83369B8E1D53753E0071E6BB /* 2.png in Resources */,
 				833A77501D532D970037F863 /* like.png in Resources */,
 				83369B8F1D53753E0071E6BB /* 3.png in Resources */,
+				83C8DB6E1D5447FD0039FB63 /* 跑步2_2.png in Resources */,
+				83C8DB721D5447FD0039FB63 /* SportBack.jpg in Resources */,
 				83D3B7DC1D51E530004A6DE7 /* listen.png in Resources */,
 				83369B9C1D53753E0071E6BB /* MyFooterView.xib in Resources */,
 				83369B9A1D53753E0071E6BB /* FirstSectionCell.xib in Resources */,
@@ -1072,6 +1117,7 @@
 				83E056871D4B585900250AAE /* UIView+WebCacheOperation.m in Sources */,
 				83D3B7C51D51E51D004A6DE7 /* ListDetailViewController.m in Sources */,
 				83E056821D4B585900250AAE /* UIButton+WebCache.m in Sources */,
+				83C8DB5B1D5447A20039FB63 /* HistoryViewController.m in Sources */,
 				83E056801D4B585900250AAE /* SDWebImageManager.m in Sources */,
 				83E056601D4B585900250AAE /* DrawerViewController.m in Sources */,
 				83E056741D4B585900250AAE /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
@@ -1133,6 +1179,7 @@
 				83E056671D4B585900250AAE /* FMResultSet.m in Sources */,
 				83E055CF1D4B56C000250AAE /* main.m in Sources */,
 				83E056811D4B585900250AAE /* SDWebImagePrefetcher.m in Sources */,
+				83C8DB631D5447EE0039FB63 /* LineChart.m in Sources */,
 				83E056641D4B585900250AAE /* FMDatabaseAdditions.m in Sources */,
 				83E056881D4B585900250AAE /* DownLoad.m in Sources */,
 				83E056831D4B585900250AAE /* UIImage+GIF.m in Sources */,

@@ -36,6 +36,8 @@
 
 @property (nonatomic, weak)NSTimer *timer;
 
+@property (strong, nonatomic) IBOutlet UISlider *silder;
+
 
 @end
 
@@ -137,6 +139,8 @@
     
 }
 
+
+
 //歌手图片转动动画
 - (void)setImageRoutation
 {
@@ -208,6 +212,14 @@
     
 }
 
+//改变播放位置
+- (IBAction)changePlayLocation:(id)sender {
+    
+    [self.av playProgress:self.silder.value];
+    
+}
+
+
 #pragma mark   定时器方法
 - (void)changeTime
 {
@@ -224,6 +236,11 @@
     NSInteger playCuruentTimeB = (int)playCuruentTime % 60;
     
     self.timeL.text = [NSString stringWithFormat:@"%02ld:%02ld / %02ld:%02ld",playCuruentTimeA ,playCuruentTimeB, playDurationA, playDurationB];
+    
+//    改变进度条的进度
+    self.silder.maximumValue = self.av.playDuration;
+    
+    self.silder.value = self.av.curuentTime;
     
 //    判断播放进度完结时播放下一首
     if (playDuration && playDurationA == playCuruentTimeA && playDurationB == playCuruentTimeB)
