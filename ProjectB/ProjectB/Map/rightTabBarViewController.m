@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "rightTabBarViewController.h"
 #import <CoreMotion/CoreMotion.h>
-#import <BaiduTraceSDK/BaiduTraceSDK-Swift.h>
 #import "ZJLabel.h"
 #import "MapViewController.h"
 #import "HistoryViewController.h"
