@@ -36,7 +36,16 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"MainTabView" bundle:nil];
     
     UITabBarController *mainTabBarVC = sb.instantiateInitialViewController;
-    
+    NSArray *tabBarArr = [mainTabBarVC viewControllers];
+    UIViewController *vc = [tabBarArr objectAtIndex:0];
+    vc.tabBarItem.title = @"健康";
+    vc.tabBarItem.image = [UIImage imageNamed:@"sport.png"];
+    vc = [tabBarArr objectAtIndex:1];
+    vc.tabBarItem.title = @"阅读";
+    vc.tabBarItem.image = [UIImage imageNamed:@"book2.png"];
+    vc = [tabBarArr objectAtIndex:2];
+    vc.tabBarItem.title = @"电台";
+    vc.tabBarItem.image = [UIImage imageNamed:@"listen.png"];
     self.window.rootViewController = [DrawerViewController drawerVcWithMainVc:mainTabBarVC leftMenuVc:leftMenuVC leftWidth:kScreenWidth * 0.75];
     
     [self.window makeKeyAndVisible];
@@ -50,7 +59,14 @@
     return YES;
 }
 
-
+-(void)applicationWillTerminate:(UIApplication *)application{
+    
+    
+}
+-(void)applicationDidEnterBackground:(UIApplication *)application{
+    
+    
+}
 
 
 @end
