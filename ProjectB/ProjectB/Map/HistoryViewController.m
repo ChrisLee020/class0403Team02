@@ -7,9 +7,9 @@
 //
 
 #import "HistoryViewController.h"
-
+#import "LineChart.h"
 @interface HistoryViewController ()
-
+@property(nonatomic,strong)NSDictionary *dataDict;
 @end
 
 @implementation HistoryViewController
@@ -26,13 +26,15 @@
     [backBtn setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(Backtolast) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
-//    你要的炫酷，可以，这很清真
-//    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 300, 300)];
-//    label.text = @"炫酷";
-//    label.textAlignment = NSTextAlignmentCenter;
-//    label.font = [UIFont systemFontOfSize:55];
-//    label.center = self.view.center;
-//    [self.view addSubview:label];
+    
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
+    _dataDict = [NSDictionary dictionaryWithContentsOfFile:path1];
+    
+    LineChart *zx = [[LineChart alloc]initWithFrame:CGRectMake(10, 100, 394, 250)];
+    zx.DataDict = _dataDict;
+    [zx build];
+    [self.view addSubview:zx];
     
 }
 

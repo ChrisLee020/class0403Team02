@@ -12,6 +12,9 @@
 		3F0136EB1D4B71AD00F51F29 /* leftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0136EA1D4B71AD00F51F29 /* leftMenuViewController.m */; };
 		3F0136F01D4B869700F51F29 /* MenuBackImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F0136EF1D4B869700F51F29 /* MenuBackImage.jpg */; };
 		3F0136F41D4B8C8C00F51F29 /* userImageplaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */; };
+		3F09A0711D5814CD00630144 /* radio.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F09A0701D5814CD00630144 /* radio.png */; settings = {ASSET_TAGS = (); }; };
+		3F09A1C81D58166500630144 /* day-step_Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F09A1C51D58166500630144 /* day-step_Model.m */; settings = {ASSET_TAGS = (); }; };
+		3F09A1C91D58166500630144 /* LineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F09A1C71D58166500630144 /* LineChart.m */; settings = {ASSET_TAGS = (); }; };
 		3F0C34941D5422CD009AB1BD /* (null) in Resources */ = {isa = PBXBuildFile; };
 		3F0C34981D5424D2009AB1BD /* (null) in Resources */ = {isa = PBXBuildFile; };
 		3F43F9DF1D535A68004433EA /* (null) in Resources */ = {isa = PBXBuildFile; };
@@ -67,7 +70,6 @@
 		83C8DB5B1D5447A20039FB63 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C8DB5A1D5447A20039FB63 /* HistoryViewController.m */; };
 		83C8DB611D5447EE0039FB63 /* 跑步0.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB5C1D5447EE0039FB63 /* 跑步0.png */; };
 		83C8DB621D5447EE0039FB63 /* 足迹.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB5D1D5447EE0039FB63 /* 足迹.png */; };
-		83C8DB631D5447EE0039FB63 /* LineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C8DB5F1D5447EE0039FB63 /* LineChart.m */; };
 		83C8DB641D5447EE0039FB63 /* mapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB601D5447EE0039FB63 /* mapButton.png */; };
 		83C8DB6C1D5447FD0039FB63 /* 返回.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB651D5447FD0039FB63 /* 返回.png */; };
 		83C8DB6D1D5447FD0039FB63 /* 跑步0_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C8DB661D5447FD0039FB63 /* 跑步0_2.png */; };
@@ -172,6 +174,11 @@
 		3F0136EA1D4B71AD00F51F29 /* leftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = leftMenuViewController.m; sourceTree = "<group>"; };
 		3F0136EF1D4B869700F51F29 /* MenuBackImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MenuBackImage.jpg; sourceTree = "<group>"; };
 		3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userImageplaceholder.png; sourceTree = "<group>"; };
+		3F09A0701D5814CD00630144 /* radio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio.png; sourceTree = "<group>"; };
+		3F09A1C41D58166500630144 /* day-step_Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "day-step_Model.h"; sourceTree = "<group>"; };
+		3F09A1C51D58166500630144 /* day-step_Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "day-step_Model.m"; sourceTree = "<group>"; };
+		3F09A1C61D58166500630144 /* LineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineChart.h; sourceTree = "<group>"; };
+		3F09A1C71D58166500630144 /* LineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineChart.m; sourceTree = "<group>"; };
 		83369B4D1D53753E0071E6BB /* detailBookVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailBookVC.h; sourceTree = "<group>"; };
 		83369B4E1D53753E0071E6BB /* detailBookVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailBookVC.m; sourceTree = "<group>"; };
 		83369B501D53753E0071E6BB /* listVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = listVC.h; sourceTree = "<group>"; };
@@ -244,8 +251,6 @@
 		83C8DB5A1D5447A20039FB63 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		83C8DB5C1D5447EE0039FB63 /* 跑步0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步0.png"; sourceTree = "<group>"; };
 		83C8DB5D1D5447EE0039FB63 /* 足迹.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "足迹.png"; sourceTree = "<group>"; };
-		83C8DB5E1D5447EE0039FB63 /* LineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineChart.h; sourceTree = "<group>"; };
-		83C8DB5F1D5447EE0039FB63 /* LineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineChart.m; sourceTree = "<group>"; };
 		83C8DB601D5447EE0039FB63 /* mapButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapButton.png; sourceTree = "<group>"; };
 		83C8DB651D5447FD0039FB63 /* 返回.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "返回.png"; sourceTree = "<group>"; };
 		83C8DB661D5447FD0039FB63 /* 跑步0_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "跑步0_2.png"; sourceTree = "<group>"; };
@@ -525,8 +530,6 @@
 				83C8DB6B1D5447FD0039FB63 /* SportBack.jpg */,
 				83C8DB5C1D5447EE0039FB63 /* 跑步0.png */,
 				83C8DB5D1D5447EE0039FB63 /* 足迹.png */,
-				83C8DB5E1D5447EE0039FB63 /* LineChart.h */,
-				83C8DB5F1D5447EE0039FB63 /* LineChart.m */,
 				83C8DB601D5447EE0039FB63 /* mapButton.png */,
 				83C8DB591D5447A20039FB63 /* HistoryViewController.h */,
 				83C8DB5A1D5447A20039FB63 /* HistoryViewController.m */,
@@ -536,6 +539,10 @@
 				83B57BBD1D533F8A00AA169C /* MenuBackImage.jpg */,
 				83B57BBE1D533F8A00AA169C /* rightTabBarViewController.h */,
 				83B57BBF1D533F8A00AA169C /* rightTabBarViewController.m */,
+				3F09A1C41D58166500630144 /* day-step_Model.h */,
+				3F09A1C51D58166500630144 /* day-step_Model.m */,
+				3F09A1C61D58166500630144 /* LineChart.h */,
+				3F09A1C71D58166500630144 /* LineChart.m */,
 				83B57BC01D533F8A00AA169C /* ZJLabel.h */,
 				83B57BC11D533F8A00AA169C /* ZJLabel.m */,
 			);
@@ -671,6 +678,7 @@
 			isa = PBXGroup;
 			children = (
 				83C8DB731D546A5D0039FB63 /* book.png */,
+				3F09A0701D5814CD00630144 /* radio.png */,
 				83C8DB741D546A5D0039FB63 /* radio.png */,
 				83C8DB751D546A5D0039FB63 /* sport.png */,
 				3F0136F31D4B8C8C00F51F29 /* userImageplaceholder.png */,
@@ -1027,6 +1035,7 @@
 				83369B961D53753E0071E6BB /* CollectionReusableView.xib in Resources */,
 				83369BA21D53753E0071E6BB /* ReadCollectionViewCell.xib in Resources */,
 				83369B981D53753E0071E6BB /* deataiBookCell.xib in Resources */,
+				3F09A0711D5814CD00630144 /* radio.png in Resources */,
 				83E055DA1D4B56C000250AAE /* Assets.xcassets in Resources */,
 				83C8DB6D1D5447FD0039FB63 /* 跑步0_2.png in Resources */,
 				83D3B7DD1D51E530004A6DE7 /* nextMusic.png in Resources */,
@@ -1119,6 +1128,7 @@
 				83E056821D4B585900250AAE /* UIButton+WebCache.m in Sources */,
 				83C8DB5B1D5447A20039FB63 /* HistoryViewController.m in Sources */,
 				83E056801D4B585900250AAE /* SDWebImageManager.m in Sources */,
+				3F09A1C81D58166500630144 /* day-step_Model.m in Sources */,
 				83E056601D4B585900250AAE /* DrawerViewController.m in Sources */,
 				83E056741D4B585900250AAE /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				3F0136EB1D4B71AD00F51F29 /* leftMenuViewController.m in Sources */,
@@ -1179,7 +1189,7 @@
 				83E056671D4B585900250AAE /* FMResultSet.m in Sources */,
 				83E055CF1D4B56C000250AAE /* main.m in Sources */,
 				83E056811D4B585900250AAE /* SDWebImagePrefetcher.m in Sources */,
-				83C8DB631D5447EE0039FB63 /* LineChart.m in Sources */,
+				3F09A1C91D58166500630144 /* LineChart.m in Sources */,
 				83E056641D4B585900250AAE /* FMDatabaseAdditions.m in Sources */,
 				83E056881D4B585900250AAE /* DownLoad.m in Sources */,
 				83E056831D4B585900250AAE /* UIImage+GIF.m in Sources */,

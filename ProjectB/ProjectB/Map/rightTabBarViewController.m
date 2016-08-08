@@ -41,14 +41,14 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     
     _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
     _zjlabel.NowStep = _stepNumber;
-
+    
     
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *backImage = [[UIImageView alloc]initWithFrame:self.view.frame];
     backImage.image = [UIImage imageNamed:@"SportBack.jpg"];
@@ -66,13 +66,13 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     
     [self setButtons];
     [self.navigationController setNavigationBarHidden:YES];
-
+    
     _delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     _delegate.stepNumberDictionary = self.stepNumberDict;
     _delegate.todaydate = _todaydate;
     _delegate.stepNumber = &(_stepNumber);
     
-   
+    
     
     
     
@@ -96,7 +96,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 
 -(void)setButtons{
     UIButton *btn5k = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn5k.frame = CGRectMake(60, 500, 50, 50);
+    btn5k.frame = CGRectMake(50, self.view.frame.size.height / 736 * 560, 50, 50);
     [btn5k setImage:[UIImage imageNamed:@"跑步0.png"] forState:UIControlStateSelected];
     [btn5k setTitle:@"5000步" forState:UIControlStateNormal];
     [btn5k setTitle:@"5000步" forState:UIControlStateHighlighted];
@@ -107,7 +107,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [self.view addSubview:btn5k];
     
     UIButton *btn10k = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn10k.frame = CGRectMake(180, 500, 50, 50);
+    btn10k.frame = CGRectMake(self.view.frame.size.width / 3 + 40, self.view.frame.size.height / 736 * 560 , 50, 50);
     [btn10k setImage:[UIImage imageNamed:@"跑步2.png"] forState:UIControlStateSelected];
     [btn10k setTitle:@"10000步" forState:UIControlStateNormal];
     [btn10k setTitle:@"10000步" forState:UIControlStateHighlighted];
@@ -117,7 +117,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [self.view addSubview:btn10k];
     
     UIButton *btn15k = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn15k.frame = CGRectMake(300, 500, 50, 50);
+    btn15k.frame = CGRectMake(self.view.frame.size.width * 2 / 3 + 30, self.view.frame.size.height / 736 * 560, 50, 50);
     [btn15k setImage:[UIImage imageNamed:@"跑步3.png"] forState:UIControlStateSelected];
     [btn15k setTitle:@"10000步" forState:UIControlStateNormal];
     [btn15k setTitle:@"10000步" forState:UIControlStateHighlighted];
@@ -125,10 +125,20 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [btn15k addTarget:self action:@selector(btn15kAction:) forControlEvents:UIControlEventTouchUpInside];
     _btn15k = btn15k;
     [self.view addSubview:btn15k];
-    UILabel *stepTargetLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 540, 320, 30)];
-    stepTargetLabel.text = @"5000步      10000步       15000步";
+    UILabel *stepTargetLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,50, 80, 30)];
+    stepTargetLabel.text = @"5000步";
     stepTargetLabel.font = [UIFont systemFontOfSize:20];
-    [self.view addSubview:stepTargetLabel];
+    [btn5k addSubview:stepTargetLabel];
+    
+    UILabel *stepTargetLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(-10,50, 80, 30)];
+    stepTargetLabel2.text = @"10000步";
+    stepTargetLabel2.font = [UIFont systemFontOfSize:20];
+    [btn10k addSubview:stepTargetLabel2];
+    
+    UILabel *stepTargetLabel3 = [[UILabel alloc]initWithFrame:CGRectMake(0,50, 80, 30)];
+    stepTargetLabel3.text = @"15000步";
+    stepTargetLabel3.font = [UIFont systemFontOfSize:20];
+    [btn15k addSubview:stepTargetLabel3];
     
     
     UIButton *Mapbutton = [[UIButton alloc]init];
@@ -152,26 +162,26 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 }
 
 -(void)btn5kAction:(UIButton *)btn{
-
-        _btn5k.selected = YES;
+    
+    _btn5k.selected = YES;
     _btn10k.selected = NO;
     _btn15k.selected = NO;
     _targetStepNumber = 5000;
-       _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
+    _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
 }
 -(void)btn10kAction:(UIButton *)btn{
     _btn5k.selected = NO;
     _btn10k.selected = YES;
     _btn15k.selected = NO;
     _targetStepNumber = 10000;
-       _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
+    _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
 }
 -(void)btn15kAction:(UIButton *)btn{
     _btn5k.selected = NO;
     _btn10k.selected = NO;
     _btn15k.selected = YES;
     _targetStepNumber = 15000;
-       _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
+    _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
     
 }
 
@@ -206,7 +216,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 //-(void)getmotionData{
 //    CMAccelerometerData *accelerometerData = self.motionManager.accelerometerData;
 //    CMAcceleration acceleration = accelerometerData.acceleration;
-//    
+//
 //}
 
 
@@ -236,7 +246,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
         _stepNumberDict = [[NSMutableDictionary alloc]init];
         NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
         NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
-//        NSLog(@"%@",path1);
+        //        NSLog(@"%@",path1);
         NSDictionary *dict0 = [NSDictionary dictionaryWithContentsOfFile:path1];
         if (dict0) {
             [_stepNumberDict setValuesForKeysWithDictionary:dict0];
@@ -245,7 +255,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
         NSDateComponents *com = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:date];
         NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
-//        NSLog(@"%@",dateString);  //当前日期字符串
+        //        NSLog(@"%@",dateString);  //当前日期字符串
         _todaydate = dateString;
         NSArray *arr = [_stepNumberDict allKeys];
         for (NSString *tempStr in arr) {
@@ -256,17 +266,17 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
         }
         //如果当天步数存在，取出
     }
-
+    
     
     //监听日期更新广播，填写昨日数据后重置日期
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nextDay) name:UIApplicationSignificantTimeChangeNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-
+    
     [self gravityrespondsetting];
-        _zjlabel.NowStep = _stepNumber;
-   _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
+    _zjlabel.NowStep = _stepNumber;
+    _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
 }
 
 - (void)didReceiveMemoryWarning {
