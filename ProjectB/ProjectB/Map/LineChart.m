@@ -16,6 +16,8 @@
 @property(nonatomic,strong)CAGradientLayer *gradientLayer;
 @property(nonatomic,strong)NSMutableArray *gradientLayerColors;
 @property(nonatomic,assign)NSInteger MaxStep;
+@property(nonatomic,strong)NSMutableArray *sortedArr;
+@property(nonatomic,assign)NSInteger ChartMax;
 
 @end
 
@@ -23,9 +25,9 @@
 
 @implementation LineChart
 
-static CGFloat bounceX = 20;
+static CGFloat bounceX = 30;
 static CGFloat bounceY = 20;
-static NSInteger countq = 0;
+
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -37,10 +39,17 @@ static NSInteger countq = 0;
     return self;
 }
 -(void)build{
+    [self fixArr];
     [self createlabelX];
     [self createlabelY];
     [self drawgradientBackgroundView];
     [self setLineDash];
+    [self.lineChartLayer removeFromSuperlayer];
+    for (NSInteger i = 0; i < 12; i++) {
+        UILabel *label = (UILabel *)[self viewWithTag:3000 + i];
+        [label removeFromSuperview];
+    }
+    [self buildLine];
 }
 -(void)drawRect:(CGRect)rect{
     //画坐标轴
@@ -84,23 +93,31 @@ static NSInteger countq = 0;
     UIColor *color = [UIColor greenColor];
     [color set];
 //    [path moveToPoint:CGPointMake(label.frame.origin.x - bounceX, (600-arc4random()%600) / 600.0 * (self.frame.size.height - bounceY * 2) + bounceY)];
+    CGFloat month = 0;
+    if (_sortedArr.count >=7) {
+        month = 7;
+    }else{
+        month = _sortedArr.count;
+    }
     //创建折线点标记
-    for (NSInteger i = 0; i < 12; i++) {
+    for (NSInteger i = 0; i < month; i++) {
         UILabel *label1 = (UILabel *)[self viewWithTag:1000 + i];
-        CGFloat arc = arc4random()%600;
+        NSInteger t1 = _sortedArr.count - month + i;
+        day_step_Model *model = _sortedArr[t1];
+        CGFloat arc = [model.number integerValue];
         //折线点的设定
         if (i == 0) {
-            [path moveToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((600 - arc)/ 600.0 * (self.frame.size.height - 2 * bounceY)) )];
+            [path moveToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 1.0 * (self.frame.size.height - 2 * bounceY)) )];
         }else{
         
-        [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((600 - arc)/ 600.0 * (self.frame.size.height - 2 * bounceY)) )];
+        [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 1.0 * (self.frame.size.height - 2 * bounceY)) )];
         }
 
-        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, (600-arc)/ 600.0 * (self.frame.size.height - 2 * bounceY) + bounceY, 30, 15)];
+        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, (_ChartMax - arc)/ _ChartMax * 1.0 * (self.frame.size.height - 2 * bounceY) + bounceY, 30, 15)];
 //        falglabel.backgroundColor = [UIColor blueColor];
         falglabel.tag = 3000 + i;
-        falglabel.text = [NSString stringWithFormat:@"%.1f",arc];
-        falglabel.font = [UIFont systemFontOfSize:8.0];
+        falglabel.text = [NSString stringWithFormat:@"%.0f",arc];
+        falglabel.font = [UIFont systemFontOfSize:10.0];
         [self addSubview:falglabel];
     }
 //    [path stroke];
@@ -117,17 +134,23 @@ static NSInteger countq = 0;
 }
 #pragma mark 创建X轴数据
 -(void)createlabelX{
-    NSArray *arr = [_DataDict allKeys];
-    NSLog(@"allkey arr = %@",_DataDict);
-    CGFloat month = 12;
+    CGFloat month = 0;
+    if (_sortedArr.count >=7) {
+        month = 7;
+    }else{
+        month = _sortedArr.count;
+    }
     for (NSInteger i = 0; i < month ; i++) {
         UILabel *labelmonth = [[UILabel alloc]initWithFrame:CGRectMake((self.frame.size.width - 2 * bounceX)/ month * i + bounceX, self.frame.size.height -bounceY * 0.7, (self.frame.size.width - 2 * bounceX) / month - 5, bounceY / 2)];
 
-//        labelmonth.backgroundColor = [UIColor greenColor];
+//        labelmonth.backgroundColor = [UIColor greenColor];   count - month + i
+        day_step_Model *model = _sortedArr[(int)(_sortedArr.count - month + i)];
+        NSString *temp = [model.date substringFromIndex:5];
+        NSLog(@"%@",temp);
         labelmonth.tag = 1000 + i;
-        labelmonth.text =[NSString stringWithFormat:@"%ld月",i + 1];
+        labelmonth.text =[NSString stringWithFormat:@"%@",temp];
         labelmonth.font = [UIFont systemFontOfSize:10];
-        labelmonth.transform = CGAffineTransformMakeRotation(M_PI * 0.3);
+//        labelmonth.transform = CGAffineTransformMakeRotation(M_PI * 0.1);
         [self addSubview: labelmonth];
     }
 }
@@ -135,22 +158,22 @@ static NSInteger countq = 0;
 -(void)createlabelY{
     CGFloat Ydivision = 6;
     for (NSInteger i = 0; i < Ydivision; i++) {
-        UILabel *labelYdivision = [[UILabel alloc]initWithFrame:CGRectMake(0,(self.frame.size.height - 2 * bounceY)/ Ydivision * i + bounceX, bounceY, bounceY / 2.0)];
+        UILabel *labelYdivision = [[UILabel alloc]initWithFrame:CGRectMake(0,(self.frame.size.height - 2 * bounceY)/ Ydivision * i + bounceX, bounceY * 1.5, bounceY / 2.0)];
 //        labelYdivision.backgroundColor = [UIColor greenColor];
         labelYdivision.tag = 2000 + i;
-        labelYdivision.text = [NSString stringWithFormat:@"%.0f",(Ydivision - i )* 100];
+        labelYdivision.text = [NSString stringWithFormat:@"%.0f",(Ydivision - i ) / Ydivision * _ChartMax];
         labelYdivision.font = [UIFont systemFontOfSize:10];
         [self addSubview:labelYdivision];
     }
 }
-#pragma mark 简便的颜色
+#pragma mark 渐变的颜色
 -(void)drawgradientBackgroundView{
 
     
     
     //渐变平滑视图（不包含背景色）
     self.gradientBackgroundView = [[UIView alloc]initWithFrame:CGRectMake(bounceX, bounceY, self.bounds.size.width - 2 * bounceX, self.bounds.size.height - 2 * bounceY)];
-    NSLog(@"%f  %f  %f  %f",self.gradientBackgroundView.frame.origin.x,self.gradientBackgroundView.frame.origin.y,self.gradientBackgroundView.frame.size.width,self.gradientBackgroundView.frame.size.height);
+//    NSLog(@"%f  %f  %f  %f",self.gradientBackgroundView.frame.origin.x,self.gradientBackgroundView.frame.origin.y,self.gradientBackgroundView.frame.size.width,self.gradientBackgroundView.frame.size.height);
     [self addSubview:self.gradientBackgroundView];
     //创建并设置渐变背景图层
         //初始化CAGradientLayer对象，使它的大小为渐变背景视图大小
@@ -167,17 +190,15 @@ static NSInteger countq = 0;
 }
 #pragma mark 点击重新绘制曲线
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    countq++;
-    if (countq % 2 == 0) {
+
         [self.lineChartLayer removeFromSuperlayer];
         for (NSInteger i = 0; i < 12; i++) {
             UILabel *label = (UILabel *)[self viewWithTag:3000 + i];
             [label removeFromSuperview];
         }
-    }else{
-        [self buildLine];
-//        [self setNeedsDisplay];
-    }
+    [self buildLine];
+
+    
 }
 -(void)animationDidStart:(CAAnimation *)anim{
     
@@ -199,4 +220,36 @@ static NSInteger countq = 0;
     pathAnimation.delegate = self;
     [self.lineChartLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
 }
+
+-(void)fixArr{
+    _sortedArr = [NSMutableArray array];
+    _ChartMax = 0;
+    NSArray *keyarr = [_DataDict allKeys];
+   keyarr = [keyarr sortedArrayUsingSelector:@selector(compare:)];
+    for (int i = 0; i < keyarr.count; i++) {
+        day_step_Model *model = [[day_step_Model alloc]init];
+        model.date = keyarr[i];
+        model.number = [_DataDict valueForKey:keyarr[i]];
+        [_sortedArr addObject:model];
+    }
+    
+    CGFloat month = 0;
+    if (_sortedArr.count >=7) {
+        month = 7;
+    }else{
+        month = _sortedArr.count;
+    }
+    
+    for (NSInteger i = 0 ; i < month; i++) {
+        
+        NSInteger t1 = _sortedArr.count - month + i;
+        day_step_Model *model = _sortedArr[t1];
+        
+        if ([model.number integerValue] > _ChartMax) {
+            _ChartMax = [model.number integerValue];
+        }
+    }
+}
+
+
 @end

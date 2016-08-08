@@ -77,6 +77,8 @@
 }
 
 -(void)applicationWillTerminate:(UIApplication *)application{
+
+    
     NSNumber *num = [[NSNumber alloc]initWithInteger:*(self.stepNumber)];
     [_stepNumberDictionary setValue:num forKey:_todaydate];
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
@@ -90,7 +92,7 @@
     [_stepNumberDictionary setValue:num forKey:_todaydate];
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
     NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
-//    NSLog(@"%@",path1);
+    NSLog(@"%@",path1);
     [_stepNumberDictionary writeToFile:path1 atomically:YES];
     
 }

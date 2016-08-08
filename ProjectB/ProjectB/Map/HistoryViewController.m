@@ -9,7 +9,7 @@
 #import "HistoryViewController.h"
 #import "LineChart.h"
 @interface HistoryViewController ()
-@property(nonatomic,strong)NSDictionary *dataDict;
+@property(nonatomic,strong)NSMutableDictionary *dataDict;
 @end
 
 @implementation HistoryViewController
@@ -29,13 +29,14 @@
     
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
     NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
-    _dataDict = [NSDictionary dictionaryWithContentsOfFile:path1];
+    _dataDict = [NSMutableDictionary dictionaryWithContentsOfFile:path1];
     
     LineChart *zx = [[LineChart alloc]initWithFrame:CGRectMake(10, 100, 394, 250)];
     zx.DataDict = _dataDict;
+    zx.todaynumber = _stepNumber;
     [zx build];
     [self.view addSubview:zx];
-    
+
 }
 
 -(void)Backtolast{

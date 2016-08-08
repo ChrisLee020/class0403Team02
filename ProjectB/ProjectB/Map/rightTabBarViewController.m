@@ -72,7 +72,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     _delegate.todaydate = _todaydate;
     _delegate.stepNumber = &(_stepNumber);
     
-    
+//    NSLog(@"%@",_stepNumberDict);
     
     
     
@@ -157,6 +157,15 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 
 -(void)historyAction{
     HistoryViewController *history = [[HistoryViewController alloc]init];
+    
+    history.stepNumber = self.stepNumber;
+    NSNumber *num = [[NSNumber alloc]initWithInteger:_stepNumber];
+    [_stepNumberDict setValue:num forKey:_todaydate];
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
+    NSString *path1 = [path stringByAppendingPathComponent:@"stepNumberDataBase.json"];
+    //    NSLog(@"%@",path1);
+    [_stepNumberDict writeToFile:path1 atomically:YES];
+    
     [self.navigationController pushViewController:history animated:YES];
     
 }
