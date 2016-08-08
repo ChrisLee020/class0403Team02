@@ -71,12 +71,14 @@ static CGFloat bounceY = 20;
         dashLayer.lineWidth = 1.0;
         
         UILabel *label1 = (UILabel *)[self viewWithTag:2000 + i];
+        
         UIBezierPath *path = [[UIBezierPath alloc]init];
         path.lineWidth = 1.0;
         UIColor *color = [UIColor blueColor];
-        [color set];
         
+        [color set];
         [path moveToPoint:CGPointMake(0, label1.frame.origin.y - bounceY)];
+        [path addLineToPoint:CGPointMake(self.frame.size.width - 2*bounceX,label1.frame.origin.y - bounceY)];
         CGFloat dash[] = {10,10};
         [path setLineDash:dash count:2 phase:10];
         [path stroke];
