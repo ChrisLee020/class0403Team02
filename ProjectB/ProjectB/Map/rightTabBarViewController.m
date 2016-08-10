@@ -263,8 +263,12 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
         //以上完成取出数据;
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
         NSDateComponents *com = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:date];
-        NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
-        //        NSLog(@"%@",dateString);  //当前日期字符串
+
+            NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
+        if (com.day <= 9) {
+           dateString = [NSString stringWithFormat:@"%ld-%ld-0%ld",com.year,com.month,com.day];
+        }
+                NSLog(@"%@",dateString);  //当前日期字符串
         _todaydate = dateString;
         NSArray *arr = [_stepNumberDict allKeys];
         for (NSString *tempStr in arr) {

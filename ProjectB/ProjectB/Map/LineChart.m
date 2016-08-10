@@ -109,13 +109,13 @@ static CGFloat bounceY = 20;
         CGFloat arc = [model.number integerValue];
         //折线点的设定
         if (i == 0) {
-            [path moveToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 1.0 * (self.frame.size.height - 2 * bounceY)) )];
+            [path moveToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 )];
         }else{
         
-        [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 1.0 * (self.frame.size.height - 2 * bounceY)) )];
+        [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0  )];
         }
 
-        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, (_ChartMax - arc)/ _ChartMax * 1.0 * (self.frame.size.height - 2 * bounceY) + bounceY, 30, 15)];
+        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 , 30, 15)];
 //        falglabel.backgroundColor = [UIColor blueColor];
         falglabel.tag = 3000 + i;
         falglabel.text = [NSString stringWithFormat:@"%.0f",arc];
@@ -163,7 +163,7 @@ static CGFloat bounceY = 20;
         UILabel *labelYdivision = [[UILabel alloc]initWithFrame:CGRectMake(0,(self.frame.size.height - 2 * bounceY)/ Ydivision * i + bounceX, bounceY * 1.5, bounceY / 2.0)];
 //        labelYdivision.backgroundColor = [UIColor greenColor];
         labelYdivision.tag = 2000 + i;
-        labelYdivision.text = [NSString stringWithFormat:@"%.0f",(Ydivision - i ) / Ydivision * _ChartMax];
+        labelYdivision.text = [NSString stringWithFormat:@"%.0f",(Ydivision - i ) / Ydivision * _ChartMax * 1.12];
         labelYdivision.font = [UIFont systemFontOfSize:10];
         [self addSubview:labelYdivision];
     }
@@ -227,6 +227,7 @@ static CGFloat bounceY = 20;
     _sortedArr = [NSMutableArray array];
     _ChartMax = 0;
     NSArray *keyarr = [_DataDict allKeys];
+    //日期字符串比较算法
    keyarr = [keyarr sortedArrayUsingSelector:@selector(compare:)];
     for (int i = 0; i < keyarr.count; i++) {
         day_step_Model *model = [[day_step_Model alloc]init];

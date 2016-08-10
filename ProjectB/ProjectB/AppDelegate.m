@@ -11,7 +11,8 @@
 #import "rightTabBarViewController.h"
 #import "DrawerViewController.h"
 #import "AVManager.h"
-
+#import "UMSocial.h"
+#import "UMSocialSinaSSOHandler.h"
 
 @interface AppDelegate ()
 
@@ -65,6 +66,13 @@
 //    vc = [tabBarArr objectAtIndex:2];
 //    vc.tabBarItem.title = @"电台";
 //    vc.tabBarItem.image = [UIImage imageNamed:@"listen.png"];
+    
+//  友盟SDK添加
+    
+    [UMSocialData setAppKey:@"57a99c03e0f55ab022001889"];
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"4039008299" secret:@"d3842bf5184fa6854ccfff66bc23458d" RedirectURL:@"http://sns.whalecloud.com/sina2/callback" ];
+    
+    
     self.window.rootViewController = [DrawerViewController drawerVcWithMainVc:mainTabBarVC leftMenuVc:leftMenuVC leftWidth:kScreenWidth * 0.75];
     
     [self.window makeKeyAndVisible];
@@ -75,6 +83,17 @@
     
     return YES;
 }
+
+//应用回调方法
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL result = [UMSocialSnsService handleOpenURL:url];
+    if (result == FALSE) {
+        //调用其他SDK，例如支付宝SDK等
+    }
+    return result;
+}
+
 
 -(void)applicationWillTerminate:(UIApplication *)application{
 

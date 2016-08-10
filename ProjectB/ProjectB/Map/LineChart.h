@@ -13,7 +13,7 @@
 @interface LineChart : UIView
 
 @property(nonatomic,strong)NSMutableDictionary *DataDict;  //总计多少天的折线
-@property(nonatomic,assign)NSInteger *todaynumber;
+@property(nonatomic,assign)NSInteger todaynumber;
 
 -(instancetype)initWithFrame:(CGRect)frame;
 

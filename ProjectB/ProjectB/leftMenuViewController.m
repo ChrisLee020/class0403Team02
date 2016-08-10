@@ -7,10 +7,14 @@
 //
 
 #import "leftMenuViewController.h"
+#import "LoginViewController.h"
 
 @interface leftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong)UITableView *tableview;
+@property(nonatomic,strong)UILabel *nameLabel;
+@property(nonatomic,strong)UIImageView *imageView;
+
 
 @end
 
@@ -20,6 +24,7 @@
     
     self = [super init];
     self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.75, [UIScreen mainScreen].bounds.size.height);
+    self.view.backgroundColor = [UIColor clearColor];
     return self;
     
 }
@@ -75,7 +80,7 @@
 }
 
 -(void)buildheadView{
-    UIView *headview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.3)];
+    UIView *headview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.16)];
     UIImageView *headimage = [[UIImageView alloc]initWithFrame:CGRectMake(30, 30, 64, 64)];
     headimage.image = [UIImage imageNamed:@"userImageplaceholder.png"];
     headimage.layer.cornerRadius = 32;
@@ -83,13 +88,35 @@
     UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(110, 47, 190, 30)];
     nameLabel.textAlignment = NSTextAlignmentLeft;
     nameLabel.text = @"未登录";
-    [self.view addSubview:nameLabel];
-    
-    
+    [headview addSubview:nameLabel];
+    headview.backgroundColor = [UIColor clearColor];
+    _imageView = headimage;
+    _nameLabel = nameLabel;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoLoginVC:)];
+
+        headview.userInteractionEnabled = YES;
+        [headview addGestureRecognizer:tap];
+
+//    nameLabel.userInteractionEnabled = YES;
+//    headimage.userInteractionEnabled = YES;
+//    [headimage addGestureRecognizer:tap];
+//    [nameLabel addGestureRecognizer:tap];
+//    [headview bringSubviewToFront:nameLabel];
+//    [headview bringSubviewToFront:headimage];
     [self.view addSubview:headview];
 }
 
-
+-(void)gotoLoginVC:(UITapGestureRecognizer *)tap{
+    UIStoryboard *MapSB = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
+    LoginViewController *loginVC = [MapSB instantiateViewControllerWithIdentifier:@"LoginVC"];
+    UINavigationController *LoginNavi = [[UINavigationController alloc]initWithRootViewController:loginVC];
+    loginVC.namelabel = _nameLabel;
+    loginVC.image = _imageView;
+    
+    [self presentViewController:LoginNavi animated:YES completion:^{
+//        NSLog(@"你大爷");
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
