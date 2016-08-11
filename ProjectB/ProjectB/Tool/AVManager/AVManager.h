@@ -17,6 +17,11 @@
 
 @property (nonatomic, assign)BOOL isPlaying;
 
+@property (nonatomic, assign) BOOL changeMusic;
+
+//当前正在播放的音乐下标
+@property (nonatomic, assign)NSInteger playIndex;
+
 //创建一个播放音乐的单例
 + (AVManager *)shareInstance;
 
@@ -24,10 +29,10 @@
 - (void)setPlayList:(NSMutableArray *)playList flag:(NSInteger)number;
 
 //上一首
-- (void)above;
+- (NSInteger)above;
 
 //下一首
-- (void)next;
+- (NSInteger)next;
 
 //播放或暂停
 - (void)play;

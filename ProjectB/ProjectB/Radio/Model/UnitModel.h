@@ -14,7 +14,7 @@
 
 @property (nonatomic, copy) NSString *name;     //标题
 
-@property (nonatomic, copy) NSString *program_count;   //节目数量
+@property (nonatomic, copy) NSNumber *program_count;   //节目数量
 
 @property (nonatomic, copy) NSString *title;    //多乐频道标题
 
