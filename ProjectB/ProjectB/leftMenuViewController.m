@@ -81,9 +81,14 @@
 
 -(void)buildheadView{
     UIView *headview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.16)];
+    
+    
     UIImageView *headimage = [[UIImageView alloc]initWithFrame:CGRectMake(30, 30, 64, 64)];
     headimage.image = [UIImage imageNamed:@"userImageplaceholder.png"];
     headimage.layer.cornerRadius = 32;
+    headimage.layer.masksToBounds = YES;
+    headimage.backgroundColor = [UIColor clearColor];
+    
     [headview addSubview:headimage];
     UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(110, 47, 190, 30)];
     nameLabel.textAlignment = NSTextAlignmentLeft;

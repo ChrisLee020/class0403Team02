@@ -7,14 +7,17 @@
 //
 
 #import "AVManager.h"
+#import "WeakTimerTargetObject.h"
 
 @interface AVManager ()
 
 //判读是否正在播放
 //@property (nonatomic, assign)BOOL isPlaying;
 
-//当前正在播放的音乐下标
-@property (nonatomic, assign)NSInteger playIndex;
+
+
+@property (nonatomic, strong)NSTimer *timer;
+
 
 
 @end
@@ -33,12 +36,17 @@
     dispatch_once(&onceToken, ^{
        
         manager = [[AVManager alloc] init];
+        
+        manager.avplay = [[AVPlayer alloc]init];
+        
     });
+    
+    
     
     return manager;
 }
 
-
+//懒加载音乐列表
 - (NSMutableArray *)musicUrls
 {
     if (!_musicUrls)
@@ -66,13 +74,48 @@
     
     AVPlayerItem *item = [[AVPlayerItem alloc]initWithURL:url];
     
-    self.avplay = [[AVPlayer alloc] initWithPlayerItem:item];
+    [self.avplay replaceCurrentItemWithPlayerItem:item];
     
 //    [self.avplay play];
+    
+    if (!_timer)
+    {
+        _timer = [WeakTimerTargetObject scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(autoNextMusic) userInfo:nil repeats:YES];
+    }
+    
+    
+
 }
 
+//自动下一首
+- (void)autoNextMusic
+{
+    float playDuration = self.playDuration;
+    
+    NSInteger playDurationA = playDuration / 60;
+    
+    NSInteger playDurationB = (int)playDuration % 60;
+    
+    float playCuruentTime = self.curuentTime;
+    
+    NSInteger playCuruentTimeA = playCuruentTime / 60;
+    
+    NSInteger playCuruentTimeB = (int)playCuruentTime % 60;
+    
+    if (playDuration &&playDurationA == playCuruentTimeA && playDurationB == playCuruentTimeB)
+    {
+        
+        [self next];
+        
+        self.changeMusic = YES;
+    }
+   
+ 
+}
+
+
 //上一首
-- (void)above
+- (NSInteger)above
 {
     self.playIndex -- ;
     
@@ -90,13 +133,15 @@
     [self.avplay play];
     
     self.isPlaying = YES;
+    
+    return self.playIndex;
 }
 
 //下一首
-- (void)next
+- (NSInteger)next
 {
     self.playIndex ++ ;
-    
+
     if (self.playIndex == self.musicUrls.count)
     {
         self.playIndex = 0;
@@ -112,6 +157,8 @@
     [self.avplay play];
     
     self.isPlaying = YES;
+    
+    return self.playIndex;
 }
 
 //播放或暂停
@@ -181,6 +228,8 @@
     
    return self.avplay.currentItem.currentTime.value / self.avplay.currentItem.currentTime.timescale;
 }
+
+
 
 
 @end

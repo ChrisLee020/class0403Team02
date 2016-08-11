@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListDetailViewController : UITableViewController
+@interface ListDetailViewController : UIViewController
 
 @property (nonatomic, copy) NSString *urlStr;
+
+@property (nonatomic, copy) NSString *labelText;
 
 @end

@@ -19,4 +19,5 @@
 
 @property (nonatomic, strong)SeriesModel *type;
 
+
 @end

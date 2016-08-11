@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) NSString *urlStr;
 
+@property (nonatomic, copy) NSString *labelText;
+
 @end

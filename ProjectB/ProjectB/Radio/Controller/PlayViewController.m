@@ -6,11 +6,13 @@
 //  Copyright © 2016年 0403ClassTeam02. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "PlayViewController.h"
 #import "AVManager.h"
 #import "ListDetailModel.h"
 #import "Masonry.h"
 #import "WeakTimerTargetObject.h"
+#import "AnimationDismissProxy.h"
 
 @interface PlayViewController ()
 
@@ -41,7 +43,13 @@
 
 @end
 
+
 @implementation PlayViewController
+
+- (void)awakeFromNib
+{
+    
+}
 
 #pragma mark    懒加载
 - (CADisplayLink *)singerTimer
@@ -61,14 +69,45 @@
    
     [self createLayout];
     
-    
+    [self settingTop];
 }
 
+- (void)settingTop
+{
+    
+    UIButton *topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    [topBtn setImage:[UIImage imageNamed:@"reback.png"] forState:UIControlStateNormal];
+    
+    topBtn.frame = CGRectMake(0, 0, 40, 40);
+    
+    [topBtn addTarget:self action:@selector(reBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:topBtn];
+    
+    [topBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.equalTo(self.view.mas_left).offset(10);
+        
+        make.top.equalTo(self.view.mas_top).offset(25);
+        
+    }];
+    
+}
 
 #pragma mark   界面设置
 - (void)createLayout
 {
+    self.view.layer.anchorPoint = CGPointMake(0.5, 2.0);
     
+    self.view.frame = kScreenMainBounds;
+    
+    //    创建拖拽手势
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didRecognizePanGestrue:)];
+    
+    //    把手势添加到view中
+    [self.view addGestureRecognizer:pan];
+
 //    CD的左右偏移量, 加上歌手图片缩小的值
     CGFloat radiuSize = (kScreenWidth - 210) / 2;
     
@@ -86,56 +125,54 @@
     
     effectView.frame = [UIScreen mainScreen].bounds;
     
+    [self.silder setThumbImage:[UIImage imageNamed:@"dot.png"] forState:UIControlStateNormal];
+    
     [self.backGroundImage addSubview:effectView];
     
     self.av = [AVManager shareInstance];
-    
+ 
     [self.av setPlayList:self.musicList flag:self.number];
-    
+        
     [self playBtn:self];
     
-    [self loadData];
-    
-
+    [self loadData:self.number];
     
 }
 
 
 
 #pragma mark   数据加载
-- (void)loadData
+- (void)loadData:(NSInteger)numb
 {
     if (self.type)
     {
-        self.titleLabel.text = self.detailList[self.number];
+        
+        self.titleLabel.text = self.detailList[numb];
         
         self.author.text = self.type.author;
+        
+//        self.titleLabel.text = [NSString stringWithFormat:@"%ld",self.number];
         
         NSDictionary *dict = self.type.poster_path;
         
         [self.singerImageView sd_setImageWithURL:[NSURL URLWithString:dict[@"poster_180_260"]]];
-        
         [self.backGroundImage sd_setImageWithURL:[NSURL URLWithString:dict[@"poster_source"]]];
         
     }
     else
     {
-        ListDetailModel *listModel = self.detailList[self.number];
+        ListDetailModel *listModel = self.detailList[numb];
         
         self.titleLabel.text = listModel.title;
         
         self.author.text = listModel.author;
-        
+
         [self.singerImageView sd_setImageWithURL:[NSURL URLWithString:listModel.cover]];
-        
+
+
         [self.backGroundImage sd_setImageWithURL:[NSURL URLWithString:listModel.background]];
         
     }
-    
-  
-    
-  
-    
     
 }
 
@@ -181,34 +218,19 @@
 
 //上一首
 - (IBAction)aboveMusic:(id)sender {
-    
-    self.number --;
-    
-    if (self.number == -1)
-    {
-        self.number = self.musicList.count - 1;
-    }
-    
 
-    [self loadData];
+    self.number = [self.av above];
     
-    [self.av above];
+    [self loadData:self.number];
     
 }
 
 //下一首
 - (IBAction)nextMusic:(id)sender {
     
-    self.number ++;
+    self.number = [self.av next];
     
-    if (self.number == self.musicList.count)
-    {
-        self.number = 0;
-    }
-    
-    [self loadData];
-    
-    [self.av next];
+    [self loadData:self.number];
     
 }
 
@@ -219,6 +241,52 @@
     
 }
 
+#pragma mark    按钮方法
+- (void)reBack
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self removeTimer];
+}
+
+#pragma mark    拖拽手势方法
+- (void)didRecognizePanGestrue:(UIPanGestureRecognizer *)recognizer
+{
+//    UIViewController *vc = self.presentedViewController;
+//    vc.view.alpha = 1;
+//    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+//    [appDelegate.window addSubview:vc.view];
+
+
+    if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled)
+    {
+        
+                if (ABS(recognizer.view.transform.b) > 0.16)
+        {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }
+        else
+        {
+            recognizer.view.transform = CGAffineTransformIdentity;
+            
+        }
+    }
+    else
+    {
+        CGFloat offsetX = [recognizer translationInView:recognizer.view].x;
+        
+        CGFloat percent = offsetX / self.view.bounds.size.width;
+        
+        CGFloat radians = M_PI_4 * percent;
+        
+        recognizer.view.transform = CGAffineTransformMakeRotation(radians);
+        
+        [self.tabBarController.tabBar setHidden:YES];
+    }
+    
+//    [appdelegate.window willRemoveSubview:vc.view];
+}
 
 #pragma mark   定时器方法
 - (void)changeTime
@@ -235,19 +303,23 @@
     
     NSInteger playCuruentTimeB = (int)playCuruentTime % 60;
     
-    self.timeL.text = [NSString stringWithFormat:@"%02ld:%02ld / %02ld:%02ld",playCuruentTimeA ,playCuruentTimeB, playDurationA, playDurationB];
+    self.timeL.text = [NSString stringWithFormat:@"%02ld:%02ld / %02ld:%02ld",(long)playCuruentTimeA ,(long)playCuruentTimeB, (long)playDurationA, (long)playDurationB];
     
 //    改变进度条的进度
     self.silder.maximumValue = self.av.playDuration;
     
     self.silder.value = self.av.curuentTime;
-    
-//    判断播放进度完结时播放下一首
-    if (playDuration && playDurationA == playCuruentTimeA && playDurationB == playCuruentTimeB)
+
+////    判断播放进度完结时播放下一首
+    if (self.av.changeMusic)
     {
-        [self nextMusic:self];
+       self.number = self.av.playIndex;
+        
+        [self loadData: self.number];
+        
+        self.av.changeMusic = NO;
     }
-    
+
 }
 
 //添加定时器
@@ -258,7 +330,7 @@
         return;
     }
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeTime) userInfo:nil repeats:YES];
+    self.timer = [WeakTimerTargetObject scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(changeTime) userInfo:nil repeats:YES];
 }
 
 //移除计时器
@@ -268,6 +340,9 @@
     
     self.timer = nil;
 }
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

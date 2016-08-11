@@ -22,4 +22,6 @@
 
 @property (nonatomic, copy) NSNumber *total_play;   //播放次数
 
+@property (nonatomic, copy) NSString *album_id;
+
 @end
