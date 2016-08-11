@@ -35,13 +35,26 @@
     _mapView.showsUserLocation = NO;//先关闭显示的定位图层
     _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
     _mapView.showsUserLocation = YES;//显示定位图层
-    
+    _mapView.delegate = self;
+    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.3];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 30, 32, 32)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(Backtolast) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
+    UIButton *indoorBtn = [[UIButton alloc]initWithFrame:CGRectMake(40, self.view.frame.size.width + 80, 50, 30)];
+    [indoorBtn addTarget:self action:@selector(IndoorAction) forControlEvents:UIControlEventTouchUpInside];
+//    indoorBtn.backgroundColor = [UIColor blueColor];
+   
+    [self.view addSubview:indoorBtn];
     
-    
+}
+
+-(void)IndoorAction{
+    if (_mapView.mapType == BMKMapTypeStandard) {
+        [_mapView setMapType:BMKMapTypeSatellite];
+    }else{
+        [_mapView setMapType:BMKMapTypeStandard];
+    }
 }
 
 -(void)Backtolast{
@@ -68,6 +81,14 @@
     _locationSer.delegate = self;
     
     
+}
+
+-(void)mapview:(BMKMapView *)mapView baseIndoorMapWithIn:(BOOL)flag baseIndoorMapInfo:(BMKBaseIndoorMapInfo *)info{
+    if (flag) {
+        //进入室内图
+    }else{
+        //移除室内图
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

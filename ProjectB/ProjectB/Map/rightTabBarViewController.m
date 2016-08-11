@@ -52,7 +52,12 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *backImage = [[UIImageView alloc]initWithFrame:self.view.frame];
     backImage.image = [UIImage imageNamed:@"SportBack.jpg"];
-    backImage.alpha = 0.45;
+    backImage.alpha = 1;
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
+    effectView.alpha = 0.75;
+    effectView.frame = [UIScreen mainScreen].bounds;
+    [backImage addSubview:effectView];
     [self.view addSubview:backImage];
     self.title = @"健康";
     _iswalking = NO;
@@ -74,9 +79,8 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     
 //    NSLog(@"%@",_stepNumberDict);
     
-    
-    
-    
+
+
     
     
     _zjlabel = [[ZJLabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.8,[UIScreen mainScreen].bounds.size.width  * 0.8)];
@@ -89,14 +93,14 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     
     //给图层添加一个有色边框
     _zjlabel.layer.borderWidth = 2;
-    _zjlabel.layer.borderColor = [[UIColor colorWithRed:0.52 green:0.09 blue:0.07 alpha:1] CGColor];
+    _zjlabel.layer.borderColor = [[UIColor whiteColor] CGColor];
     
 }
 
 
 -(void)setButtons{
     UIButton *btn5k = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn5k.frame = CGRectMake(50, self.view.frame.size.height / 736 * 560, 50, 50);
+    btn5k.frame = CGRectMake(self.view.frame.size.width * 50.0 / 414.0, self.view.frame.size.height / 736 * 560.0, 50, 50);
     [btn5k setImage:[UIImage imageNamed:@"跑步0.png"] forState:UIControlStateSelected];
     [btn5k setTitle:@"5000步" forState:UIControlStateNormal];
     [btn5k setTitle:@"5000步" forState:UIControlStateHighlighted];
@@ -107,7 +111,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [self.view addSubview:btn5k];
     
     UIButton *btn10k = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn10k.frame = CGRectMake(self.view.frame.size.width / 3 + 40, self.view.frame.size.height / 736 * 560 , 50, 50);
+    btn10k.frame = CGRectMake(self.view.frame.size.width / 3 + 40 * self.view.frame.size.width / 414.0, self.view.frame.size.height / 736 * 560.0 , 50, 50);
     [btn10k setImage:[UIImage imageNamed:@"跑步2.png"] forState:UIControlStateSelected];
     [btn10k setTitle:@"10000步" forState:UIControlStateNormal];
     [btn10k setTitle:@"10000步" forState:UIControlStateHighlighted];
@@ -117,7 +121,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [self.view addSubview:btn10k];
     
     UIButton *btn15k = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn15k.frame = CGRectMake(self.view.frame.size.width * 2 / 3 + 30, self.view.frame.size.height / 736 * 560, 50, 50);
+    btn15k.frame = CGRectMake(self.view.frame.size.width * 2 / 3 + self.view.frame.size.width * 30 / 414.0 - 5, self.view.frame.size.height / 736 * 560 - 5, 60, 60);
     [btn15k setImage:[UIImage imageNamed:@"跑步3.png"] forState:UIControlStateSelected];
     [btn15k setTitle:@"10000步" forState:UIControlStateNormal];
     [btn15k setTitle:@"10000步" forState:UIControlStateHighlighted];
@@ -127,16 +131,19 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [self.view addSubview:btn15k];
     UILabel *stepTargetLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,50, 80, 30)];
     stepTargetLabel.text = @"5000步";
+    stepTargetLabel.textColor = [UIColor whiteColor];
     stepTargetLabel.font = [UIFont systemFontOfSize:20];
     [btn5k addSubview:stepTargetLabel];
     
     UILabel *stepTargetLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(-10,50, 80, 30)];
     stepTargetLabel2.text = @"10000步";
+        stepTargetLabel2.textColor = [UIColor whiteColor];
     stepTargetLabel2.font = [UIFont systemFontOfSize:20];
     [btn10k addSubview:stepTargetLabel2];
     
-    UILabel *stepTargetLabel3 = [[UILabel alloc]initWithFrame:CGRectMake(0,50, 80, 30)];
+    UILabel *stepTargetLabel3 = [[UILabel alloc]initWithFrame:CGRectMake(-3,53, 80, 30)];
     stepTargetLabel3.text = @"15000步";
+        stepTargetLabel3.textColor = [UIColor whiteColor];
     stepTargetLabel3.font = [UIFont systemFontOfSize:20];
     [btn15k addSubview:stepTargetLabel3];
     
@@ -144,10 +151,10 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     UIButton *Mapbutton = [[UIButton alloc]init];
     [Mapbutton addTarget:self action:@selector(PushMap) forControlEvents:UIControlEventTouchUpInside];
     [Mapbutton setBackgroundImage:[UIImage imageNamed:@"mapButton.png"] forState:UIControlStateNormal];
-    Mapbutton.frame = CGRectMake(self.view.frame.size.width - 40, 30, 32, 32);
+    Mapbutton.frame = CGRectMake(self.view.frame.size.width - 40, 90, 32, 32);
     [self.view addSubview:Mapbutton];
     
-    UIButton *historyBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 32, 32, 32)];
+    UIButton *historyBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 90, 32, 32)];
     [historyBtn setBackgroundImage:[UIImage imageNamed:@"足迹.png"] forState:UIControlStateNormal];
     [historyBtn addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:historyBtn];
@@ -264,9 +271,16 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
         NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
         NSDateComponents *com = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:date];
 
-            NSString *dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
-        if (com.day <= 9) {
+        NSString *dateString = [[NSString alloc]init];
+        if (com.day <= 9 && com.month <= 9) {
+                       dateString = [NSString stringWithFormat:@"%ld-0%ld-0%ld",com.year,com.month,com.day];
+        }else if (com.month <= 9){
+                       dateString = [NSString stringWithFormat:@"%ld-0%ld-%ld",com.year,com.month,com.day];
+        }else if (com.day <= 9) {
            dateString = [NSString stringWithFormat:@"%ld-%ld-0%ld",com.year,com.month,com.day];
+        }else{
+            dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
+
         }
                 NSLog(@"%@",dateString);  //当前日期字符串
         _todaydate = dateString;

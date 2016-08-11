@@ -29,18 +29,19 @@
         [self addSubview:presentLable];
         self.presentlabel = presentLable;
         self.presentlabel.font = [UIFont systemFontOfSize:55];
+            self.presentlabel.textColor = [UIColor whiteColor];
         //        self.presentlabel
     }
     return self;
 }
 -(void)createTimer{
     if(!self.myTimer){
-        self.myTimer = [NSTimer scheduledTimerWithTimeInterval:0.04 target:self selector:@selector(action) userInfo:nil repeats:YES];
+        self.myTimer = [NSTimer scheduledTimerWithTimeInterval:0.06 target:self selector:@selector(action) userInfo:nil repeats:YES];
     }
     [self.myTimer setFireDate:[NSDate distantPast]];
 }
 -(void)action{
-    _fa = _fa +10;
+    _fa = _fa +15;
     if (_fa >= _MYframe.size.width *2.0) {
         _fa = 0;
     }
@@ -54,7 +55,7 @@
     CGMutablePathRef path = CGPathCreateMutable();
     //画水
     CGContextSetLineWidth(context, 1);
-    UIColor *blue = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.3];
+    UIColor *blue = [UIColor colorWithRed:0 green:1 blue:1 alpha:0.3];
     CGContextSetFillColorWithColor(context, [blue CGColor]);
     
     
@@ -81,7 +82,7 @@
     
     CGMutablePathRef path1 = CGPathCreateMutable();
     CGContextSetLineWidth(context, 1);
-    UIColor *blue1 = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.6];
+    UIColor *blue1 = [UIColor colorWithRed:0 green:1 blue:1 alpha:0.6];
     CGContextSetFillColorWithColor(context, [blue1 CGColor]);
     //    float y1 = 200
     CGPathMoveToPoint(path1, NULL, 0, y1);

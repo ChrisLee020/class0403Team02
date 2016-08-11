@@ -32,8 +32,8 @@ static CGFloat bounceY = 20;
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
      
-        self.backgroundColor = [UIColor whiteColor];
-
+//        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     
     return self;
@@ -55,7 +55,7 @@ static CGFloat bounceY = 20;
     //画坐标轴
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, 2.0);
-    CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    CGContextSetRGBStrokeColor(context, 0, 0, 0, 0.1);
     CGContextMoveToPoint(context, bounceX, bounceY);
     CGContextAddLineToPoint(context, bounceX, rect.size.height - bounceY);
     CGContextAddLineToPoint(context, rect.size.width - bounceX, rect.size.height - bounceY);
@@ -115,11 +115,12 @@ static CGFloat bounceY = 20;
         [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0  )];
         }
 
-        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 , 30, 15)];
+        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 , 40, 15)];
 //        falglabel.backgroundColor = [UIColor blueColor];
         falglabel.tag = 3000 + i;
         falglabel.text = [NSString stringWithFormat:@"%.0f",arc];
-        falglabel.font = [UIFont systemFontOfSize:10.0];
+        falglabel.textColor = [UIColor whiteColor];
+        falglabel.font = [UIFont systemFontOfSize:12.0];
         [self addSubview:falglabel];
     }
 //    [path stroke];
@@ -151,6 +152,9 @@ static CGFloat bounceY = 20;
         NSLog(@"%@",temp);
         labelmonth.tag = 1000 + i;
         labelmonth.text =[NSString stringWithFormat:@"%@",temp];
+        
+        labelmonth.textColor = [UIColor whiteColor];
+        
         labelmonth.font = [UIFont systemFontOfSize:10];
 //        labelmonth.transform = CGAffineTransformMakeRotation(M_PI * 0.1);
         [self addSubview: labelmonth];
@@ -164,6 +168,9 @@ static CGFloat bounceY = 20;
 //        labelYdivision.backgroundColor = [UIColor greenColor];
         labelYdivision.tag = 2000 + i;
         labelYdivision.text = [NSString stringWithFormat:@"%.0f",(Ydivision - i ) / Ydivision * _ChartMax * 1.12];
+        
+        labelYdivision.textColor = [UIColor whiteColor];
+        
         labelYdivision.font = [UIFont systemFontOfSize:10];
         [self addSubview:labelYdivision];
     }
@@ -185,7 +192,7 @@ static CGFloat bounceY = 20;
     self.gradientLayer.startPoint = CGPointMake(0, 0.0);
     self.gradientLayer.endPoint = CGPointMake(1.0, 0.0);
     //设置颜色渐变过程
-    self.gradientLayerColors = [NSMutableArray arrayWithArray:@[(__bridge id)[UIColor colorWithRed:253/255.0 green:164/255.0 blue:8/255.0 alpha:1.0].CGColor,(__bridge id)[UIColor colorWithRed:251/255.0 green:37/255.0 blue:45/255.0 alpha:1.0].CGColor]];
+    self.gradientLayerColors = [NSMutableArray arrayWithArray:@[(__bridge id)[UIColor colorWithRed:126/255.0 green:186/255.0 blue:90/255.0 alpha:1.0].CGColor,(__bridge id)[UIColor colorWithRed:69/255.0 green:197/255.0 blue:111/255.0 alpha:1.0].CGColor]];
     self.gradientLayer.colors = self.gradientLayerColors;
 //    [self.layer addSublayer:self.gradientLayer];
     [self.gradientBackgroundView.layer addSublayer:self.gradientLayer];

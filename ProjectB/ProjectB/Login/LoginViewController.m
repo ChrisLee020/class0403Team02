@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 #import "UMSocial.h"
-
+#import "RegisterViewController.h"
 @interface LoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *UserNameText;
@@ -37,6 +37,8 @@
 - (IBAction)LoginBtn:(id)sender {
 }
 - (IBAction)registerBtn:(id)sender {
+    RegisterViewController *registerVC = [[RegisterViewController alloc]init];
+    [self.navigationController pushViewController:registerVC animated:YES];
 }
 
 
@@ -83,6 +85,8 @@
     //第三方登录
     UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina];
     snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+        
+        NSLog(@"response.responseCode%u",response.responseCode);
         //获取微博用户名，UID，token等
         if (response.responseCode == UMSResponseCodeSuccess) {
             NSDictionary *dict = [UMSocialAccountManager socialAccountDictionary];
@@ -93,10 +97,16 @@
             _namelabel.text = snsAccount.userName;
             _image.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:snsAccount.iconURL]]];
             _image.layer.cornerRadius = 0;
-            [self dismissViewControllerAnimated:YES completion:^{
-            }];
+        }else{
+                    NSLog(@"错误代码response.responseCode%u",response.responseCode);
+             [[UMSocialDataService defaultDataService] requestSnsInformation:UMShareToSina completion:^(UMSocialResponseEntity *response){ NSLog(@"SnsInformation is %@",response.data); }];
+            
         }
+        [self dismissViewControllerAnimated:YES completion:^{
+            NSLog(@"弹出运行正常");
+        }];
     });
+
     
     
 }

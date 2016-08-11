@@ -20,7 +20,12 @@
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *backImageView = [[UIImageView alloc]initWithFrame:self.view.frame];
     backImageView.image = [UIImage imageNamed:@"SportBack.jpg"];
-    backImageView.alpha = 0.45;
+    backImageView.alpha = 1;
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
+    effectView.alpha = 0.75;
+    effectView.frame = [UIScreen mainScreen].bounds;
+    [backImageView addSubview:effectView];
     [self.view addSubview:backImageView];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 30, 32, 32)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
