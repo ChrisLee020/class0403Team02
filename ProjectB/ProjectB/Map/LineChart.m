@@ -16,8 +16,9 @@
 @property(nonatomic,strong)CAGradientLayer *gradientLayer;
 @property(nonatomic,strong)NSMutableArray *gradientLayerColors;
 @property(nonatomic,assign)NSInteger MaxStep;
-@property(nonatomic,strong)NSMutableArray *sortedArr;
+@property(nonatomic,strong)NSMutableArray *sortedArrSavecopy;
 @property(nonatomic,assign)NSInteger ChartMax;
+@property(nonatomic,assign)NSInteger NewStartNumber;
 
 @end
 
@@ -51,6 +52,10 @@ static CGFloat bounceY = 20;
     }
     [self buildLine];
 }
+
+
+
+
 -(void)drawRect:(CGRect)rect{
     //画坐标轴
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -127,7 +132,7 @@ static CGFloat bounceY = 20;
     self.lineChartLayer = [CAShapeLayer layer];
     self.lineChartLayer.path = path.CGPath;
     //修改折线颜色
-    self.lineChartLayer.strokeColor = [UIColor colorWithRed:0 green:1 blue:1 alpha:1].CGColor;
+    self.lineChartLayer.strokeColor = [UIColor colorWithRed:65/255.0 green:154/255.0 blue:223/255.0 alpha:1.0].CGColor;
     self.lineChartLayer.fillColor = [[UIColor clearColor]CGColor];
     //默认宽度设置为0，使其在初始状态不显示
     self.lineChartLayer.lineWidth = 0.0;
@@ -137,6 +142,14 @@ static CGFloat bounceY = 20;
 }
 #pragma mark 创建X轴数据
 -(void)createlabelX{
+    
+    for (int i = 0; i < 8; i++) {
+        UIView *view = [self viewWithTag:1000 + i];
+                if (view != nil) {
+            [view removeFromSuperview];
+        }
+    }
+    
     CGFloat month = 0;
     if (_sortedArr.count >=7) {
         month = 7;
@@ -149,7 +162,7 @@ static CGFloat bounceY = 20;
 //        labelmonth.backgroundColor = [UIColor greenColor];   count - month + i
         day_step_Model *model = _sortedArr[(int)(_sortedArr.count - month + i)];
         NSString *temp = [model.date substringFromIndex:5];
-        NSLog(@"%@",temp);
+//        NSLog(@"%@",temp);
         labelmonth.tag = 1000 + i;
         labelmonth.text =[NSString stringWithFormat:@"%@",temp];
         
@@ -162,6 +175,13 @@ static CGFloat bounceY = 20;
 }
 #pragma mark 创建Y轴数据
 -(void)createlabelY{
+    for (int i = 0; i < 8; i++) {
+        UIView *view = [self viewWithTag:2000 + i];
+        if (view != nil) {
+            [view removeFromSuperview];
+        }
+    }
+    
     CGFloat Ydivision = 6;
     for (NSInteger i = 0; i < Ydivision; i++) {
         UILabel *labelYdivision = [[UILabel alloc]initWithFrame:CGRectMake(0,(self.frame.size.height - 2 * bounceY)/ Ydivision * i + bounceX, bounceY * 1.5, bounceY / 2.0)];
@@ -242,12 +262,19 @@ static CGFloat bounceY = 20;
         model.number = [_DataDict valueForKey:keyarr[i]];
         [_sortedArr addObject:model];
     }
+    _sortedArrSavecopy = [[NSMutableArray alloc]initWithArray:_sortedArr];
     
     CGFloat month = 0;
-    if (_sortedArr.count >=7) {
+    if (_sortedArrSavecopy.count >=7) {
         month = 7;
     }else{
-        month = _sortedArr.count;
+        month = _sortedArrSavecopy.count;
+    }
+    _NewStartNumber = _sortedArrSavecopy.count - month;
+    
+    [_sortedArr removeAllObjects];
+    for (int i = 0; i < month; i++) {
+        [_sortedArr addObject:[_sortedArrSavecopy objectAtIndex:(_NewStartNumber + i)]];
     }
     
     for (NSInteger i = 0 ; i < month; i++) {
@@ -259,6 +286,84 @@ static CGFloat bounceY = 20;
             _ChartMax = [model.number integerValue];
         }
     }
+//找出范围内的最大值并赋值给ChartMax
+    
+}
+
+-(void)nextWeekOrLastWeekWithisNextweek:(BOOL)isnextweek{
+    
+    if (isnextweek) {
+        //如果下一周还有数据
+        if (_NewStartNumber + 7 < _sortedArrSavecopy.count) {
+            CGFloat month = 0;
+            _NewStartNumber = _NewStartNumber + 7;
+            [_sortedArr removeAllObjects];
+            if (_sortedArrSavecopy.count - _NewStartNumber >= 7) {
+                month = 7;
+            }else{
+                month = _sortedArrSavecopy.count - _NewStartNumber;
+            }
+            for (int i = 0; i < month; i++) {
+                [_sortedArr addObject:[_sortedArrSavecopy objectAtIndex:_NewStartNumber + i]];
+            }
+            _ChartMax = 0;
+            for (NSInteger i = 0 ; i < month; i++) {
+                
+                NSInteger t1 = _sortedArr.count - month + i;
+                day_step_Model *model = _sortedArr[t1];
+                
+                if ([model.number integerValue] > _ChartMax) {
+                    _ChartMax = [model.number integerValue];
+                }
+            }
+            
+        }else{
+            UIAlertView *warmingView = [[UIAlertView alloc]initWithTitle:@"翻页失败" message:@"已经到最后一天了。" delegate:nil
+                                                       cancelButtonTitle:@"取消" otherButtonTitles:@"知道了", nil];
+            [self addSubview:warmingView];
+        }
+    }else{
+        if (_NewStartNumber >= 1) {
+            CGFloat month = 0;
+            if (_NewStartNumber >= 7) {
+                month = 7;
+                _NewStartNumber -= 7;
+            }else{
+                month = _NewStartNumber;
+                _NewStartNumber = 0;
+            }
+            [_sortedArr removeAllObjects];
+            for (int i = 0; i < month; i++) {
+                [_sortedArr addObject:[_sortedArrSavecopy objectAtIndex:_NewStartNumber + i]];
+            }
+            _ChartMax = 0;
+            for (NSInteger i = 0 ; i < month; i++) {
+                
+                NSInteger t1 = _sortedArr.count - month + i;
+                day_step_Model *model = _sortedArr[t1];
+                
+                if ([model.number integerValue] > _ChartMax) {
+                    _ChartMax = [model.number integerValue];
+                }
+            }
+        }
+        else{
+            UIAlertView *warmingView = [[UIAlertView alloc]initWithTitle:@"翻页失败" message:@"已经到记录的第一天了。" delegate:nil
+                                                       cancelButtonTitle:@"取消" otherButtonTitles:@"知道了", nil];
+            [self addSubview:warmingView];
+        }
+        
+    }
+    
+    [self.lineChartLayer removeFromSuperlayer];
+    for (NSInteger i = 0; i < 12; i++) {
+        UILabel *label = (UILabel *)[self viewWithTag:3000 + i];
+        [label removeFromSuperview];
+    }
+    [self createlabelX];
+    [self createlabelY];
+    [self buildLine];
+    
 }
 
 

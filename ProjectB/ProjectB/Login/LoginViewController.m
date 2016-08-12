@@ -37,8 +37,13 @@
 - (IBAction)LoginBtn:(id)sender {
 }
 - (IBAction)registerBtn:(id)sender {
-    RegisterViewController *registerVC = [[RegisterViewController alloc]init];
+//    RegisterViewController *registerVC = [[RegisterViewController alloc]init];
+//    [self.navigationController pushViewController:registerVC animated:YES];
+    UIStoryboard *LoginSB = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
+    UIViewController *registerVC = [LoginSB instantiateViewControllerWithIdentifier:@"Register"];
     [self.navigationController pushViewController:registerVC animated:YES];
+
+
 }
 
 
@@ -106,7 +111,6 @@
             NSLog(@"弹出运行正常");
         }];
     });
-
     
     
 }

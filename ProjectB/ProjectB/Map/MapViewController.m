@@ -25,7 +25,7 @@
     _locationSer = [[BMKLocationService alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
     //    //地图显示代码
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width)];
+    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height * 0.55)];
     
     //    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
     //    _mapView.center = self.view.center;
@@ -36,15 +36,15 @@
     _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
     _mapView.showsUserLocation = YES;//显示定位图层
     _mapView.delegate = self;
-    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.3];
+//    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.3];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 30, 32, 32)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(Backtolast) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
-    UIButton *indoorBtn = [[UIButton alloc]initWithFrame:CGRectMake(40, self.view.frame.size.width + 80, 50, 30)];
+    UIButton *indoorBtn = [[UIButton alloc]initWithFrame:CGRectMake(40, self.view.frame.size.width + 80, 48 , 48)];
     [indoorBtn addTarget:self action:@selector(IndoorAction) forControlEvents:UIControlEventTouchUpInside];
-//    indoorBtn.backgroundColor = [UIColor blueColor];
-   
+    [indoorBtn setImage:[UIImage imageNamed:@"indoor.png"] forState:UIControlStateNormal];
+
     [self.view addSubview:indoorBtn];
     
 }
@@ -54,6 +54,7 @@
         [_mapView setMapType:BMKMapTypeSatellite];
     }else{
         [_mapView setMapType:BMKMapTypeStandard];
+
     }
 }
 

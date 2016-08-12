@@ -14,6 +14,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 #import "ZJLabel.h"
 #import "MapViewController.h"
 #import "HistoryViewController.h"
+#import "DrawerViewController.h"
 
 @interface rightTabBarViewController ()<UIApplicationDelegate>
 
@@ -84,7 +85,11 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     
     
     _zjlabel = [[ZJLabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.8,[UIScreen mainScreen].bounds.size.width  * 0.8)];
-    _zjlabel.center = self.view.center;
+    if ([UIScreen mainScreen].bounds.size.width > 415) {
+        _zjlabel.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.6, [UIScreen mainScreen].bounds.size.width * 0.6);
+    }
+    
+    _zjlabel.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2 - 20);
     _zjlabel.present = _stepNumber / _targetStepNumber * 1.0;
     [self.view addSubview:_zjlabel];
     _zjlabel.layer.cornerRadius = [UIScreen mainScreen].bounds.size.width * 0.4;
@@ -93,7 +98,7 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     
     //给图层添加一个有色边框
     _zjlabel.layer.borderWidth = 2;
-    _zjlabel.layer.borderColor = [[UIColor whiteColor] CGColor];
+    _zjlabel.layer.borderColor = [[UIColor colorWithRed:65/255.0 green:154/255.0 blue:223/255.0 alpha:1.0] CGColor];
     
 }
 
@@ -151,21 +156,39 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     UIButton *Mapbutton = [[UIButton alloc]init];
     [Mapbutton addTarget:self action:@selector(PushMap) forControlEvents:UIControlEventTouchUpInside];
     [Mapbutton setBackgroundImage:[UIImage imageNamed:@"mapButton.png"] forState:UIControlStateNormal];
-    Mapbutton.frame = CGRectMake(self.view.frame.size.width - 40, 90, 32, 32);
+    Mapbutton.frame = CGRectMake(self.view.frame.size.width - 40, 110, 32, 32);
     [self.view addSubview:Mapbutton];
     
-    UIButton *historyBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 90, 32, 32)];
+    UIButton *historyBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 110, 32, 32)];
     [historyBtn setBackgroundImage:[UIImage imageNamed:@"足迹.png"] forState:UIControlStateNormal];
     [historyBtn addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:historyBtn];
     
+    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 15, self.view.bounds.size.width, 50)];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 40, 0, 80, 40)];
+    titleLabel.font = [UIFont systemFontOfSize:18];
+    titleLabel.text = @"漫步旅程";
+    titleLabel.textColor = [UIColor whiteColor];
+    [titleView addSubview:titleLabel];
+    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 32, 32)];
+    [menuBtn setImage:[UIImage imageNamed:@"settingSwitch.png"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self action:@selector(menuAction) forControlEvents:UIControlEventTouchUpInside];
+    [titleView addSubview:menuBtn];
+    [self.view addSubview: titleView];
     
 }
+
+-(void)menuAction{
+    [[DrawerViewController shareDrawer] openLeftMenu];
+    
+}
+
 
 -(void)historyAction{
     HistoryViewController *history = [[HistoryViewController alloc]init];
     
     history.stepNumber = self.stepNumber;
+    history.targetNumber = self.targetStepNumber;
     NSNumber *num = [[NSNumber alloc]initWithInteger:_stepNumber];
     [_stepNumberDict setValue:num forKey:_todaydate];
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
@@ -217,7 +240,18 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [_stepNumberDict writeToFile:path1 atomically:YES];
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
     NSDateComponents *com = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:date];
-    _todaydate = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
+    NSString *dateString = [[NSString alloc]init];
+    if (com.day <= 9 && com.month <= 9) {
+        dateString = [NSString stringWithFormat:@"%ld-0%ld-0%ld",com.year,com.month,com.day];
+    }else if (com.month <= 9){
+        dateString = [NSString stringWithFormat:@"%ld-0%ld-%ld",com.year,com.month,com.day];
+    }else if (com.day <= 9) {
+        dateString = [NSString stringWithFormat:@"%ld-%ld-0%ld",com.year,com.month,com.day];
+    }else{
+        dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
+        
+    }
+    _todaydate = dateString;
     _stepNumber = 0;
     
 }

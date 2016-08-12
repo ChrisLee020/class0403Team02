@@ -108,9 +108,9 @@
     _present = present;
     [self createTimer];
     if (present <= 0.5) {
-        _bigNumber = _MYframe.size.height *0.1 *present *2;
+        _bigNumber = _MYframe.size.height *0.1 *present *1.4;
     }else{
-        _bigNumber = _MYframe.size.height * 0.1 * (1 - present) *2;
+        _bigNumber = _MYframe.size.height * 0.1 * (1 - present) *1.4;
     }
     // _bigNumber = _MYframe.size.height * 0.1 * 1;
 }

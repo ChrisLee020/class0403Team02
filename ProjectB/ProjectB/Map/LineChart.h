@@ -14,9 +14,12 @@
 
 @property(nonatomic,strong)NSMutableDictionary *DataDict;  //总计多少天的折线
 @property(nonatomic,assign)NSInteger todaynumber;
+@property(nonatomic,strong)NSMutableArray *sortedArr;
 
 -(instancetype)initWithFrame:(CGRect)frame;
 
 -(void)buildLine;
 -(void)build;
+-(void)nextWeekOrLastWeekWithisNextweek:(BOOL)isnextweek;
+
 @end

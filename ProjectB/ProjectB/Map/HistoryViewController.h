@@ -11,5 +11,6 @@
 @interface HistoryViewController : UIViewController
 
 @property(nonatomic,assign)NSInteger stepNumber;
+@property(nonatomic,assign)NSInteger targetNumber;
 
 @end
