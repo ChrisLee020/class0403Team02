@@ -91,7 +91,13 @@ static CGFloat bounceY = 20;
         [path stroke];
         dashLayer.path = path.CGPath;
         [self.gradientBackgroundView.layer addSublayer:dashLayer];
-    }
+        }
+     }else{
+         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(self.bounds.size.width / 2 - 100 , self.bounds.size.height / 2, 200, 40)];
+         label.text = @"你还没有开始哦ORZ";
+         label.textColor = [UIColor whiteColor];
+         label.font = [UIFont fontWithName:@"Helvetica-Bold" size:20];
+         [self addSubview:label];
      }
 }
 #pragma mark 画折线图
