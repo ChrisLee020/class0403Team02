@@ -19,6 +19,7 @@
 @property(nonatomic,strong)NSMutableArray *sortedArrSavecopy;
 @property(nonatomic,assign)NSInteger ChartMax;
 @property(nonatomic,assign)NSInteger NewStartNumber;
+//@property(nonatomic,assign)NSInteger count;
 
 @end
 
@@ -33,7 +34,6 @@ static CGFloat bounceY = 20;
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
      
-//        self.backgroundColor = [UIColor whiteColor];
         self.backgroundColor = [UIColor clearColor];
     }
     
@@ -68,6 +68,8 @@ static CGFloat bounceY = 20;
 }
 #pragma mark 添加虚线
 -(void)setLineDash{
+     if (_sortedArr.count > 0 && _ChartMax != 0) {
+    
     for (NSInteger i = 0; i < 6; i++) {
         CAShapeLayer *dashLayer = [CAShapeLayer layer];
         dashLayer.strokeColor = [UIColor whiteColor].CGColor;
@@ -90,58 +92,63 @@ static CGFloat bounceY = 20;
         dashLayer.path = path.CGPath;
         [self.gradientBackgroundView.layer addSublayer:dashLayer];
     }
+     }
 }
 #pragma mark 画折线图
 -(void)drawLine{
-
-    UIBezierPath *path = [[UIBezierPath alloc]init];
-    path.lineWidth = 1.0;
-    self.path1 = path;
-    UIColor *color = [UIColor greenColor];
-    [color set];
-//    [path moveToPoint:CGPointMake(label.frame.origin.x - bounceX, (600-arc4random()%600) / 600.0 * (self.frame.size.height - bounceY * 2) + bounceY)];
-    CGFloat month = 0;
-    if (_sortedArr.count >=7) {
-        month = 7;
-    }else{
-        month = _sortedArr.count;
-    }
-    //创建折线点标记
-    for (NSInteger i = 0; i < month; i++) {
-        UILabel *label1 = (UILabel *)[self viewWithTag:1000 + i];
-        NSInteger t1 = _sortedArr.count - month + i;
-        day_step_Model *model = _sortedArr[t1];
-        CGFloat arc = [model.number integerValue];
-        //折线点的设定
-        if (i == 0) {
-            [path moveToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 )];
-        }else{
+    if (_sortedArr.count > 0 && _ChartMax != 0) {
         
-        [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0  )];
+        UIBezierPath *path = [[UIBezierPath alloc]init];
+        path.lineWidth = 1.0;
+        self.path1 = path;
+        UIColor *color = [UIColor greenColor];
+        [color set];
+        //    [path moveToPoint:CGPointMake(label.frame.origin.x - bounceX, (600-arc4random()%600) / 600.0 * (self.frame.size.height - bounceY * 2) + bounceY)];
+        CGFloat month = 0;
+        if (_sortedArr.count >=7) {
+            month = 7;
+        }else{
+            month = _sortedArr.count;
         }
-
-        UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 , 40, 15)];
-//        falglabel.backgroundColor = [UIColor blueColor];
-        falglabel.tag = 3000 + i;
-        falglabel.text = [NSString stringWithFormat:@"%.0f",arc];
-        falglabel.textColor = [UIColor whiteColor];
-        falglabel.font = [UIFont systemFontOfSize:12.0];
-        [self addSubview:falglabel];
+        //创建折线点标记
+        for (NSInteger i = 0; i < month; i++) {
+            UILabel *label1 = (UILabel *)[self viewWithTag:1000 + i];
+            NSInteger t1 = _sortedArr.count - month + i;
+            day_step_Model *model = _sortedArr[t1];
+            CGFloat arc = [model.number integerValue];
+            //折线点的设定
+            if (i == 0) {
+                [path moveToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 )];
+            }else{
+                
+                [path addLineToPoint:CGPointMake(label1.frame.origin.x - bounceX , ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0  )];
+            }
+            
+            UILabel *falglabel = [[UILabel alloc]initWithFrame:CGRectMake(label1.frame.origin.x, ((_ChartMax - arc)/ _ChartMax * 5.0 / 6.0 * (self.frame.size.height - 2 * bounceY)) + (self.frame.size.height - 2 * bounceY) / 6.0 , 40, 15)];
+            //        falglabel.backgroundColor = [UIColor blueColor];
+            falglabel.tag = 3000 + i;
+            falglabel.text = [NSString stringWithFormat:@"%.0f",arc];
+            falglabel.textColor = [UIColor whiteColor];
+            falglabel.font = [UIFont systemFontOfSize:12.0];
+            [self addSubview:falglabel];
+        }
+        //    [path stroke];
+        self.lineChartLayer = [CAShapeLayer layer];
+        self.lineChartLayer.path = path.CGPath;
+        //修改折线颜色
+        self.lineChartLayer.strokeColor = [UIColor colorWithRed:65/255.0 green:154/255.0 blue:223/255.0 alpha:1.0].CGColor;
+        self.lineChartLayer.fillColor = [[UIColor clearColor]CGColor];
+        //默认宽度设置为0，使其在初始状态不显示
+        self.lineChartLayer.lineWidth = 0.0;
+        self.lineChartLayer.lineCap = kCALineCapRound;
+        self.lineChartLayer.lineJoin = kCALineJoinRound;
+        [self.gradientBackgroundView.layer addSublayer:self.lineChartLayer]; //直接添加到视图上
     }
-//    [path stroke];
-    self.lineChartLayer = [CAShapeLayer layer];
-    self.lineChartLayer.path = path.CGPath;
-    //修改折线颜色
-    self.lineChartLayer.strokeColor = [UIColor colorWithRed:65/255.0 green:154/255.0 blue:223/255.0 alpha:1.0].CGColor;
-    self.lineChartLayer.fillColor = [[UIColor clearColor]CGColor];
-    //默认宽度设置为0，使其在初始状态不显示
-    self.lineChartLayer.lineWidth = 0.0;
-    self.lineChartLayer.lineCap = kCALineCapRound;
-    self.lineChartLayer.lineJoin = kCALineJoinRound;
-    [self.gradientBackgroundView.layer addSublayer:self.lineChartLayer]; //直接添加到视图上
 }
 #pragma mark 创建X轴数据
 -(void)createlabelX{
+    NSLog(@"判断条件%ld %ld",_sortedArr.count, _ChartMax);
+      if (_sortedArr.count > 0 && _ChartMax != 0) {
     
     for (int i = 0; i < 8; i++) {
         UIView *view = [self viewWithTag:1000 + i];
@@ -171,10 +178,11 @@ static CGFloat bounceY = 20;
         labelmonth.font = [UIFont systemFontOfSize:10];
 //        labelmonth.transform = CGAffineTransformMakeRotation(M_PI * 0.1);
         [self addSubview: labelmonth];
-    }
+    }}
 }
 #pragma mark 创建Y轴数据
 -(void)createlabelY{
+      if (_sortedArr.count > 0 && _ChartMax != 0) {
     for (int i = 0; i < 8; i++) {
         UIView *view = [self viewWithTag:2000 + i];
         if (view != nil) {
@@ -193,7 +201,8 @@ static CGFloat bounceY = 20;
         
         labelYdivision.font = [UIFont systemFontOfSize:10];
         [self addSubview:labelYdivision];
-    }
+            }
+      }
 }
 #pragma mark 渐变的颜色
 -(void)drawgradientBackgroundView{
@@ -237,6 +246,7 @@ static CGFloat bounceY = 20;
     NSLog(@"搞定");
 }
 -(void)buildLine{
+     if (_sortedArr.count > 0 && _ChartMax != 0) {
     [self drawLine];
     self.lineChartLayer.lineWidth = 2;
     CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
@@ -248,6 +258,7 @@ static CGFloat bounceY = 20;
     //设置动画代理，动画结束时现实折线终点信息
     pathAnimation.delegate = self;
     [self.lineChartLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
+     }
 }
 
 -(void)fixArr{

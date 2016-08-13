@@ -141,21 +141,24 @@
             percent++;
         }
     }
-    _stepNumberLabel.text = [NSString stringWithFormat:@"%ld步",count];
-    if (count * 0.7 > 1000) {
-        CGFloat A1 = count * 0.7 / 1000;
-        _distanceLabel.text = [NSString stringWithFormat:@"%.2f千米",A1];
-    }else{
-        NSInteger A1 = count * 0.7;
-        _distanceLabel.text = [NSString stringWithFormat:@"%ld米",A1];
-    }
-    CGFloat A2 = count / 14.8;
-    _hotLabel.text = [NSString stringWithFormat:@"%.2f卡",A2];
-    
-    _targetLabel.text = [NSString stringWithFormat:@"%.2f%%",percent * 100.0 / _LineChartCurrentData.count];
-    
-    [_chartView setNeedsDisplay];
+    if (count != 0){
+        
+        _stepNumberLabel.text = [NSString stringWithFormat:@"%ld步",count];
+        if (count * 0.7 > 1000) {
+            CGFloat A1 = count * 0.7 / 1000;
+            _distanceLabel.text = [NSString stringWithFormat:@"%.2f千米",A1];
+        }else{
+            NSInteger A1 = count * 0.7;
+            _distanceLabel.text = [NSString stringWithFormat:@"%ld米",A1];
+        }
+        CGFloat A2 = count / 14.8;
+        _hotLabel.text = [NSString stringWithFormat:@"%.2f卡",A2];
+        
+        _targetLabel.text = [NSString stringWithFormat:@"%.2f%%",percent * 100.0 / _LineChartCurrentData.count];
+        
+        [_chartView setNeedsDisplay];
 
+    }
 }
 
 -(void)nextweekAction{
