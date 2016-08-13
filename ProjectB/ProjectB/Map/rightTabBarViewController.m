@@ -6,7 +6,7 @@
 //  Copyright © 2016年 0403ClassTeam02. All rights reserved.
 //
 
-typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
+
 
 #import "AppDelegate.h"
 #import "rightTabBarViewController.h"
@@ -31,7 +31,6 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 @property(nonatomic,strong)UIButton *btn10k;
 @property(nonatomic,strong)UIButton *btn15k;
 @property(nonatomic,strong)AppDelegate *delegate;
-//@property(nonatomic,copy)StepNumberBlock *stepnumberblock;
 
 @end
 
@@ -81,18 +80,19 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
 //    NSLog(@"%@",_stepNumberDict);
     
 
-
+    NSLog(@"AAA %f  %f",[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
     
     
-    _zjlabel = [[ZJLabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.8,[UIScreen mainScreen].bounds.size.width  * 0.8)];
     if ([UIScreen mainScreen].bounds.size.width > 415) {
-        _zjlabel.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.6, [UIScreen mainScreen].bounds.size.width * 0.6);
+    _zjlabel = [[ZJLabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.6,[UIScreen mainScreen].bounds.size.width  * 0.6)];
+    }else{
+            _zjlabel = [[ZJLabel alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.8,[UIScreen mainScreen].bounds.size.width  * 0.8)];
     }
     
     _zjlabel.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2 - 20);
     _zjlabel.present = _stepNumber / _targetStepNumber * 1.0;
     [self.view addSubview:_zjlabel];
-    _zjlabel.layer.cornerRadius = [UIScreen mainScreen].bounds.size.width * 0.4;
+    _zjlabel.layer.cornerRadius = _zjlabel.frame.size.width / 2;
     _zjlabel.layer.masksToBounds = YES;
     _zjlabel.backgroundColor = [UIColor clearColor];
     
@@ -164,13 +164,13 @@ typedef void (^StepNumberBlock)(NSMutableDictionary *,NSInteger);
     [historyBtn addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:historyBtn];
     
-    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 15, self.view.bounds.size.width, 50)];
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 40, 0, 80, 40)];
-    titleLabel.font = [UIFont systemFontOfSize:18];
+    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 43, 28, 100, 30)];
+    titleLabel.font = [UIFont  fontWithName:@"Helvetica-Bold" size:20];
     titleLabel.text = @"漫步旅程";
     titleLabel.textColor = [UIColor whiteColor];
     [titleView addSubview:titleLabel];
-    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 32, 32)];
+    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 25, 32, 32)];
     [menuBtn setImage:[UIImage imageNamed:@"settingSwitch.png"] forState:UIControlStateNormal];
     [menuBtn addTarget:self action:@selector(menuAction) forControlEvents:UIControlEventTouchUpInside];
     [titleView addSubview:menuBtn];

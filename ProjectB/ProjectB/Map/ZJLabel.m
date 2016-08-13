@@ -24,7 +24,7 @@
     if (self = [super initWithFrame:frame]) {
         _MYframe = frame;
         self.backgroundColor = [UIColor whiteColor];
-        UILabel *presentLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        UILabel *presentLable = [[UILabel alloc]initWithFrame:frame];
         presentLable.textAlignment = 1;
         [self addSubview:presentLable];
         self.presentlabel = presentLable;
@@ -101,6 +101,10 @@
     // 添加文字
     NSString *str = [NSString stringWithFormat:@"%ld步",self.NowStep];
     self.presentlabel.text = str;
+//    CGPoint A1 = CGPointMake(self.frame.origin.x + self.frame.size.width / 2, self.frame.origin.y + self.frame.size.height / 2);
+//    self.presentlabel.center = A1;
+//    NSLog(@"label point = %f,%f",A1.x,A1.y);
+//    NSLog(@"screen size = %f,%f",[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
     
 }
 

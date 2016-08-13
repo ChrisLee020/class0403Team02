@@ -15,6 +15,7 @@
 
 @property(nonatomic,strong)BMKMapView *mapView;
 @property(nonatomic,strong)BMKLocationService *locationSer;
+@property(nonatomic,strong)BMKUserLocation *userLocation;
 
 @end
 
@@ -42,20 +43,24 @@
     [backBtn addTarget:self action:@selector(Backtolast) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
     UIButton *indoorBtn = [[UIButton alloc]initWithFrame:CGRectMake(40, self.view.frame.size.width + 80, 48 , 48)];
-    [indoorBtn addTarget:self action:@selector(IndoorAction) forControlEvents:UIControlEventTouchUpInside];
-    [indoorBtn setImage:[UIImage imageNamed:@"indoor.png"] forState:UIControlStateNormal];
-
+    [indoorBtn addTarget:self action:@selector(IndoorAction:) forControlEvents:UIControlEventTouchUpInside];
+    [indoorBtn setImage:[UIImage imageNamed:@"satellite.png"] forState:UIControlStateNormal];
+    
     [self.view addSubview:indoorBtn];
     
 }
 
--(void)IndoorAction{
+-(void)IndoorAction:(UIButton *)btn{
     if (_mapView.mapType == BMKMapTypeStandard) {
         [_mapView setMapType:BMKMapTypeSatellite];
+        [btn setImage:[UIImage imageNamed:@"cityMode.png"] forState:UIControlStateNormal];
     }else{
         [_mapView setMapType:BMKMapTypeStandard];
-
+        [btn setImage:[UIImage imageNamed:@"satellite.png"] forState:UIControlStateNormal];
     }
+    _mapView.showsUserLocation = !_mapView.showsUserLocation;
+//    [_mapView updateLocationData:]
+    
 }
 
 -(void)Backtolast{
