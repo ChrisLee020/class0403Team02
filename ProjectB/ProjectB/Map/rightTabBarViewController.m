@@ -80,7 +80,7 @@
 //    NSLog(@"%@",_stepNumberDict);
     
 
-    NSLog(@"AAA %f  %f",[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
+//    NSLog(@"AAA %f  %f",[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
     
     
     if ([UIScreen mainScreen].bounds.size.width > 415) {

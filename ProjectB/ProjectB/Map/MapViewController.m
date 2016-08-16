@@ -24,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _locationSer = [[BMKLocationService alloc]init];
+    _locationSer.delegate = self;
+    [_locationSer startUserLocationService]; //启动定位服务
     self.view.backgroundColor = [UIColor whiteColor];
     //    //地图显示代码
     _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height * 0.55)];
@@ -37,20 +39,33 @@
     _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
     _mapView.showsUserLocation = YES;//显示定位图层
     _mapView.delegate = self;
-//    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.3];
+    [self buildBtn];
+
+    
+}
+
+
+-(void)buildBtn{
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, 30, 32, 32)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(Backtolast) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
-    UIButton *indoorBtn = [[UIButton alloc]initWithFrame:CGRectMake(40, self.view.frame.size.width + 80, 48 , 48)];
-    [indoorBtn addTarget:self action:@selector(IndoorAction:) forControlEvents:UIControlEventTouchUpInside];
-    [indoorBtn setImage:[UIImage imageNamed:@"satellite.png"] forState:UIControlStateNormal];
+    UIButton *SatelliteBtn = [[UIButton alloc]initWithFrame:CGRectMake(40, self.view.frame.size.width + 80, 48 , 48)];
+    [SatelliteBtn addTarget:self action:@selector(SatelliteAction:) forControlEvents:UIControlEventTouchUpInside];
+    [SatelliteBtn setImage:[UIImage imageNamed:@"satellite.png"] forState:UIControlStateNormal];
     
+    [self.view addSubview:SatelliteBtn];
+    
+    UIButton *indoorBtn = [[UIButton alloc]initWithFrame:CGRectMake(120, self.view.frame.size.width + 80, 48 , 48)];
+    [indoorBtn setImage:[UIImage imageNamed:@"indoor.png"] forState:UIControlStateNormal];
+    [indoorBtn addTarget:self action:@selector(indoorAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:indoorBtn];
     
 }
 
--(void)IndoorAction:(UIButton *)btn{
+
+
+-(void)SatelliteAction:(UIButton *)btn{
     if (_mapView.mapType == BMKMapTypeStandard) {
         [_mapView setMapType:BMKMapTypeSatellite];
         [btn setImage:[UIImage imageNamed:@"cityMode.png"] forState:UIControlStateNormal];
@@ -58,22 +73,37 @@
         [_mapView setMapType:BMKMapTypeStandard];
         [btn setImage:[UIImage imageNamed:@"satellite.png"] forState:UIControlStateNormal];
     }
-    _mapView.showsUserLocation = !_mapView.showsUserLocation;
-//    [_mapView updateLocationData:]
+
     
+}
+-(void)indoorAction:(UIButton *)btn{
+    if (!_mapView.baseIndoorMapEnabled) {
+        [btn setImage:[UIImage imageNamed:@"outdoor.png"] forState:UIControlStateNormal];
+            _mapView.baseIndoorMapEnabled = YES;
+        _mapView.trafficEnabled = NO;
+    }else{
+        [btn setImage:[UIImage imageNamed:@"indoor.png"] forState:UIControlStateNormal];
+        _mapView.baseIndoorMapEnabled = NO;
+        _mapView.trafficEnabled = YES;
+    }
+    //热力图功能可用，等待调用
+//    _mapView.baiduHeatMapEnabled = !_mapView.baiduHeatMapEnabled;
+}
+
+-(void)didUpdateUserHeading:(BMKUserLocation *)userLocation{
+    NSLog(@"heading is %@",userLocation.heading);
+    [_mapView updateLocationData:userLocation];
+}
+-(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
+    NSLog(@"location is %f   %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    [_mapView updateLocationData:userLocation];
 }
 
 -(void)Backtolast{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)didUpdateUserHeading:(BMKUserLocation *)userLocation{
-    NSLog(@"heading is %@",userLocation.heading);
-}
 
--(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
-    NSLog(@"didupdate User location lat %f, long %f ",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
-}
 
 
 - (void)didReceiveMemoryWarning {
