@@ -18,6 +18,7 @@
 @property(nonatomic,strong)UILabel *stepNumberLabel;
 @property(nonatomic,strong)UILabel *targetLabel;
 @property(nonatomic,strong)UIView *chartView;
+@property(nonatomic,assign)NSInteger count;
 @end
 
 @implementation HistoryViewController
@@ -51,6 +52,15 @@
     [zx build];
     [self.view addSubview:zx];
     _LineChartCurrentData = zx.sortedArr;
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(LineChartSwipe:)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    _linechart.userInteractionEnabled = YES;
+    [_linechart addGestureRecognizer:swipeLeft];
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(LineChartSwipe:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    [_linechart addGestureRecognizer:swipeRight];
+    
 
     
     UIButton *lastWeek = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 32, 32)];
@@ -71,8 +81,18 @@
 
 }
 
+-(void)LineChartSwipe:(UISwipeGestureRecognizer *)swipe{
+    NSLog(@"%lu",(unsigned long)swipe.direction);
+    if (swipe.direction == 1) {
+        [self lastweekAction];
+    }else if (swipe.direction == 2){
+        [self nextweekAction];
+    }
+}
+
 -(void)BuildChart{
-    UIView *chartView = [[UIView alloc]initWithFrame:CGRectMake(55, ((self.view.bounds.size.height - 20) * 0.4) + 135, self.view.bounds.size.width - 120, (self.view.bounds.size.height - 20) * 0.3)];
+#pragma mark 图标坐标位置
+    UIView *chartView = [[UIView alloc]initWithFrame:CGRectMake(55, ((self.view.bounds.size.height - 20) * 0.4) + 160, self.view.bounds.size.width - 120, (self.view.bounds.size.height - 20) * 0.3)];
     chartView.layer.cornerRadius = 10;
     chartView.layer.borderWidth = 1;
     chartView.layer.borderColor = [UIColor colorWithRed:65/255.0 green:154/255.0 blue:223/255.0 alpha:1.0].CGColor;
@@ -89,6 +109,10 @@
     UIImageView *distanceImage = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.25 - 24, ((self.view.bounds.size.height - 20) * 0.3) * 0.25 -  40, 48, 48)];
     distanceImage.image = [UIImage imageNamed:@"distance.png"];
     [chartView addSubview:distanceImage];
+    distanceImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *distanceImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DistanceAction)];
+    [distanceImage addGestureRecognizer:distanceImageTap];
+    
     _distanceLabel = [[UILabel alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.25 - 45, ((self.view.bounds.size.height - 20) * 0.3) * 0.25 + 15, 90, 30)];
     _distanceLabel.text = @"0米";
     _distanceLabel.textAlignment = NSTextAlignmentCenter;
@@ -99,6 +123,9 @@
     UIImageView *hotImage = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.75 - 24, ((self.view.bounds.size.height - 20) * 0.3) * 0.25 -  40, 48, 48)];
     hotImage.image = [UIImage imageNamed:@"hot.png"];
     [chartView addSubview:hotImage];
+    hotImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *hotImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hotAction)];
+    [hotImage addGestureRecognizer:hotImageTap];
     _hotLabel = [[UILabel alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.75 - 45, ((self.view.bounds.size.height - 20) * 0.3) * 0.25 + 15, 90, 30)];
     _hotLabel.text = @"0卡";
     _hotLabel.textAlignment = NSTextAlignmentCenter;
@@ -107,17 +134,24 @@
     
     
     UIImageView *stepImage = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.25 - 24, ((self.view.bounds.size.height - 20) * 0.3) * 0.75 -  40, 48, 48)];
+    stepImage.image = [UIImage imageNamed:@"step.png"];
+    [chartView addSubview:stepImage];
+    stepImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *stepImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(stepAction)];
+    [stepImage addGestureRecognizer:stepImageTap];
+    
     _stepNumberLabel = [[UILabel alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.25 - 45, ((self.view.bounds.size.height - 20) * 0.3) * 0.75 + 15, 90, 30)];
     _stepNumberLabel.text = @"0步";
     _stepNumberLabel.textAlignment = NSTextAlignmentCenter;
     _stepNumberLabel.textColor = [UIColor colorWithRed:65/255.0 green:154/255.0 blue:223/255.0 alpha:1.0];
     [chartView addSubview:_stepNumberLabel];
     
-    stepImage.image = [UIImage imageNamed:@"step.png"];
-    [chartView addSubview:stepImage];
     UIImageView *targetImage = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.75 - 24, ((self.view.bounds.size.height - 20) * 0.3) * 0.75 -  40, 48, 48)];
     targetImage.image = [UIImage imageNamed:@"target.png"];
     [chartView addSubview:targetImage];
+    targetImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *targetImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(targetAction)];
+    [targetImage addGestureRecognizer:targetImageTap];
     _targetLabel = [[UILabel alloc]initWithFrame:CGRectMake((self.view.bounds.size.width - 120) * 0.75 - 45, ((self.view.bounds.size.height - 20) * 0.3) * 0.75 + 15, 90, 30)];
     _targetLabel.text = @"0.00%";
     _targetLabel.textAlignment = NSTextAlignmentCenter;
@@ -129,8 +163,38 @@
         [self.view addSubview:_chartView];
     
 }
+-(void)DistanceAction{
+    NSString *str = [NSString stringWithFormat:@"你本周的运动距离为%d米！",(int)(_count * 0.7)];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"报告" message:str delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
 
+}
+-(void)hotAction{
+    NSString *str = [NSString stringWithFormat:@"你本周通过运动消耗的热量为%.2f卡！",_count / 14.8];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"报告" message:str delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
+}
+-(void)stepAction{
+    NSString *str = [NSString stringWithFormat:@"你本周已经走过了%ld步！",_count];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"报告" message:str delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
+}
 
+-(void)targetAction{
+    NSInteger count = 0;
+    NSInteger percent = 0;
+    for (int i = 0; i < _LineChartCurrentData.count; i++) {
+        day_step_Model *model = _LineChartCurrentData[i];
+        count = count + model.number.integerValue;
+        if (model.number.integerValue > _targetNumber) {
+            percent++;
+        }
+    }
+    NSString *str = [NSString stringWithFormat:@"你本周的目标完成率为%.2f%%!",percent * 100.0 / _LineChartCurrentData.count];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"报告" message:str delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
+    
+}
 -(void)refreshChart{
     NSInteger count = 0;
     NSInteger percent = 0;
@@ -142,7 +206,7 @@
         }
     }
     if (count != 0){
-        
+        _count = count;
         _stepNumberLabel.text = [NSString stringWithFormat:@"%ld步",count];
         if (count * 0.7 > 1000) {
             CGFloat A1 = count * 0.7 / 1000;
@@ -177,6 +241,13 @@
 -(void)Backtolast{
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden  = YES;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
