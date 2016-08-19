@@ -13,4 +13,6 @@
 @property(nonatomic,strong)UILabel *namelabel;
 @property(nonatomic,strong)UIImageView *image;
 
+-(void)dismissVC;
+
 @end

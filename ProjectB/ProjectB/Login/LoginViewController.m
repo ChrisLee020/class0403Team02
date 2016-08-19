@@ -9,6 +9,8 @@
 #import "LoginViewController.h"
 #import "UMSocial.h"
 #import "RegisterViewController.h"
+#import "EMSDK.h"
+#import "AppDelegate.h"
 @interface LoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *UserNameText;
@@ -20,7 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController setNavigationBarHidden:NO];
 }
 
@@ -35,12 +36,37 @@
 }
 
 - (IBAction)LoginBtn:(id)sender {
+    if ([[EMClient sharedClient] isConnected]) {
+        [[EMClient sharedClient]logout:YES];
+    }
+    if (self.UserNameText.text.length < 6 || self.PasswordText.text.length < 6) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"用户名和密码长度不能小于六位" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+        [alert show];
+    }else{
+        [[EMClient sharedClient] asyncLoginWithUsername:self.UserNameText.text password:self.PasswordText.text success:^{
+            _namelabel.text = _UserNameText.text;
+            [self dismissViewControllerAnimated:YES completion:^{
+                NSLog(@"登陆成功");
+            }];
+
+        } failure:^(EMError *aError) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"登录失败！\n请检查你的账号与密码是否正确！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }];
+    }
+    
+    
+    
+    
+    
+    
 }
 - (IBAction)registerBtn:(id)sender {
 //    RegisterViewController *registerVC = [[RegisterViewController alloc]init];
 //    [self.navigationController pushViewController:registerVC animated:YES];
     UIStoryboard *LoginSB = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
-    UIViewController *registerVC = [LoginSB instantiateViewControllerWithIdentifier:@"Register"];
+    RegisterViewController *registerVC = [LoginSB instantiateViewControllerWithIdentifier:@"Register"];
+    registerVC.loginVC = self;
     [self.navigationController pushViewController:registerVC animated:YES];
 
 
@@ -115,7 +141,11 @@
     
 }
 
-
+-(void)dismissVC{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"方法调用弹出成功");
+    }];
+}
 /*
 #pragma mark - Navigation
 

@@ -13,6 +13,8 @@
 #import "AVManager.h"
 #import "UMSocial.h"
 #import "UMSocialSinaSSOHandler.h"
+#import "EMSDK.h"
+
 
 @interface AppDelegate ()
 
@@ -44,7 +46,7 @@
 //    百度地图SDK
     _MapManager = [[BMKMapManager alloc]init];
     if ([_MapManager start:@"NaGbwc1RMXzqvlDFBoH1ZPAGGPXWRVbG" generalDelegate:self]) {
-//        NSLog(@"百度地图启动成功");
+        NSLog(@"百度地图启动成功");
     }
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
@@ -71,6 +73,11 @@
     
     [UMSocialData setAppKey:@"57a99c03e0f55ab022001889"];
     [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"4039008299" secret:@"d3842bf5184fa6854ccfff66bc23458d" RedirectURL:@"http://sns.whalecloud.com/sina2/callback" ];
+    //环信注册及登录模块
+    EMOptions *options = [EMOptions optionsWithAppkey:@"kun359641513#lanouimtest"];
+    options.apnsCertName = @"";
+    [[EMClient sharedClient]initializeSDKWithOptions:options];
+    
     
     
     self.window.rootViewController = [DrawerViewController drawerVcWithMainVc:mainTabBarVC leftMenuVc:leftMenuVC leftWidth:kScreenWidth * 0.75];

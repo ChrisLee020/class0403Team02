@@ -134,16 +134,27 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jmo-Xg-g2Q">
                                 <rect key="frame" x="113" y="459" width="48" height="30"/>
                                 <state key="normal" title="注册"/>
+                                <connections>
+                                    <action selector="registerAction:" destination="wvJ-Al-9E0" eventType="touchUpInside" id="xhH-gz-T5C"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0G5-og-FGZ">
                                 <rect key="frame" x="231" y="459" width="55" height="30"/>
                                 <state key="normal" title="取消"/>
+                                <connections>
+                                    <action selector="canceledAction:" destination="wvJ-Al-9E0" eventType="touchUpInside" id="O7U-dm-OmW"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.61407374049999996" green="0.74678275620000001" blue="0.93272569439999997" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="mg4-J2-zTA"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="registerPassword" destination="Qdm-EZ-BIH" id="7iT-Yr-qvo"/>
+                        <outlet property="registerPasswordrepeat" destination="O9i-zO-2bC" id="dVs-1P-zbc"/>
+                        <outlet property="registerUserName" destination="eZr-wr-o9Y" id="xa1-1I-kav"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g2Z-9c-na0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

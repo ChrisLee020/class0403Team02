@@ -16,6 +16,7 @@
 @property(nonatomic,strong)UITableView *tableview;
 @property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UIImageView *imageView;
+@property(nonatomic,strong)UITextView *textView;
 
 
 @end
@@ -58,14 +59,14 @@
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    return 3;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [_tableview dequeueReusableCellWithIdentifier:@"reuse"];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuse"];
     }
-    NSArray *menuArr = @[@"第一项",@"第二项",@"第三项",@"第四项",@"清理缓存",@"第六项"];
+    NSArray *menuArr = @[@"第一项",@"清理缓存",@"关于我们"];
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = menuArr[indexPath.row];
     cell.textLabel.frame = CGRectMake(30, 0, self.view.frame.size.width - 30, 50);
@@ -80,13 +81,31 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //设置选择菜单项后的行为
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (indexPath.row == 4) {
+    if (indexPath.row == 1) {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"确定要清除所有缓存数据么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
-    
-    
+    }else if (indexPath.row == 2){
+        
+        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(40, 50, self.view.bounds.size.width - 40, self.view.bounds.size.height - 100) ];
+        textView.text = @"关于本APP的声明\n    本APP是由蓝鸥科技学员在学习过程中为了检验自己的技术水平而制作，所有数据资源来源于网络，如果侵犯到了您的权益，请联系我们，我们会立即删除相关素材。";
+        [self.view bringSubviewToFront:textView];
+        textView.font = [UIFont systemFontOfSize:30];
+        [self.view addSubview:textView];
+        textView.userInteractionEnabled = YES;
+        _textView = textView;
+        UITapGestureRecognizer *textViewTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(removeText)];
+        [textView addGestureRecognizer:textViewTap];
+        
+        
+    }else{
+        
+        
     }
 
+}
+-(void)removeText{
+    [_textView removeFromSuperview];
+    _textView = nil;
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -132,15 +151,18 @@
 }
 
 -(void)gotoLoginVC:(UITapGestureRecognizer *)tap{
-    UIStoryboard *MapSB = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
-    LoginViewController *loginVC = [MapSB instantiateViewControllerWithIdentifier:@"LoginVC"];
-    UINavigationController *LoginNavi = [[UINavigationController alloc]initWithRootViewController:loginVC];
-    loginVC.namelabel = _nameLabel;
-    loginVC.image = _imageView;
-    
-    [self presentViewController:LoginNavi animated:YES completion:^{
-//        NSLog(@"你大爷");
-    }];
+    if ([_nameLabel.text isEqualToString:@"未登录"]) {
+        UIStoryboard *MapSB = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
+        LoginViewController *loginVC = [MapSB instantiateViewControllerWithIdentifier:@"LoginVC"];
+        UINavigationController *LoginNavi = [[UINavigationController alloc]initWithRootViewController:loginVC];
+        loginVC.namelabel = _nameLabel;
+        loginVC.image = _imageView;
+        
+        [self presentViewController:LoginNavi animated:YES completion:nil];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"去往用户信息页面" message:@"等待设置" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

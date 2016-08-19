@@ -36,7 +36,7 @@
     _mapView.showsUserLocation = YES;
     [_locationSer startUserLocationService];
     _mapView.showsUserLocation = NO;//先关闭显示的定位图层
-    _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
+    _mapView.userTrackingMode = BMKUserTrackingModeFollow;//设置定位的状态
     _mapView.showsUserLocation = YES;//显示定位图层
     _mapView.delegate = self;
     [self buildBtn];
@@ -61,8 +61,24 @@
     [indoorBtn addTarget:self action:@selector(indoorAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:indoorBtn];
     
+    UIButton *followBtn = [[UIButton alloc]initWithFrame:CGRectMake(200, self.view.frame.size.width + 80, 48 , 48)];
+    [followBtn addTarget:self action:@selector(followAction:) forControlEvents:UIControlEventTouchUpInside];
+    [followBtn setImage:[UIImage imageNamed:@"indoor.png"] forState:UIControlStateNormal];
+    [self.view addSubview:followBtn];
 }
-
+-(void)followAction:(UIButton *)btn{
+    if (_mapView.userTrackingMode == BMKUserTrackingModeFollowWithHeading) {
+        _mapView.showsUserLocation = NO;//先关闭显示的定位图层
+        _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
+        _mapView.showsUserLocation = YES;//显示定位图层
+    }else{
+        _mapView.showsUserLocation = NO;//先关闭显示的定位图层
+        _mapView.userTrackingMode = BMKUserTrackingModeFollowWithHeading;//设置定位的状态
+        _mapView.showsUserLocation = YES;//显示定位图层
+    }
+    
+    
+}
 
 
 -(void)SatelliteAction:(UIButton *)btn{

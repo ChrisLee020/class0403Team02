@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoginViewController.h"
 
 @interface RegisterViewController : UIViewController
+
+@property(nonatomic,strong)LoginViewController *loginVC;
 
 @end
