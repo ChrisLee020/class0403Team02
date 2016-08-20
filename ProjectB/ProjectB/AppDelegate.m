@@ -46,7 +46,7 @@
 //    百度地图SDK
     _MapManager = [[BMKMapManager alloc]init];
     if ([_MapManager start:@"NaGbwc1RMXzqvlDFBoH1ZPAGGPXWRVbG" generalDelegate:self]) {
-        NSLog(@"百度地图启动成功");
+//        NSLog(@"百度地图启动成功");
     }
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     

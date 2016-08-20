@@ -316,7 +316,7 @@
             dateString = [NSString stringWithFormat:@"%ld-%ld-%ld",com.year,com.month,com.day];
 
         }
-                NSLog(@"%@",dateString);  //当前日期字符串
+//                NSLog(@"%@",dateString);  //当前日期字符串
         _todaydate = dateString;
         NSArray *arr = [_stepNumberDict allKeys];
         for (NSString *tempStr in arr) {
