@@ -108,6 +108,7 @@
         }else{
             SelectImageViewController *select = [[SelectImageViewController alloc]init];
             select.imageviewHead = self.imageView;
+            select.namelabelHead = self.nameLabel;
             [self presentViewController:select animated:YES completion:nil];
         }
         

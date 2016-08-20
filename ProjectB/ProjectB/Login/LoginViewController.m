@@ -47,6 +47,17 @@
             _namelabel.text = _UserNameText.text;
             [self dismissViewControllerAnimated:YES completion:^{
                 NSLog(@"登陆成功");
+                NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
+                NSString *path1 = [path stringByAppendingPathComponent:@"userdata.json"];
+                NSMutableDictionary *userdataDict = [[NSMutableDictionary alloc]initWithContentsOfFile:path1];
+                NSString *path2 = [userdataDict valueForKey:_namelabel.text];
+                NSString *path3 = [path stringByAppendingPathComponent:path2];
+                UIImage *image = [UIImage imageWithContentsOfFile:path3];
+                if (image == nil) {
+                    image = [UIImage imageNamed:@"userImageplaceholder.png"];
+                }
+                _image.image = image;
+                
             }];
 
         } failure:^(EMError *aError) {
@@ -134,7 +145,7 @@
             
         }
         [self dismissViewControllerAnimated:YES completion:^{
-            NSLog(@"弹出运行正常");
+        //    NSLog(@"弹出运行正常");
         }];
     });
     
@@ -143,7 +154,7 @@
 
 -(void)dismissVC{
     [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"方法调用弹出成功");
+    //    NSLog(@"方法调用弹出成功");
     }];
 }
 /*

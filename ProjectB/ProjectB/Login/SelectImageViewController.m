@@ -35,6 +35,11 @@
     [btn setBackgroundColor:[UIColor grayColor]];
      [self.view addSubview:btn];
      [btn addTarget:self action:@selector(btnAction) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(80, _imageview.frame.size.height + 30, self.view.frame.size.width - 160, 100)];
+    label.text = @"选择图片后，拖拽矩形区域来选取你想要作为头像的部分。";
+    label.font = [UIFont systemFontOfSize:18];
+    label.numberOfLines = 0;
+    [self.view addSubview:label];
     
     
 }
@@ -102,6 +107,18 @@
         UIGraphicsEndImageContext();
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
         _imageviewHead.image = image;
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)firstObject];
+        NSString *path1 = [path stringByAppendingPathComponent:@"userdata.json"];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path1];
+        if (dict == nil) {
+            dict = [[NSMutableDictionary alloc]init];
+        }
+        NSString *imagename = [NSString stringWithFormat:@"%d%d%d.jpg",arc4random()%1000,arc4random()%1000,arc4random()%1000];
+        NSString *path2 = [path stringByAppendingPathComponent:imagename];
+        NSLog(@"%@",path2);
+        [UIImageJPEGRepresentation(image, 1) writeToFile:path2 atomically:YES];
+        [dict setValue:imagename forKey:_namelabelHead.text];
+        [dict writeToFile:path1 atomically:YES];
         [self.clipView removeFromSuperview];
         _clipView = nil;
         [self.view removeGestureRecognizer:_pan];

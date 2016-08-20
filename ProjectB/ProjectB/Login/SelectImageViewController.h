@@ -10,4 +10,5 @@
 
 @interface SelectImageViewController : UIViewController
 @property(nonatomic,strong)UIImageView *imageviewHead;
+@property(nonatomic,strong)UILabel *namelabelHead;
 @end

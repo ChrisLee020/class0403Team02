@@ -63,7 +63,7 @@
     
     UIButton *followBtn = [[UIButton alloc]initWithFrame:CGRectMake(200, self.view.frame.size.width + 80, 48 , 48)];
     [followBtn addTarget:self action:@selector(followAction:) forControlEvents:UIControlEventTouchUpInside];
-    [followBtn setImage:[UIImage imageNamed:@"indoor.png"] forState:UIControlStateNormal];
+    [followBtn setImage:[UIImage imageNamed:@"bei.png"] forState:UIControlStateNormal];
     [self.view addSubview:followBtn];
 }
 -(void)followAction:(UIButton *)btn{
@@ -71,10 +71,12 @@
         _mapView.showsUserLocation = NO;//先关闭显示的定位图层
         _mapView.userTrackingMode = BMKUserTrackingModeNone;//设置定位的状态
         _mapView.showsUserLocation = YES;//显示定位图层
+        [btn setImage:[UIImage imageNamed:@"bei.png"] forState:UIControlStateNormal];
     }else{
         _mapView.showsUserLocation = NO;//先关闭显示的定位图层
         _mapView.userTrackingMode = BMKUserTrackingModeFollowWithHeading;//设置定位的状态
         _mapView.showsUserLocation = YES;//显示定位图层
+        [btn setImage:[UIImage imageNamed:@"fangxiang.png"] forState:UIControlStateNormal];
     }
     
     

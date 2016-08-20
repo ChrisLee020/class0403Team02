@@ -152,6 +152,8 @@
 		3F7256361D684F9700C8CD66 /* AnimationDismissTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7256301D684F9700C8CD66 /* AnimationDismissTransform.m */; settings = {ASSET_TAGS = (); }; };
 		3F7256371D684F9700C8CD66 /* AnimationPresentedFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7256321D684F9700C8CD66 /* AnimationPresentedFade.m */; settings = {ASSET_TAGS = (); }; };
 		3F7256381D684F9700C8CD66 /* AnimationPresentedProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7256341D684F9700C8CD66 /* AnimationPresentedProxy.m */; settings = {ASSET_TAGS = (); }; };
+		3F72563B1D688EAF00C8CD66 /* bei.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F7256391D688EAF00C8CD66 /* bei.png */; settings = {ASSET_TAGS = (); }; };
+		3F72563C1D688EAF00C8CD66 /* fangxiang.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F72563A1D688EAF00C8CD66 /* fangxiang.png */; settings = {ASSET_TAGS = (); }; };
 		3F99D3081D5C298300196A01 /* listDetailBackGround.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F99D3061D5C298300196A01 /* listDetailBackGround.jpg */; settings = {ASSET_TAGS = (); }; };
 		3F99D3091D5C298300196A01 /* radioBackGround.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F99D3071D5C298300196A01 /* radioBackGround.jpg */; settings = {ASSET_TAGS = (); }; };
 		3FF23B301D62B0C0002CF1A9 /* fileService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF23B2F1D62B0C0002CF1A9 /* fileService.m */; settings = {ASSET_TAGS = (); }; };
@@ -533,6 +535,8 @@
 		3F7256321D684F9700C8CD66 /* AnimationPresentedFade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationPresentedFade.m; sourceTree = "<group>"; };
 		3F7256331D684F9700C8CD66 /* AnimationPresentedProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationPresentedProxy.h; sourceTree = "<group>"; };
 		3F7256341D684F9700C8CD66 /* AnimationPresentedProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationPresentedProxy.m; sourceTree = "<group>"; };
+		3F7256391D688EAF00C8CD66 /* bei.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bei.png; sourceTree = "<group>"; };
+		3F72563A1D688EAF00C8CD66 /* fangxiang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fangxiang.png; sourceTree = "<group>"; };
 		3F99D3061D5C298300196A01 /* listDetailBackGround.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = listDetailBackGround.jpg; sourceTree = "<group>"; };
 		3F99D3071D5C298300196A01 /* radioBackGround.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = radioBackGround.jpg; sourceTree = "<group>"; };
 		3FF23B2E1D62B0C0002CF1A9 /* fileService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileService.h; sourceTree = "<group>"; };
@@ -838,6 +842,8 @@
 		3F5D21981D5DF724002DF475 /* pictures */ = {
 			isa = PBXGroup;
 			children = (
+				3F7256391D688EAF00C8CD66 /* bei.png */,
+				3F72563A1D688EAF00C8CD66 /* fangxiang.png */,
 				3F0CB0E61D5DA16E006722C1 /* nextWeekBtn.png */,
 				3F0CB0E71D5DA16E006722C1 /* LastWeekBtn.png */,
 				3F5D21941D5DF71D002DF475 /* outdoor.png */,
@@ -1750,6 +1756,7 @@
 				83B57BF91D533F8A00AA169C /* MenuBackImage.jpg in Resources */,
 				83EF3F201D5B0E9B00243BCF /* walking01.tiff in Resources */,
 				3F5D218F1D5DE2A0002DF475 /* hot.png in Resources */,
+				3F72563B1D688EAF00C8CD66 /* bei.png in Resources */,
 				83C8DB641D5447EE0039FB63 /* mapButton.png in Resources */,
 				3F7256011D684DAB00C8CD66 /* 4.png in Resources */,
 				83C8DB611D5447EE0039FB63 /* 跑步0.png in Resources */,
@@ -1759,6 +1766,7 @@
 				83C8DB6F1D5447FD0039FB63 /* 跑步2.png in Resources */,
 				83C8DB701D5447FD0039FB63 /* 跑步3_2.png in Resources */,
 				3F7256141D684DAB00C8CD66 /* headerSecondView.xib in Resources */,
+				3F72563C1D688EAF00C8CD66 /* fangxiang.png in Resources */,
 				3F7256041D684DAB00C8CD66 /* bbb.png in Resources */,
 				3F5D21971D5DF71D002DF475 /* indoor.png in Resources */,
 				3F72561E1D684DAB00C8CD66 /* sortBookCell.xib in Resources */,
