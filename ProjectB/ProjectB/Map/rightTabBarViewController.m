@@ -36,14 +36,14 @@
 
 @implementation rightTabBarViewController
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    self.stepNumber++;
-    
-    _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
-    _zjlabel.NowStep = _stepNumber;
-    
-    
-}
+//-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    self.stepNumber++;
+//    
+//    _zjlabel.present = _stepNumber * 1.0 / _targetStepNumber;
+//    _zjlabel.NowStep = _stepNumber;
+//    
+//    
+//}
 
 
 - (void)viewDidLoad {

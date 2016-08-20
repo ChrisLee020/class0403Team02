@@ -41,6 +41,7 @@
 		3F5D21971D5DF71D002DF475 /* indoor.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F5D21951D5DF71D002DF475 /* indoor.png */; settings = {ASSET_TAGS = (); }; };
 		3F5D219B1D5DFCDB002DF475 /* cityMode.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F5D21991D5DFCDB002DF475 /* cityMode.png */; settings = {ASSET_TAGS = (); }; };
 		3F5D219C1D5DFCDB002DF475 /* satellite.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F5D219A1D5DFCDB002DF475 /* satellite.png */; settings = {ASSET_TAGS = (); }; };
+		3F7254F31D6837A100C8CD66 /* SelectImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7254F21D6837A100C8CD66 /* SelectImageViewController.m */; settings = {ASSET_TAGS = (); }; };
 		3F99D3081D5C298300196A01 /* listDetailBackGround.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F99D3061D5C298300196A01 /* listDetailBackGround.jpg */; settings = {ASSET_TAGS = (); }; };
 		3F99D3091D5C298300196A01 /* radioBackGround.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F99D3071D5C298300196A01 /* radioBackGround.jpg */; settings = {ASSET_TAGS = (); }; };
 		3FF23B301D62B0C0002CF1A9 /* fileService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF23B2F1D62B0C0002CF1A9 /* fileService.m */; settings = {ASSET_TAGS = (); }; };
@@ -285,6 +286,8 @@
 		3F5D21951D5DF71D002DF475 /* indoor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indoor.png; sourceTree = "<group>"; };
 		3F5D21991D5DFCDB002DF475 /* cityMode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityMode.png; sourceTree = "<group>"; };
 		3F5D219A1D5DFCDB002DF475 /* satellite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = satellite.png; sourceTree = "<group>"; };
+		3F7254F11D6837A100C8CD66 /* SelectImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectImageViewController.h; sourceTree = "<group>"; };
+		3F7254F21D6837A100C8CD66 /* SelectImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectImageViewController.m; sourceTree = "<group>"; };
 		3F99D3061D5C298300196A01 /* listDetailBackGround.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = listDetailBackGround.jpg; sourceTree = "<group>"; };
 		3F99D3071D5C298300196A01 /* radioBackGround.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = radioBackGround.jpg; sourceTree = "<group>"; };
 		3FF23B2E1D62B0C0002CF1A9 /* fileService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileService.h; sourceTree = "<group>"; };
@@ -594,6 +597,8 @@
 				3F09A1CE1D586E4C00630144 /* LoginStoryboard.storyboard */,
 				3F3EAF541D5B0BD300F979E5 /* RegisterViewController.h */,
 				3F3EAF551D5B0BD300F979E5 /* RegisterViewController.m */,
+				3F7254F11D6837A100C8CD66 /* SelectImageViewController.h */,
+				3F7254F21D6837A100C8CD66 /* SelectImageViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1484,6 +1489,7 @@
 				3F0136EB1D4B71AD00F51F29 /* leftMenuViewController.m in Sources */,
 				83E056661D4B585900250AAE /* FMDatabaseQueue.m in Sources */,
 				3F3EAF561D5B0BD300F979E5 /* RegisterViewController.m in Sources */,
+				3F7254F31D6837A100C8CD66 /* SelectImageViewController.m in Sources */,
 				83E0567E1D4B585900250AAE /* SDWebImageDownloader.m in Sources */,
 				83E056721D4B585900250AAE /* MASViewConstraint.m in Sources */,
 				83369B871D53753E0071E6BB /* detailBookModel.m in Sources */,

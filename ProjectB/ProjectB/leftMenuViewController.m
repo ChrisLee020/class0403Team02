@@ -10,13 +10,15 @@
 #import "LoginViewController.h"
 #import "SDImageCache.h"
 #import "fileService.h"
+#import "EMSDK.h"
+#import "SelectImageViewController.h"
 
 @interface leftMenuViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
 @property(nonatomic,strong)UITableView *tableview;
 @property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UIImageView *imageView;
-@property(nonatomic,strong)UITextView *textView;
+@property(nonatomic,strong)UILabel *textView;
 
 
 @end
@@ -66,7 +68,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuse"];
     }
-    NSArray *menuArr = @[@"第一项",@"清理缓存",@"关于我们"];
+    NSArray *menuArr = @[@"设   置",@"清理缓存",@"关于我们"];
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = menuArr[indexPath.row];
     cell.textLabel.frame = CGRectMake(30, 0, self.view.frame.size.width - 30, 50);
@@ -86,7 +88,7 @@
         [alert show];
     }else if (indexPath.row == 2){
         
-        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(40, 50, self.view.bounds.size.width - 40, self.view.bounds.size.height - 100) ];
+        UILabel *textView = [[UILabel alloc]initWithFrame:CGRectMake(40, 50, self.view.bounds.size.width - 40, self.view.bounds.size.height - 100) ];
         textView.text = @"关于本APP的声明\n    本APP是由蓝鸥科技学员在学习过程中为了检验自己的技术水平而制作，所有数据资源来源于网络，如果侵犯到了您的权益，请联系我们，我们会立即删除相关素材。";
         [self.view bringSubviewToFront:textView];
         textView.font = [UIFont systemFontOfSize:30];
@@ -98,7 +100,14 @@
         
         
     }else{
-        
+        if ([self.nameLabel.text isEqualToString:@"未登录"]) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"请先登录！" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+            [alert show];
+        }else{
+            SelectImageViewController *select = [[SelectImageViewController alloc]init];
+            select.imageviewHead = self.imageView;
+            [self presentViewController:select animated:YES completion:nil];
+        }
         
     }
 
@@ -160,8 +169,28 @@
         
         [self presentViewController:LoginNavi animated:YES completion:nil];
     }else{
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"去往用户信息页面" message:@"等待设置" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
-        [alert show];
+        
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"注意" message:@"是否确认登出？" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[EMClient sharedClient]logout:YES];
+            
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"注销成功！" message:@"账号登陆已经退出。" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+            _imageView.image = [UIImage imageNamed:@"userImageplaceholder.png"];
+            _nameLabel.text = @"未登录";
+            [self.view setNeedsDisplay];
+            [alert show];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"1111");
+        }];
+        [alertVC addAction:action1];
+        [alertVC addAction:action2];
+        [self presentViewController:alertVC animated:YES completion:nil];
+        
+        
+        
+        
+
     }
 }
 

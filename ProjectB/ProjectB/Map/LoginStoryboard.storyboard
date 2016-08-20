@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--登录-->
@@ -53,14 +54,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="使用其他方式登陆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIQ-l3-0e3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用其他方式登陆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIQ-l3-0e3">
                                 <rect key="frame" x="20" y="599" width="136" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="24e-GJ-faE"/>
+                                    <constraint firstAttribute="width" constant="136" id="8el-Vn-OfA"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwg-gt-ZFc">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwg-gt-ZFc">
                                 <rect key="frame" x="46" y="642" width="45" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="9gj-eb-yAc"/>
+                                    <constraint firstAttribute="width" constant="45" id="DHU-z2-eb3"/>
+                                </constraints>
                                 <state key="normal" image="sina.png"/>
                                 <connections>
                                     <action selector="sinaLogin:" destination="7zl-UI-5AE" eventType="touchUpInside" id="7OR-ym-1WA"/>
@@ -68,6 +77,12 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.61407374052254127" green="0.74678275619156698" blue="0.93272569444444442" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="qIQ-l3-0e3" firstAttribute="leading" secondItem="5WT-6J-Jx7" secondAttribute="leadingMargin" id="DBe-OA-uW6"/>
+                            <constraint firstItem="jwg-gt-ZFc" firstAttribute="top" secondItem="qIQ-l3-0e3" secondAttribute="bottom" constant="8" id="KU3-rJ-Xzw"/>
+                            <constraint firstItem="C3Y-lN-w63" firstAttribute="top" secondItem="jwg-gt-ZFc" secondAttribute="bottom" constant="54" id="W98-Fx-exT"/>
+                            <constraint firstItem="jwg-gt-ZFc" firstAttribute="leading" secondItem="5WT-6J-Jx7" secondAttribute="leadingMargin" constant="26" id="dRH-NP-V1i"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="登录" id="fOC-ja-DUy">
                         <barButtonItem key="leftBarButtonItem" title="返回" id="OyM-Rb-bTh">
