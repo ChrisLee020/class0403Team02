@@ -90,6 +90,8 @@
         
         UILabel *textView = [[UILabel alloc]initWithFrame:CGRectMake(40, 50, self.view.bounds.size.width - 40, self.view.bounds.size.height - 100) ];
         textView.text = @"关于本APP的声明\n    本APP是由蓝鸥科技学员在学习过程中为了检验自己的技术水平而制作，所有数据资源来源于网络，如果侵犯到了您的权益，请联系我们，我们会立即删除相关素材。";
+        textView.numberOfLines = 0;
+        textView.backgroundColor = [UIColor whiteColor];
         [self.view bringSubviewToFront:textView];
         textView.font = [UIFont systemFontOfSize:30];
         [self.view addSubview:textView];

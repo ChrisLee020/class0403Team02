@@ -17,4 +17,6 @@
 
 #define duoleQueenUrl @"http://a.duole.com/api/audio/get_lastest_book_list?category=2&show_epsiode=no&page=1&limit=3"      //火爆王妃
 
+#define seasonAnchorUrl @"http://radio.sky31.com/api/anchor?page=1" //四季主播列表
+
 #endif /* RadioListUrl_h */

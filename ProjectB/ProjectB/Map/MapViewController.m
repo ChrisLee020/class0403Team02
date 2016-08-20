@@ -107,11 +107,11 @@
 }
 
 -(void)didUpdateUserHeading:(BMKUserLocation *)userLocation{
-    NSLog(@"heading is %@",userLocation.heading);
+//    NSLog(@"heading is %@",userLocation.heading);
     [_mapView updateLocationData:userLocation];
 }
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
-    NSLog(@"location is %f   %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+//    NSLog(@"location is %f   %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
     [_mapView updateLocationData:userLocation];
 }
 
