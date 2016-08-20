@@ -14,7 +14,7 @@
     [super awakeFromNib];
     // Initialization code
     
-    self.title.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+    self.title.font = [UIFont fontWithName:@"Helvetica-Bold" size:10];
     
    
 }

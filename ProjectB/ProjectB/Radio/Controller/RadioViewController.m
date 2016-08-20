@@ -6,50 +6,70 @@
 //  Copyright © 2016年 0403ClassTeam02. All rights reserved.
 //
 
+#import "AnimationDismissProxy.h"
+#import "AnimationPresentedFade.h"
+#import "AnimationDismissTransform.h"
+#import "AnimationPresentedProxy.h"
+#import "AVManager.h"
+#import "DrawerViewController.h"
+#import "ListDetailModel.h"
+#import "ListDetailViewController.h"
+#import "Masonry.h"
+#import "MBProgressHUD+MJ.h"
+#import "PullDownToRefreshView.h"
+#import "PlayViewController.h"
+#import "RadioDB.h"
 #import "RadioViewController.h"
 #import "RadioListCell.h"
 #import "RadioListUrl.h"
+#import "SeriesModel.h"
 #import "UnitModel.h"
-#import "ListDetailModel.h"
-#import "ListDetailViewController.h"
-#import "SeriesViewController.h"
-#import "Masonry.h"
-#import "DrawerViewController.h"
-#import "LibraryListViewController.h"
-#import "RadioDB.h"
-#import "PullDownToRefreshView.h"
-#import "MBProgressHUD+MJ.h"
+#import "YHJTabPageScrollView.h"
+#import "SeasonAnchorCell.h"
+#import "PlayerShortcutButton.h"
 
-@interface RadioViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, strong)UICollectionView *collectionView;
+
+@interface RadioViewController ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIViewControllerTransitioningDelegate, UITableViewDelegate, UITableViewDataSource>
+
+
 
 //四季专题频道
 @property (nonatomic, strong)NSMutableArray *unitSeasonArray;
 
-//多乐传统评书频道
-@property (nonatomic, strong)NSMutableArray *unitTraditionalArray;
+//四季主播频道
+@property (nonatomic, strong)NSMutableArray *unitSeasonAnchorArray;
 
-//多乐笑话故事频道
-@property (nonatomic, strong)NSMutableArray *unitJokeArray;
-
-//火爆王妃
-@property (nonatomic, strong)NSMutableArray *unitQueenArray;
-
+//电台页面保存
 @property (nonatomic, strong)RadioDB *radioDB;
 
 //CollectionView布局
 @property (nonatomic, strong)UICollectionViewFlowLayout *flowLayout;
 
+//分页
+@property (nonatomic, strong) YHJTabPageScrollView *pageScroll;
+
+@property (nonatomic, strong)UITableView *tableView;
+
+@property (nonatomic, strong)UICollectionView *collectionView;
+
 //判断辅助属性
 @property (nonatomic, assign)BOOL seasonFinsh;
 
-@property (nonatomic, assign)BOOL traditionalFinsh;
+@property (nonatomic, assign)BOOL seasonAnchorFinsh;
 
-@property (nonatomic, assign)BOOL jokeFinsh;
 
-@property (nonatomic, assign)BOOL queenFinsh;
+//小播放页
 
+@property (nonatomic, assign, getter = isPlaying)BOOL playing;
+
+@property (nonatomic, strong)PlayerShortcutButton *playerSB;
+
+@property (nonatomic, weak) NSTimer *timer;
+
+@property (nonatomic, strong)AVManager *player;
+
+@property (nonatomic, strong)PlayViewController *playVC;
 
 
 @end
@@ -63,10 +83,10 @@
     
     [self loadDataNoLink];
     
-    [self createCollectionView];    //创建CollectionView
+    [self createLayout];    //创建布局
     
     [self settingTop];
-    
+
 }
 
 #pragma mark   本地数据加载
@@ -74,11 +94,7 @@
 {
     NSMutableArray *seasonArray = [self.radioDB selectFormTable:@"season"];
     
-    NSMutableArray *traditionalArray = [self.radioDB selectFormTable:@"traditional"];
-    
-    NSMutableArray *jokeArray = [self.radioDB selectFormTable:@"joke"];
-    
-    NSMutableArray *queenArray = [self.radioDB selectFormTable:@"queen"];
+    NSMutableArray *seasonAnchorArray = [self.radioDB selectFormTable:@"anchor"];
     
     if (seasonArray.count == 0)
     {
@@ -88,11 +104,7 @@
     {
         [self.unitSeasonArray addObjectsFromArray: seasonArray];
         
-        [self.unitJokeArray addObjectsFromArray: jokeArray];
-        
-        [self.unitTraditionalArray addObjectsFromArray:traditionalArray];
-        
-        [self.unitQueenArray addObjectsFromArray:queenArray];
+        [self.unitSeasonAnchorArray addObjectsFromArray:seasonAnchorArray];
     }
 }
 
@@ -100,6 +112,9 @@
 #pragma mark   导航栏设置
 - (void)settingTop
 {
+    self.navigationController.navigationBarHidden = YES;
+
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     
     titleLabel.textColor = [UIColor whiteColor];
@@ -108,7 +123,7 @@
     
     titleLabel.text = @"聆听生活";
     
-    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20];
+    titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
     
     [self.view addSubview:titleLabel];
     
@@ -121,13 +136,11 @@
     }];
     
     
-    [self.navigationController setNavigationBarHidden:YES];
-    
     UIButton *topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [topBtn setImage:[UIImage imageNamed:@"settingSwitch.png"] forState:UIControlStateNormal];
     
-    topBtn.frame = CGRectMake(0, 0, 80, 80);
+    topBtn.frame = CGRectMake(0, 0, 100, 60);
     
     [topBtn addTarget:self action:@selector(showTheLeftView) forControlEvents:UIControlEventTouchUpInside];
 
@@ -140,10 +153,44 @@
         make.top.equalTo(self.view.mas_top).offset(25);
         
     }];
-
+    
+    UIButton *topRightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    [topRightBtn setImage:[UIImage imageNamed:@"update.png"] forState:UIControlStateNormal];
+    
+    topRightBtn.frame = CGRectMake(0, 0, 100, 60);
+    
+    [topRightBtn addTarget:self action:@selector(dataRefresh) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:topRightBtn];
+    
+    [topRightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(self.view.mas_right).offset(-20);
+        
+        make.top.equalTo(self.view.mas_top).offset(25);
+    }];
+    
+   
 }
 
+
+
+
+
+
 #pragma mark    懒加载
+
+- (NSMutableArray *)unitSeasonAnchorArray
+{
+    if (!_unitSeasonAnchorArray)
+    {
+        _unitSeasonAnchorArray = [NSMutableArray array];
+    }
+    
+    return _unitSeasonAnchorArray;
+}
+
 - (NSMutableArray *)unitSeasonArray
 {
     if (!_unitSeasonArray)
@@ -154,35 +201,6 @@
     return _unitSeasonArray;
 }
 
-- (NSMutableArray *)unitTraditionalArray
-{
-    if (!_unitTraditionalArray)
-    {
-        _unitTraditionalArray = [NSMutableArray array];
-    }
-    
-    return _unitTraditionalArray;
-}
-
-- (NSMutableArray *)unitJokeArray
-{
-    if (!_unitJokeArray)
-    {
-        _unitJokeArray = [NSMutableArray array];
-    }
-    
-    return _unitJokeArray;
-}
-
-- (NSMutableArray *)unitQueenArray
-{
-    if (!_unitQueenArray)
-    {
-        _unitQueenArray = [NSMutableArray array];
-    }
-    
-    return _unitQueenArray;
-}
 
 - (RadioDB *)radioDB
 {
@@ -195,52 +213,19 @@
 }
 
 #pragma mark    背景设置
-//- (void)backGroundSetting
-//{
-//    UIView *backGroundLayoutView = [[UIView alloc] initWithFrame:kScreenMainBounds];
-//    
-//    CAGradientLayer *gradientlayer = [CAGradientLayer layer];
-//    
-//    gradientlayer.frame = kScreenMainBounds;
-//    
-//    UIColor *color1 = [UIColor colorWithRed:227.0 / 255 green:137.0 / 255 blue:157.0 / 255 alpha:1];
-//    
-//    UIColor *color3 = [UIColor colorWithRed:36.0 / 255 green:14.0 / 255 blue:50.0 / 255 alpha:1];
-//    
-//    UIColor *color2 = [UIColor colorWithRed:91.0 / 255 green:48.0 / 255 blue:82.0 / 255 alpha:1];
-//    
-//    gradientlayer.colors = @[(id)color1.CGColor, (id)color2.CGColor, (id)color3.CGColor];
-//    
-//    gradientlayer.startPoint = CGPointMake(1, 0);
-//    
-//    gradientlayer.endPoint = CGPointMake(0, 1);
-//    
-//    [backGroundLayoutView.layer addSublayer:gradientlayer];
-//    
-////    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-////    
-////    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
-////    
-////    effectView.alpha = 1;
-////    
-////    effectView.frame = [UIScreen mainScreen].bounds;
-////    
-////    [backGroundLayoutView addSubview:effectView];
-//    
-//    [self.view addSubview:backGroundLayoutView];
-//}
+
 
 - (void)backGroundSetting
 {
     UIImageView *backGroundImage = [[UIImageView alloc] initWithFrame:kScreenMainBounds];
     
-    backGroundImage.image = [UIImage imageNamed:@"radioBackGround.jpg"];
+    backGroundImage.image = [UIImage imageNamed:@"69.jpg"];
     
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
     
-    effectView.alpha = 0.7;
+    effectView.alpha = 0.38;
     
     effectView.frame = [UIScreen mainScreen].bounds;
     
@@ -253,6 +238,8 @@
 #pragma mark    加载数据
 - (void)loadData
 {
+
+    
 //    四季频道
     [DownLoad downLoadWithUrl:unitListUrl postBody:nil resultBlock:^(NSData *data) {
         
@@ -284,7 +271,7 @@
                     
                     self.seasonFinsh = YES;
                     
-                    if (self.seasonFinsh && self.traditionalFinsh && self.jokeFinsh && self.queenFinsh) {
+                    if (self.seasonFinsh) {
                         
                          [self.collectionView reloadData];
                         
@@ -297,162 +284,125 @@
             }
         }];
     
-//    多乐传统评书
-    [DownLoad downLoadWithUrl:duoleListUrl postBody:nil resultBlock:^(NSData *data) {
-        if (data)
-        {
-            
-            [self.radioDB createTable:@"traditional"];
-            
-            [self.radioDB deleteTable:@"traditional"];
-            
-            [self.unitTraditionalArray removeAllObjects];
-            
-            NSDictionary *dict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
-            NSDictionary *dict2 = dict[@"data"];
-            
-            NSArray *array = dict2[@"list"];
-            
-            for (NSDictionary *dic in array)
-            {
-                UnitModel *unitModel = [[UnitModel alloc] init];
-                
-                [unitModel setValuesForKeysWithDictionary:dic];
-                
-                [self.unitTraditionalArray addObject:unitModel];
-                
-                [self.radioDB addModel:unitModel formTable:@"traditional"];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                self.traditionalFinsh = YES;
-                
-                if (self.seasonFinsh && self.traditionalFinsh && self.jokeFinsh && self.queenFinsh) {
-                    
-                    [self.collectionView reloadData];
-                    
-                }
-
-                
-            });
-        }
-    }];
-    
-//    多乐笑话频道
-    [DownLoad downLoadWithUrl:duoleJokeUrl postBody:nil resultBlock:^(NSData *data) {
+    [DownLoad downLoadWithUrl:seasonAnchorUrl postBody:nil resultBlock:^(NSData *data) {
         
         if (data)
         {
-            [self.radioDB createTable:@"joke"];
             
-            [self.radioDB deleteTable:@"joke"];
+            self.seasonAnchorFinsh = NO;
             
-            [self.unitJokeArray removeAllObjects];
-
+            [self.radioDB createTable:@"anchor"];
             
-            NSDictionary *dict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            [self.radioDB deleteTable:@"anchor"];
             
-            NSDictionary *dict2 = dict[@"data"];
+            [self.unitSeasonAnchorArray removeAllObjects];
             
-            NSArray *array = dict2[@"list"];
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            
+            NSArray *array = dict[@"data"];
             
             for (NSDictionary *dic in array)
             {
-                UnitModel *unitModel = [[UnitModel alloc] init];
+                UnitModel *model = [[UnitModel alloc] init];
                 
-                [unitModel setValuesForKeysWithDictionary:dic];
+                [model setValuesForKeysWithDictionary:dic];
                 
-                [self.unitJokeArray addObject:unitModel];
+                [self.unitSeasonAnchorArray addObject:model];
                 
-                [self.radioDB addModel:unitModel formTable:@"joke"];
+                [self.radioDB addModel:model formTable:@"anchor"];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                self.jokeFinsh = YES;
+                self.seasonAnchorFinsh = YES;
                 
-                if (self.seasonFinsh && self.traditionalFinsh && self.jokeFinsh && self.queenFinsh) {
-                    
-                    [self.collectionView reloadData];
-                    
+                if (self.seasonAnchorFinsh)
+                {
+                    [self.tableView reloadData];
                 }
-
                 
             });
         }
         
     }];
-    
-//    多乐火爆王妃频道
-    [DownLoad downLoadWithUrl:duoleQueenUrl postBody:nil resultBlock:^(NSData *data) {
-        if (data)
-        {
-            
-            [self.radioDB createTable:@"queen"];
-            
-            [self.radioDB deleteTable:@"queen"];
-
-            NSDictionary *dict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
-            NSDictionary *dict2 = dict[@"data"];
-            
-            NSArray *array = dict2[@"list"];
-            
-            [self.unitQueenArray removeAllObjects];
-
-            
-            for (NSDictionary *dic in array)
-            {
-                UnitModel *unitModel = [[UnitModel alloc] init];
-                
-                [unitModel setValuesForKeysWithDictionary:dic];
-                
-                [self.unitQueenArray addObject:unitModel];
-                
-                [self.radioDB addModel:unitModel formTable:@"queen"];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                self.queenFinsh = YES;
-                
-                if (self.seasonFinsh && self.traditionalFinsh && self.jokeFinsh && self.queenFinsh) {
-                    
-                    [self.collectionView reloadData];
-                    
-                }
-
-                
-            });
-        }
-    }];
-    
 }
 
+
+
+
 #pragma mark   创建CollectionView 与设置布局
-- (void)createCollectionView
+- (void)createLayout
 {
+    
+//    播放栏
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    
+    self.playVC = [PlayViewController sharePlayViewController];
+    
+    self.player = [AVManager shareInstance];
+    
+//    tableView设置
+    self.tableView = [[UITableView alloc] initWithFrame:kScreenMainBounds style:UITableViewStylePlain];
+    
+    self.tableView.delegate = self;
+    
+    self.tableView.dataSource = self;
+    
+    self.tableView.rowHeight = 80;
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"SeasonAnchorCell" bundle:nil] forCellReuseIdentifier:@"anchor"];
+    
+    
 //    布局设置
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     
-    self.flowLayout.minimumLineSpacing = 2.5;
+    self.flowLayout.itemSize = CGSizeMake((kScreenWidth - 20) / 3 - 10, kScreenHeight / 3 - 50);
     
-    self.flowLayout.minimumInteritemSpacing = 2.5;
+    self.flowLayout.sectionInset = UIEdgeInsetsMake(10, 3, 10, 3);
+    
+    self.flowLayout.minimumLineSpacing = 15;
+    
+    self.flowLayout.minimumInteritemSpacing = 10;
     
     self.flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
 //    collectionView设置
-   self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight - 113) collectionViewLayout:self.flowLayout];
+   self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight) collectionViewLayout:self.flowLayout];
     
     self.collectionView.backgroundColor = [UIColor clearColor];
-    
-    [self.view addSubview:self.collectionView];
     
     self.collectionView.delegate = self;
     
     self.collectionView.dataSource = self;
+    
+    NSArray *pageItem = @[[[YHJTabPageScrollViewPageItem alloc] initWithTabName:@"专题频道" andTabView:self.collectionView], [[YHJTabPageScrollViewPageItem alloc] initWithTabName:@"主播列表" andTabView:self.tableView]];
+
+    
+    self.pageScroll = [[YHJTabPageScrollView alloc] initWithPageItems:pageItem];
+    
+    self.pageScroll.frame = CGRectMake(10, 64, kScreenWidth - 20, kScreenHeight - 173);
+    
+    [self.view addSubview:self.pageScroll];
+    
+    
+    PlayerShortcutButton *playerSB = [[[NSBundle mainBundle] loadNibNamed:@"PlayerShortcutButton" owner:nil options:nil]lastObject];
+    
+    self.playerSB = playerSB;
+    
+    [self.view addSubview:self.playerSB];
+    
+    [self.playerSB mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.pageScroll.mas_bottom);
+        
+        make.size.mas_equalTo(CGSizeMake(kScreenWidth, 60));
+        
+    }];
+    
 
     
 //    注册cell
@@ -463,19 +413,12 @@
 //    注册分区头
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitSeasonHeader"];
     
-
-    [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitTraditionalHeader"];
-    
-    
-    [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitJokeHeader"];
-    
-    [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitQueenHeader"];
-    
 //    注册分区尾
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer"];
-    
+  
+    /*
      PullDownToRefreshView *refreshView = [[PullDownToRefreshView alloc] initWithFrame:CGRectMake(0, -60, kScreenWidth, 60)];
-    
+
     [self.collectionView addSubview:refreshView];
     
     __weak PullDownToRefreshView *weakView = refreshView;
@@ -487,16 +430,79 @@
             
             [self loadData];
             
-            
             [weakView endRefreshing];
             
-           // [self.collectionView reloadData];
-            
-            [MBProgressHUD showSuccess:@"刷新成功"];
             
         });
         
     };
+    
+    */
+    
+ 
+}
+
+
+#pragma mark    tableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.unitSeasonAnchorArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SeasonAnchorCell *cell = [tableView dequeueReusableCellWithIdentifier:@"anchor"];
+    
+    UnitModel *model = self.unitSeasonAnchorArray[indexPath.row];
+    
+    NSString *str = [model.avatar stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [cell.avatar sd_setImageWithURL:[NSURL URLWithString:str]];
+    
+    cell.avatar.layer.cornerRadius = 30;
+    
+    cell.avatar.layer.masksToBounds = YES;
+    
+    cell.nickName.text = model.nickname;
+    
+//    cell.email.text = model.email;
+    
+    cell.email.text = [NSString stringWithFormat:@"%@个节目", model.program_count];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if (indexPath.row % 2 == 0)
+    {
+//        cell.backgroundColor = [UIColor colorWithWhite:1 alpha:0.4];
+        
+        cell.backgroundColor = [UIColor clearColor];
+    }
+    else
+    {
+        cell.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    }
+    
+    return cell;
+}
+
+#pragma mark    tableView代理方法
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UnitModel *model = self.unitSeasonAnchorArray[indexPath.row];
+    
+    ListDetailViewController *detailVC = [[ListDetailViewController alloc] init];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"http://radio.sky31.com/api/program?page=1&user_id=%@", model.seasonID];
+    
+    detailVC.urlStr = urlStr;
+    
+    detailVC.labelText = model.nickname;
+    
+    detailVC.modalTransitionStyle = UIModalPresentationCustom;
+    
+    detailVC.transitioningDelegate = self;
+    
+    [self presentViewController:detailVC animated:YES completion:nil];
 }
 
 #pragma mark  collectionViewDataSource
@@ -504,95 +510,27 @@
 //设置分区数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 4;
+    return 1;
 }
 
 //设定Item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     
-    if (section == 0)
-    {
-        return self.unitSeasonArray.count;
-    }
-    
-    if (section == 1)
-    {
-        return self.unitQueenArray.count;
-    }
-    
-    if (section == 2) {
-        return self.unitJokeArray.count;
-    }
-    
-    if (section == 3)
-    {
-        return self.unitTraditionalArray.count;
-    }
-   
-    
-    return 1;
+    return self.unitSeasonArray.count;
 }
 
-//显示Cell
+//collectionView显示Cell
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
   RadioListCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"radiolist" forIndexPath:indexPath];
     
-//    修改Item布局
-        CGFloat itemSizeX = kScreenWidth / 3 - 2.5;
     
-        CGFloat itemSizeY = kScreenHeight / 3 - 5;
+    cell.layer.borderWidth = 3;
     
-        self.flowLayout.itemSize = CGSizeMake(itemSizeX, itemSizeY);
-        
-        self.collectionView.collectionViewLayout = self.flowLayout;
+    cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:165 / 255.0 alpha:0.5]);
     
-//    cell.layer.borderWidth = 3;
-//    
-//    cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:165 / 255.0 alpha:0.5]);
-    
-    if (indexPath.section == 3 )
-    {
-        UnitModel *unitModel = self.unitTraditionalArray[indexPath.item];
-        
-        cell.title.text = unitModel.title;
-        
-        //        cell.subTitle.text = @"";
-        
-        NSDictionary *dict = unitModel.poster_path;
-        
-        [cell.coverImage sd_setImageWithURL:[NSURL URLWithString: dict[@"poster_180_260"]]];
-    }
-    
-    if (indexPath.section == 2 )
-    {
-        UnitModel *unitModel = self.unitJokeArray[indexPath.item];
-        
-        cell.title.text = unitModel.title;
-        
-//        cell.subTitle.text = @"";
-        
-        NSDictionary *dict = unitModel.poster_path;
-        
-        [cell.coverImage sd_setImageWithURL:[NSURL URLWithString: dict[@"poster_180_260"]]];
-    }
-    
-     else if (indexPath.section == 1 )
-    {
-        UnitModel *unitModel = self.unitQueenArray[indexPath.item];
-        
-        cell.title.text = unitModel.title;
-        
-//        cell.subTitle.text = @"";
-        
-        NSDictionary *dict = unitModel.poster_path;
-        
-        [cell.coverImage sd_setImageWithURL:[NSURL URLWithString: dict[@"poster_180_260"]]];
-    }
-    
-    
-   else if (indexPath.section == 0 )
+        if (indexPath.section == 0 && self.unitSeasonArray.count == 6)
     {
         UnitModel *unitModel = self.unitSeasonArray[indexPath.item];
         
@@ -612,184 +550,65 @@
 }
 
 
-#pragma mark    重用分区头分区尾
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
-    {
-        
-        UICollectionReusableView *unitHeaderView;
-        
-        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 40)];
-        
-        UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        
-        [moreBtn setTitle:@"更多" forState:UIControlStateNormal];
-        
-        moreBtn.titleLabel.textColor = [UIColor whiteColor];
-        
-        
-        if (indexPath.section == 1)
-        {
-            unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitQueenHeader" forIndexPath:indexPath];
-            
-            unitHeaderView.userInteractionEnabled = YES;
-            
-            title.text = @"火爆王妃";
-            
-            title.textColor = [UIColor whiteColor];
-            
-            [unitHeaderView addSubview:moreBtn];
-            
-            [moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                
-                make.size.mas_equalTo(CGSizeMake(60, 40));
-                
-                make.right.equalTo(unitHeaderView.mas_right);
-                
-                
-            }];
-            
-            [moreBtn addTarget:self action:@selector(moreQueenListShow) forControlEvents:UIControlEventTouchUpInside];
-            
 
-        }
+
+//#pragma mark    collectionView重用分区头分区尾
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+//{
+//    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
+//    {
+//////
+//        UICollectionReusableView *unitHeaderView;
+////
+//        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 40)];
+////
+//        if (indexPath.section == 0)
+//        {
+//            unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitSeasonHeader" forIndexPath:indexPath];
+//            
+//            title.text = @"四季专题频道";
+//            
+//            title.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+//            
+//            title.textColor = [UIColor whiteColor];
+//        }
+//        
+//            [unitHeaderView addSubview:title];
+//            
+//            return unitHeaderView;
+//        
         
-        if (indexPath.section == 2)
-        {
-          unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitJokeHeader" forIndexPath:indexPath];
-            
-            unitHeaderView.userInteractionEnabled = YES;
-            
-            title.text = @"笑话故事";
-            
-            title.textColor = [UIColor whiteColor];
-            
-            [unitHeaderView addSubview:moreBtn];
-            
-            [moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                
-                make.size.mas_equalTo(CGSizeMake(60, 40));
-                
-                make.right.equalTo(unitHeaderView.mas_right);
- 
-                
-            }];
-            
-            [moreBtn addTarget:self action:@selector(moreJokeListShow) forControlEvents:UIControlEventTouchUpInside];
-            
-        }
-        
-        if (indexPath.section == 3)
-        {
-            unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitTraditionalHeader" forIndexPath:indexPath];
-            
-            title.text = @"传统评书";
-            
-            title.textColor = [UIColor whiteColor];
-            
-            [unitHeaderView addSubview:moreBtn];
-            
-            [moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                
-                make.size.mas_equalTo(CGSizeMake(60, 40));
-                
-                make.right.equalTo(unitHeaderView.mas_right);
-                
-            }];
-            
-        [moreBtn addTarget:self action:@selector(moreTraditionalListShow) forControlEvents:UIControlEventTouchUpInside];
-        }
-        
-        if (indexPath.section == 0)
-        {
-            unitHeaderView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"unitSeasonHeader" forIndexPath:indexPath];
-            
-            title.text = @"四季专题频道";
-            
-            title.textColor = [UIColor whiteColor];
-        }
-        
-            [unitHeaderView addSubview:title];
-            
-            return unitHeaderView;
-        
-        
-    }
-    else
-    {
-        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer" forIndexPath:indexPath];
-        
-        footerView.backgroundColor = [UIColor clearColor];
-        
-        return footerView;
-    }
+//    }
+//    else
+//    {
+//        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer" forIndexPath:indexPath];
+//        
+//        footerView.backgroundColor = [UIColor clearColor];
+//        
+//        return footerView;
+//    }
  
     
-}
+//}
 
-//设置分区头高度
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-{
-    return CGSizeMake(kScreenWidth, 40);
-}
+//collectionView设置分区头高度
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//{
+//    return CGSizeMake(kScreenWidth, 40);
+//}
 
-//设置分区尾高度
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-{
-    return CGSizeMake(kScreenWidth, 30);
-}
+//collectionView设置分区尾高度
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+//{
+//    return CGSizeMake(kScreenWidth, 30);
+//}
 
 #pragma mark    collectionView代理方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.section == 1)
+        if (indexPath.section == 0)
     {
-        UnitModel *unitModel = self.unitQueenArray[indexPath.item];
-        
-        NSString *url = [NSString stringWithFormat:@"http://a.duole.com/api/audio/get_audio_info?audio_id=%@&show_epsiode=yes", unitModel.duoleID];
-        
-        SeriesViewController *seriesVC = [[SeriesViewController alloc] init];
-        
-        seriesVC.urlStr = url;
-        
-        seriesVC.labelText = unitModel.title;
-        
-        [self.navigationController pushViewController:seriesVC animated:YES];
-    }
-    
-    if (indexPath.section == 2)
-    {
-        UnitModel *unitModel = self.unitJokeArray[indexPath.item];
-        
-        NSString *url = [NSString stringWithFormat:@"http://a.duole.com/api/audio/get_audio_info?audio_id=%@&show_epsiode=yes", unitModel.duoleID];
-        
-        SeriesViewController *seriesVC = [[SeriesViewController alloc] init];
-        
-        seriesVC.urlStr = url;
-        
-        seriesVC.labelText = unitModel.title;
-        
-        [self.navigationController pushViewController:seriesVC animated:YES];
-    }
-    
-    if (indexPath.section == 3)
-    {
-        UnitModel *unitModel = self.unitTraditionalArray[indexPath.item];
-        
-        NSString *url = [NSString stringWithFormat:@"http://a.duole.com/api/audio/get_audio_info?audio_id=%@&show_epsiode=yes", unitModel.duoleID];
-        
-        SeriesViewController *seriesVC = [[SeriesViewController alloc] init];
-        
-        seriesVC.urlStr = url;
-        
-        seriesVC.labelText = unitModel.title;
-        
-        [self.navigationController pushViewController:seriesVC animated:YES];
-    }
-    
-    if (indexPath.section == 0) {
         
         NSString *url = [NSString stringWithFormat:@"http://radio.sky31.com/api/program?page=1&album_id=%ld", (long)indexPath.item];
         
@@ -801,48 +620,178 @@
         
         listDetailVC.labelText = unitModel.name;
         
-        [self.navigationController pushViewController:listDetailVC animated:YES];
+        listDetailVC.modalTransitionStyle = UIModalPresentationCustom;
+        
+        listDetailVC.transitioningDelegate = self;
+        
+        [self presentViewController:listDetailVC animated:YES completion:nil];
+
     }
     
 }
 
+
+
 #pragma mark 按钮实行方法
+//打开侧边栏
 - (void)showTheLeftView
 {
     [[DrawerViewController shareDrawer] openLeftMenu];
 }
 
-- (void)moreJokeListShow
+//更新数据
+- (void)dataRefresh
 {
-    LibraryListViewController *library = [[LibraryListViewController alloc] init];
+    [MBProgressHUD showMessage:@"更新中"];
     
-    library.bookcase = @"9";
-    
-    library.labelText = @"笑话故事";
-    
-    [self.navigationController pushViewController:library animated:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [MBProgressHUD hideHUD];
+        
+        [self loadData];
+        
+    });
+
 }
 
-- (void)moreTraditionalListShow
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-    LibraryListViewController *library = [[LibraryListViewController alloc] init];
+    if ([dismissed isKindOfClass:[PlayViewController class]])
+    {
+        AnimationDismissProxy *dismissedProxy = [[AnimationDismissProxy alloc] init];
+        
+        return dismissedProxy;
+    }
+    else
+    {
     
-    library.bookcase = @"1";
-    
-    library.labelText = @"传统评书";
-    
-    [self.navigationController pushViewController:library animated:YES];
+        AnimationDismissTransform *dismissedProxy = [[AnimationDismissTransform alloc] init];
+        
+        return dismissedProxy;
+        
+    }
 }
 
-- (void)moreQueenListShow
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-    LibraryListViewController *library = [[LibraryListViewController alloc] init];
+    if ([presented isKindOfClass:[PlayViewController class]])
+    {
+        AnimationPresentedProxy *presentedProxy = [[AnimationPresentedProxy alloc] init];
+        
+        return presentedProxy;
+    }
+    else
+    {
     
-    library.bookcase = @"2";
+        AnimationPresentedFade *presentedFade = [[AnimationPresentedFade alloc] init];
+        
+        return presentedFade;
+    }
     
-    library.labelText = @"火爆王妃";
+}
+
+
+#pragma mark 小播放页
+//按钮方法
+- (IBAction)playBtn:(id)sender {
     
-    [self.navigationController pushViewController:library animated:YES];
+    self.playing = ![AVManager shareInstance].isPlaying;
+    
+    if (self.isPlaying)
+    {
+        [self.player startPlay];
+        
+        self.playVC.playing = YES;
+    }
+    else
+    {
+        [self.player stopPlay];
+        
+        self.playVC.playing = NO;
+
+    }
+}
+
+- (IBAction)nextBtn:(id)sender {
+    
+    if ([AVManager shareInstance].musicUrls.count > 1)
+    {
+        [self.player next];
+    }
+    
+}
+
+- (void)timerAction
+{
+    [self updatePlayerMessage];
+    
+    [self btnState];
+}
+
+- (void)updatePlayerMessage
+{
+    float playDuration = self.player.playDuration;
+    
+    NSInteger playDurationA = playDuration / 60;
+    
+    NSInteger playDurationB = (int)playDuration % 60;
+    
+    float playCuruentTime = self.player.curuentTime;
+    
+    NSInteger playCuruentTimeA = playCuruentTime / 60;
+    
+    NSInteger playCuruentTimeB = (int)playCuruentTime % 60;
+    
+    self.playerSB.timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld / %02ld:%02ld",(long)playCuruentTimeA ,(long)playCuruentTimeB, (long)playDurationA, (long)playDurationB];
+    
+    if (self.playVC.detailList != nil)
+    {
+        ListDetailModel *model = self.playVC.detailList[self.player.playIndex];
+        
+        self.playerSB.titleLabel.text = model.title;
+        
+        [self.playerSB.cover sd_setImageWithURL:[NSURL URLWithString:model.cover]];
+    }
+    else
+    {
+        self.playerSB.titleLabel.text = @"随行播放";
+        
+        self.playerSB.cover.image = [UIImage imageNamed:@"CD.png"];
+    }
+
+    UITapGestureRecognizer *playerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showThePlaerView)];
+    
+    [self.playerSB addGestureRecognizer:playerTap];
+    
+}
+
+- (void)btnState
+{
+    if (self.player.isPlaying)
+    {
+         [self.playerSB.playBtn setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.playerSB.playBtn setImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)showThePlaerView
+{
+    PlayViewController *playVC = [PlayViewController sharePlayViewController];
+    
+    playVC.transitioningDelegate = self;
+    
+    playVC.modalTransitionStyle = UIModalPresentationCustom;
+    
+    [self presentViewController:playVC animated:YES completion:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+//    [self.navigationController.view bringSubviewToFront:self.navigationController.navigationBar];
 }
 
 - (void)didReceiveMemoryWarning {

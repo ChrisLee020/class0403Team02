@@ -16,10 +16,12 @@
 
 @property (nonatomic, copy) NSNumber *program_count;   //节目数量
 
-@property (nonatomic, copy) NSString *title;    //多乐频道标题
+@property (nonatomic, copy) NSString *seasonID;      //四季主播ID
 
-@property (nonatomic, strong) NSDictionary *poster_path;    //多乐图片封面
+@property (nonatomic, copy) NSString *email;    //主播邮箱
 
-@property (nonatomic, copy) NSString *duoleID;      //多乐频道ID
+@property (nonatomic, copy) NSString *avatar;   //主播头像
+
+@property (nonatomic, copy) NSString *nickname; //频道名称
 
 @end

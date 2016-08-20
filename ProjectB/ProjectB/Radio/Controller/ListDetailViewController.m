@@ -13,6 +13,7 @@
 #import "Masonry.h"
 #import "AnimationDismissProxy.h"
 #import "AnimationPresentedProxy.h"
+#import "AVManager.h"
 
 @interface ListDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UIViewControllerTransitioningDelegate>
 
@@ -23,6 +24,11 @@
 @property (nonatomic, strong)UITableView *tableView;
 
 @property (nonatomic, strong)UILabel *titleLabel;
+
+@property (nonatomic, strong)UIViewController *topVC;
+
+@property (nonatomic, assign)BOOL finsh;
+
 
 @end
 
@@ -38,7 +44,11 @@
     [self tableViewSetting];
     
     [self settingTop];
+    
+    [self settingBackGestureRecognizer];
+    
 }
+
 
 #pragma mark  懒加载
 - (NSArray *)listArray
@@ -103,13 +113,13 @@
 {
     UIImageView *backGroundImage = [[UIImageView alloc] initWithFrame:kScreenMainBounds];
     
-    backGroundImage.image = [UIImage imageNamed:@"listDetailBackGround.jpg"];
+    backGroundImage.image = [UIImage imageNamed:@"69.jpg"];
     
     UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blur];
     
-    effectView.alpha = 1;
+    effectView.alpha = 0.38;
     
     effectView.frame = [UIScreen mainScreen].bounds;
     
@@ -119,6 +129,7 @@
 }
 
 #pragma mark    导航栏设置
+
 - (void)settingTop
 {
     self.titleLabel = [[UILabel alloc]init];
@@ -145,7 +156,7 @@
     
     [topBtn setImage:[UIImage imageNamed:@"reback.png"] forState:UIControlStateNormal];
     
-    topBtn.frame = CGRectMake(0, 0, 40, 40);
+    topBtn.frame = CGRectMake(0, 0, 100, 40);
     
     [topBtn addTarget:self action:@selector(reBack) forControlEvents:UIControlEventTouchUpInside];
     
@@ -157,8 +168,14 @@
         
         make.top.equalTo(self.view.mas_top).offset(25);
         
+        make.size.mas_equalTo(CGSizeMake(50, 40));
+        
     }];
+    
+
 }
+
+
 
 #pragma mark   加载数据
 - (void)LoadData
@@ -167,6 +184,8 @@
         
         if (data)
         {
+            self.finsh = NO;
+            
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
             NSArray *array = dict[@"data"];
@@ -189,7 +208,14 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                [self.tableView reloadData];
+                self.finsh = YES;
+                
+                if (self.finsh) {
+                    
+                    [self.tableView reloadData];
+                
+                }
+               
                 
             });
         }
@@ -203,7 +229,8 @@
 
 - (void)tableViewSetting
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight - 113) style:UITableViewStylePlain];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight - 64) style:UITableViewStylePlain];
     
     self.tableView.rowHeight = 100;
     
@@ -231,24 +258,35 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ListDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listDetail" forIndexPath:indexPath];
     
-    ListDetailModel *listDetailModel = self.listArray[indexPath.row];
     
-    cell.title.text = listDetailModel.title;
     
-    cell.total_play.text = listDetailModel.total_play.stringValue;
+    if (self.listArray != nil)
+    {
+        ListDetailModel *listDetailModel = self.listArray[indexPath.row];
+        
+        cell.title.text = listDetailModel.title;
+        
+        cell.total_play.text = listDetailModel.total_play.stringValue;
+        
+        cell.auchor.text = listDetailModel.author;
+        
+        [cell.cover sd_setImageWithURL:[NSURL URLWithString:listDetailModel.cover]];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.backgroundColor = [UIColor clearColor];
+        
+
+    }
     
-    cell.auchor.text = listDetailModel.author;
-    
-    [cell.cover sd_setImageWithURL:[NSURL URLWithString:listDetailModel.cover]];
-    
-//    设置单双数cell的背景颜色
+    //    设置单双数cell的背景颜色
     if (indexPath.row % 2 == 0)
     {
-        cell.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.3];
+        cell.backGroundColor.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
     }
     else
     {
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backGroundColor.backgroundColor = [UIColor clearColor];
     }
     
     
@@ -259,7 +297,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    PlayViewController *playVC = [[PlayViewController alloc] init];
+    
+    PlayViewController *playVC = [PlayViewController sharePlayViewController];
     
     playVC.detailList = self.listArray;
     
@@ -278,7 +317,7 @@
 #pragma mark    按钮方法
 - (void)reBack
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark    UIViewControllerTransitioningDelegate代理方法
@@ -294,6 +333,45 @@
     AnimationDismissProxy *dismissedProxy = [[AnimationDismissProxy alloc] init];
     
     return dismissedProxy;
+}
+
+
+//TODO:修改成模态弹出页面, 手势更改
+#pragma mark    返回手势
+- (void)settingBackGestureRecognizer
+{
+    UIScreenEdgePanGestureRecognizer *pan = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(EdgePanGestureRecognizer:)];
+    
+    pan.edges = UIRectEdgeLeft;
+    
+    [self.tableView addGestureRecognizer:pan];
+}
+
+- (void)EdgePanGestureRecognizer:(UIScreenEdgePanGestureRecognizer *)pan
+{
+    CGFloat offsetX = [pan translationInView:pan.view].x;
+    
+    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled)
+    {
+        if (self.view.frame.origin.x > kScreenWidth * 0.5)
+        {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else
+        {
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                self.view.transform = CGAffineTransformIdentity;
+                
+            }];
+            
+        }
+    }
+    else if (pan.state == UIGestureRecognizerStateChanged)
+    {
+      
+        self.view.transform = CGAffineTransformMakeTranslation(MIN(offsetX, kScreenWidth), 0);
+    }
 }
 
 

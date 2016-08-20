@@ -11,6 +11,11 @@
 
 @interface AVManager ()
 
+
+{
+    BOOL isRemoveNot; //是否移除通知
+}
+
 //判读是否正在播放
 //@property (nonatomic, assign)BOOL isPlaying;
 
@@ -18,6 +23,13 @@
 
 @property (nonatomic, strong)NSTimer *timer;
 
+@property (nonatomic, strong)NSString *url;
+
+
+
+//@property (nonatomic, assign)id playTimeObserver;
+
+//@property (nonatomic, assign)BOOL isRemoveNot;  //是否移除
 
 
 @end
@@ -34,13 +46,17 @@
     
     
     dispatch_once(&onceToken, ^{
-       
+        
         manager = [[AVManager alloc] init];
         
         manager.avplay = [[AVPlayer alloc]init];
         
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [audioSession setActive:YES error:nil];
+        
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     });
-    
     
     
     return manager;
@@ -60,36 +76,53 @@
 //添加音乐的播放列表(文件)
 - (void)setPlayList:(NSMutableArray *)playList flag:(NSInteger)number
 {
-  
-//    记录播放列表
-    self.musicUrls = [playList copy];
-    
-//    记录当前播放音乐的下标
-    self.playIndex = number;
-    
-//    创建播放器
-    NSString *urlStr = playList[number];
-    
-    NSURL *url = [NSURL URLWithString:urlStr];
-    
-    AVPlayerItem *item = [[AVPlayerItem alloc]initWithURL:url];
-    
-    [self.avplay replaceCurrentItemWithPlayerItem:item];
-    
-//    [self.avplay play];
-    
-    if (!_timer)
+    if (isRemoveNot)
     {
-        _timer = [WeakTimerTargetObject scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(autoNextMusic) userInfo:nil repeats:YES];
+        [self.playItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        
+        isRemoveNot = NO;
     }
     
     
-
+    if (![playList[number] isEqualToString:self.url])
+    {
+        
+        
+        //    记录播放列表
+        self.musicUrls = [playList copy];
+        
+        //    记录当前播放音乐的下标
+        self.playIndex = number;
+        
+        self.url = playList[number];
+        
+        //    创建播放器
+        NSString *urlStr = playList[number];
+        
+        NSURL *url = [NSURL URLWithString:urlStr];
+        
+        self.playItem = [[AVPlayerItem alloc]initWithURL:url];
+        
+        [self.avplay replaceCurrentItemWithPlayerItem:self.playItem];
+        
+        [self.playItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+        
+        isRemoveNot = YES;
+        
+        if (!_timer)
+        {
+            _timer = [WeakTimerTargetObject scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(autoNextMusic) userInfo:nil repeats:YES];
+        }
+        
+    }
+    
+    
 }
 
 //自动下一首
 - (void)autoNextMusic
 {
+    
     float playDuration = self.playDuration;
     
     NSInteger playDurationA = playDuration / 60;
@@ -109,14 +142,20 @@
         
         self.changeMusic = YES;
     }
-   
- 
+    
 }
 
 
 //上一首
 - (NSInteger)above
 {
+    if (isRemoveNot)
+    {
+        [self.playItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        
+        isRemoveNot = NO;
+    }
+    
     self.playIndex -- ;
     
     if (self.playIndex == -1)
@@ -126,22 +165,40 @@
     
     NSURL *url = [NSURL URLWithString:self.musicUrls[self.playIndex]];
     
-    AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
+    self.url = self.musicUrls[self.playIndex];
     
-    [self.avplay replaceCurrentItemWithPlayerItem:item];
+    self.playItem = [[AVPlayerItem alloc] initWithURL:url];
     
-    [self.avplay play];
+    [self.avplay replaceCurrentItemWithPlayerItem:self.playItem];
     
-    self.isPlaying = YES;
+    [self.playItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+    
+    isRemoveNot = YES;
+    
+    if (self.isPlaying)
+    {
+        [self.avplay play];
+    }
+    
+    
+    self.changeMusic = YES;
     
     return self.playIndex;
+    
 }
 
 //下一首
 - (NSInteger)next
 {
+    if (isRemoveNot)
+    {
+        [self.playItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        
+        isRemoveNot = NO;
+    }
+    
     self.playIndex ++ ;
-
+    
     if (self.playIndex == self.musicUrls.count)
     {
         self.playIndex = 0;
@@ -150,13 +207,22 @@
     
     NSURL *url = [NSURL URLWithString:self.musicUrls[self.playIndex]];
     
-    AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
+    self.url = self.musicUrls[self.playIndex];
     
-    [self.avplay replaceCurrentItemWithPlayerItem:item];
+    self.playItem = [[AVPlayerItem alloc] initWithURL:url];
     
-    [self.avplay play];
+    [self.avplay replaceCurrentItemWithPlayerItem:self.playItem];
     
-    self.isPlaying = YES;
+    [self.playItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+    
+    isRemoveNot = YES;
+    
+    if(self.isPlaying)
+    {
+        [self.avplay play];
+    }
+    
+    self.changeMusic = YES;
     
     return self.playIndex;
 }
@@ -164,16 +230,20 @@
 //播放或暂停
 - (void)play
 {
+    
     if (self.isPlaying)
     {
         [self.avplay pause];
+        
+        self.isPlaying = NO;
     }
     else
     {
         [self.avplay play];
+        
+        self.isPlaying = YES;
     }
     
-     self.isPlaying = !self.isPlaying;
 }
 
 - (void)startPlay
@@ -181,6 +251,7 @@
     [self.avplay play];
     
     self.isPlaying = YES;
+    
 }
 
 - (void)stopPlay
@@ -197,7 +268,7 @@
     
     time.value = self.avplay.currentTime.timescale * progress;
     
-//    跳到某个时间点执行
+    //    跳到某个时间点执行
     [self.avplay seekToTime:time];
     
     [self.avplay play];
@@ -226,10 +297,38 @@
         return 0;
     }
     
-   return self.avplay.currentItem.currentTime.value / self.avplay.currentItem.currentTime.timescale;
+    return self.avplay.currentItem.currentTime.value / self.avplay.currentItem.currentTime.timescale;
 }
 
+//计算缓冲进度
+- (NSTimeInterval)availableDuration
+{
+    NSArray *loadedTimeRanges = [[self.avplay currentItem] loadedTimeRanges];
+    
+    CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue]; //获取缓冲区
+    
+    float startSeconds = CMTimeGetSeconds(timeRange.start);
+    
+    float durationSeconds = CMTimeGetSeconds(timeRange.duration);
+    
+    NSTimeInterval result = startSeconds + durationSeconds; // 计算缓冲进度
+    
+    return result;
+}
 
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if (!self.playItem.playbackBufferEmpty) {
+        
+        [self.avplay play];
+        
+    }
+}
 
 
 @end

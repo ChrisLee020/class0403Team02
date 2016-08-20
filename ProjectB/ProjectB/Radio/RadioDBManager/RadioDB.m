@@ -51,7 +51,7 @@
     
     if ([self.db open])
     {
-        NSString *sqlStr = [NSString stringWithFormat:@"create table if not exists %@(radio_id integer primary key,name text,cover text,poster_pathValue1 text,poster_pathValue2 text,poster_pathValue3 text,duoleID text,title text)",tableName];
+        NSString *sqlStr = [NSString stringWithFormat:@"create table if not exists %@(radio_id integer primary key,name text,cover text,seasonID text,avatar text,email text,nickname text, program_count text)",tableName];
         BOOL result = [self.db executeUpdate:sqlStr];
         
         [self.db close];
@@ -89,45 +89,26 @@
         if ([tableName isEqualToString:@"season"])
         {
             
-                BOOL result = [self.db executeUpdateWithFormat:@"insert into season (name,cover) values (%@,%@);", model.name, model.cover];
+            BOOL result = [self.db executeUpdateWithFormat:@"insert into season (name,cover) values (%@,%@);", model.name, model.cover];
             
             [self.db close];
             
             return result;
         }
-        else if([tableName isEqualToString:@"traditional"])
-        {
-          
-            
-            BOOL result = [self.db executeUpdateWithFormat:@"insert into traditional(title,poster_pathValue1,poster_pathValue2,poster_pathValue3,duoleID) values(%@,%@,%@,%@,%@)" , model.title, model.poster_path[@"poster_180_260"], model.poster_path[@"poster_400_400"], model.poster_path[@"poster_source"], model.duoleID];
-            
-            [self.db close];
-            
-            return result;
-        }
-        else if([tableName isEqualToString:@"joke"])
-        {
-           BOOL result = [self.db executeUpdateWithFormat:@"insert into joke(title,poster_pathValue1,poster_pathValue2,poster_pathValue3,duoleID) values(%@,%@,%@,%@,%@)" , model.title, model.poster_path[@"poster_180_260"], model.poster_path[@"poster_400_400"], model.poster_path[@"poster_source"], model.duoleID];
-            
-            
-            [self.db close];
-            
-            return result;
-        }
-        else if([tableName isEqualToString:@"queen"])
+        else if([tableName isEqualToString:@"anchor"])
         {
             
-            BOOL result = [self.db executeUpdateWithFormat:@"insert into queen(title,poster_pathValue1,poster_pathValue2,poster_pathValue3,duoleID) values(%@,%@,%@,%@,%@)" , model.title, model.poster_path[@"poster_180_260"], model.poster_path[@"poster_400_400"], model.poster_path[@"poster_source"], model.duoleID];
-            
+            BOOL result = [self.db executeUpdateWithFormat:@"insert into anchor (avatar,nickname,email,seasonID,program_count) values (%@,%@,%@,%@,%@);", model.avatar, model.nickname, model.email, model.seasonID, model.program_count.stringValue];
             
             [self.db close];
             
             return result;
+            
         }
-
+        
     }
     
-  
+    
     
     return NO;
 }
@@ -141,8 +122,8 @@
     {
         NSString *sqlStr = [NSString stringWithFormat:@"select * from %@", tableName];
         
-      FMResultSet *resultSet = [self.db executeQuery:sqlStr];
-    
+        FMResultSet *resultSet = [self.db executeQuery:sqlStr];
+        
         if ([tableName isEqualToString:@"season"])
         {
             while ([resultSet next])
@@ -160,55 +141,28 @@
             
             return [dataArray copy];
         }
-        else if([tableName isEqualToString:@"traditional"])
+        else if([tableName isEqualToString:@"anchor"])
         {
+            
             while ([resultSet next])
             {
                 UnitModel *model = [[UnitModel alloc] init];
                 
-                model.title = [resultSet stringForColumn:@"title"];
+                model.avatar = [resultSet stringForColumn:@"avatar"];
                 
-                model.duoleID = [resultSet stringForColumn:@"duoleID"];
+                model.email = [resultSet stringForColumn:@"email"];
                 
-                NSString *value1 = [resultSet stringForColumn:@"poster_pathValue1"];
+                model.nickname = [resultSet stringForColumn:@"nickname"];
                 
-                NSString *value2 = [resultSet stringForColumn:@"poster_pathValue2"];
+                model.seasonID = [resultSet stringForColumn:@"seasonID"];
                 
-                NSString *value3 = [resultSet stringForColumn:@"poster_pathValue3"];
+                NSString *countStr = [resultSet stringForColumn:@"program_count"];
                 
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys: value1, @"poster_180_260", value2, @"poster_400_400", value3, @"poster_source", nil];
+                NSInteger prCount = countStr.integerValue;
                 
-                model.poster_path = dict;
+                NSNumber *program_count = [NSNumber numberWithInteger:prCount];
                 
-                
-                [dataArray addObject:model];
-                
-            }
-            
-             [self.db close];
-            
-            return [dataArray copy];
-        }
-        else if([tableName isEqualToString:@"joke"])
-        {
-            while ([resultSet next])
-            {
-                UnitModel *model = [[UnitModel alloc] init];
-                
-                model.title = [resultSet stringForColumn:@"title"];
-                
-                model.duoleID = [resultSet stringForColumn:@"duoleID"];
-                
-                NSString *value1 = [resultSet stringForColumn:@"poster_pathValue1"];
-                
-                NSString *value2 = [resultSet stringForColumn:@"poster_pathValue2"];
-                
-                NSString *value3 = [resultSet stringForColumn:@"poster_pathValue3"];
-                
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys: value1, @"poster_180_260", value2, @"poster_400_400", value3, @"poster_source", nil];
-                
-                model.poster_path = dict;
-                
+                model.program_count = program_count;
                 
                 [dataArray addObject:model];
                 
@@ -217,39 +171,12 @@
             [self.db close];
             
             return [dataArray copy];
-        }
-        else if([tableName isEqualToString:@"queen"])
-        {
-            while ([resultSet next])
-            {
-                UnitModel *model = [[UnitModel alloc] init];
-                
-                model.title = [resultSet stringForColumn:@"title"];
-                
-                model.duoleID = [resultSet stringForColumn:@"duoleID"];
-                
-                NSString *value1 = [resultSet stringForColumn:@"poster_pathValue1"];
-                
-                NSString *value2 = [resultSet stringForColumn:@"poster_pathValue2"];
-                
-                NSString *value3 = [resultSet stringForColumn:@"poster_pathValue3"];
-                
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys: value1, @"poster_180_260", value2, @"poster_400_400", value3, @"poster_source", nil];
-                
-                model.poster_path = dict;
-                
-                
-                [dataArray addObject:model];
-                
-            }
             
-            [self.db close];
-            
-            return [dataArray copy];
         }
-
-
-       
+        
+        
+        
+        
     }
     
     return nil;

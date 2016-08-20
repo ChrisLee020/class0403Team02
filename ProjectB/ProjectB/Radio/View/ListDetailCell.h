@@ -18,4 +18,7 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *auchor;
 
+@property (strong, nonatomic) IBOutlet UIView *backGroundColor;
+
+
 @end

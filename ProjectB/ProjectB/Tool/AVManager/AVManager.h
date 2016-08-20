@@ -22,6 +22,8 @@
 //当前正在播放的音乐下标
 @property (nonatomic, assign)NSInteger playIndex;
 
+@property (nonatomic, strong)AVPlayerItem *playItem;
+
 //创建一个播放音乐的单例
 + (AVManager *)shareInstance;
 
@@ -45,6 +47,9 @@
 
 //音频文件的当前时长
 - (float)curuentTime;
+
+//计算缓冲进度
+- (NSTimeInterval)availableDuration;
 
 
 - (void)startPlay;

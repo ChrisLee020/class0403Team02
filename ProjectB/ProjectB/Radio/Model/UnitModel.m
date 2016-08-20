@@ -21,7 +21,7 @@
     
     if ([key isEqualToString:@"id"])
     {
-        self.duoleID = [NSString stringWithFormat:@"%@", value];
+        self.seasonID = [NSString stringWithFormat:@"%@", value];
     }
 }
 

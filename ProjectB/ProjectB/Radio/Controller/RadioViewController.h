@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class SeriesModel;
+
 @interface RadioViewController : UIViewController
+
+@property (nonatomic, strong)NSMutableArray *detailList;
+
+@property (nonatomic, strong) SeriesModel *type;
 
 
 @end

@@ -19,5 +19,10 @@
 
 @property (nonatomic, strong)SeriesModel *type;
 
+@property (nonatomic, assign, getter=isPlaying)BOOL playing;
+
++ (PlayViewController *)sharePlayViewController;
+
+- (IBAction)playBtn:(id)sender;
 
 @end
